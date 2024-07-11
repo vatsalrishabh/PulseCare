@@ -1,6 +1,8 @@
 import React, { useState, CSSProperties, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SquareLoader } from 'react-spinners';
+import './Loader.css'
+
 
 const override = {
   display: 'block',
@@ -15,13 +17,13 @@ const Loader = () => {
 
   useEffect(()=>{
     setTimeout(()=>{
-        // navigate("/home")
-    },3000);
+        navigate("/home")
+    },2000);
   },[])
 
 
   return (
-    <div className="flex justify-center align-middle h-screen  ">
+    <div className="flex justify-center align-middle h-screen custom-center  ">
       <SquareLoader
         color={color}
         loading={loading}
