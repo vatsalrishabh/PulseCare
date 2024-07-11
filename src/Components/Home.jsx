@@ -5,7 +5,6 @@ import image2 from '../assets/home/image2.jpeg'
 import image3 from '../assets/home/image3.jpg'
 import image4 from '../assets/home/image4.jpg'
 import image5 from '../assets/home/image5.jpg'
-import ChatBotButton from './ChatBotButton.jsx';
 import './Chatbot.css'
 
 
@@ -36,7 +35,7 @@ const Home = () => {
 
           {/* Chatbot starts */}
 
-          <ChatBotButton />
+      
           {/* Chatbot ends */}
 
 

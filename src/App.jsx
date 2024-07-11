@@ -13,6 +13,7 @@ import Home from './Components/Home';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import ContactUs from './Components/ContactUs';
+import ChatBotButton from './Components/ChatBotButton';
 
 function App() {
 
@@ -91,6 +92,7 @@ function App() {
 
 
         </Routes>
+        <ChatBotButton/>
     </BrowserRouter>
     </div>
   );
