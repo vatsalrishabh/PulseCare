@@ -5,23 +5,15 @@ import image2 from '../assets/home/image2.jpeg'
 import image3 from '../assets/home/image3.jpg'
 import image4 from '../assets/home/image4.jpg'
 import image5 from '../assets/home/image5.jpg'
-
+import ChatBotButton from './ChatBotButton.jsx';
 import './Chatbot.css'
-import ChatBot from './ChatBot.jsx';
+
+
 
 const Home = () => {
   const [displayBot,handleBotDisplay] = useState(false);
 
-  const showBot =(e)=>{
-    if(!displayBot){
-      handleBotDisplay(true);
-    }
-  }
-  const hideBot =(e)=>{
-    if(displayBot){
-      handleBotDisplay(false);
-    }
-  }
+
 
 
   return (
@@ -37,15 +29,14 @@ const Home = () => {
       </Carousel>
     </div>
 
-    <button onClick={showBot}>showbot</button>
-    <button onClick={hideBot}>showbot</button>
+
           {/* Caraousal Ends */}
 
 
 
           {/* Chatbot starts */}
 
-          {displayBot && <ChatBot />} 
+          <ChatBotButton />
           {/* Chatbot ends */}
 
 
