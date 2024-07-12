@@ -15,17 +15,17 @@ const DoctorLoginForm = () => {
     <div className="Doctor-login-form">
       <div className="w-full flex justify-center align-middle">
 
-        <div className="w-3/5 bg-gradient-to-r from-pink-600 to-purple-500 flex">
+        <div className="w-3/5  flex">
         
 {showLogin? (
     //   login form starts 
-    <form className="max-w-sm mx-auto bg-white rounded-lg p-5 m-5 w-full">
+    <form className="max-w-sm mx-auto bg-white rounded-lg p-5 m-5 w-full border">
             <div className="mb-5">
               <div className="heading text-center font-bold text-2xl">
                 Doctor Login
               </div>
               <div className="togglle flex w-full justify-center">
-                <div className="login rounded-md bg-custom-maroon p-2 border w-1/2 flex justify-center align-middle my-2" onClick={displayLogin}>
+                <div className="login rounded-md bg-custom-maroon text-white p-2 border w-1/2 flex justify-center align-middle my-2" onClick={displayLogin}>
                   Login
                 </div>
                 <div className="registration  p-2 border w-1/2 flex justify-center align-middle my-2" onClick={displayRegistration}>
@@ -100,7 +100,7 @@ const DoctorLoginForm = () => {
                 <div className="login p-2 border w-1/2 flex justify-center align-middle my-2" onClick={displayLogin}>
                   Login
                 </div>
-                <div className="registration bg-custom-maroon rounded-md  p-2 border w-1/2 flex justify-center align-middle my-2" onClick={displayRegistration}>
+                <div className="registration bg-custom-maroon text-white rounded-md  p-2 border w-1/2 flex justify-center align-middle my-2" onClick={displayRegistration}>
                   Registration
                 </div>
               </div>
