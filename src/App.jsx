@@ -50,7 +50,9 @@ function App() {
            path="/patientlogin"
             element={
             <>
+               <Navbar/>
               <PatientLogin />
+              <Footer/>
             </>
             } />
 
@@ -59,21 +61,30 @@ function App() {
           path="/doctorlogin"
            element={
            <>
+              <Navbar/>
               <DoctorLogin />
+              <Footer/>
            </>
            } />
 
           <Route
           path="/aboutus"
           element={
-          <AboutUs />}
+            <>
+               <Navbar/>
+             <AboutUs />
+             <Footer/>
+            </>
+          }
            />
 
           <Route
            path="/contactus"
             element={
             <>
+               <Navbar/>
              <ContactUs />
+             <Footer/>
             </>
            } />
 
@@ -82,7 +93,9 @@ function App() {
           path="/bookappointment"
            element={
            <>
+              <Navbar/>
            <BookAnAppointment />
+           <Footer/>
            </>
            } />
 

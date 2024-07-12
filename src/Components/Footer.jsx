@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const Footer = () => {
   return (
@@ -9,19 +10,19 @@ const Footer = () => {
     <div className="mx-auto w-full max-w-screen-xl">
       <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
         <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Company</h2>
+            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">PulseCare</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li className="mb-4">
-                    <a href="#" className=" hover:underline">About</a>
+                    <Link to="../patientlogin" className=" hover:underline">Patient Login</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Careers</a>
+                    <Link to="../doctorlogin" className="hover:underline">Doctor Login</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Brand Center</a>
+                    <Link to="../bookappointment" className="hover:underline">Book An Appointment</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Blog</a>
+                    <Link to="../aboutus" className="hover:underline">About Us</Link>
                 </li>
             </ul>
         </div>
@@ -29,16 +30,16 @@ const Footer = () => {
             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Help center</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Discord Server</a>
+                    <Link to="#" className="hover:underline">Discord Server</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Twitter</a>
+                    <Link to="#" className="hover:underline">Twitter</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Facebook</a>
+                    <Link to="#" className="hover:underline">Facebook</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Contact Us</a>
+                    <Link to="#" className="hover:underline">Contact Us</Link>
                 </li>
             </ul>
         </div>
@@ -46,13 +47,13 @@ const Footer = () => {
             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Privacy Policy</a>
+                    <Link to="#" className="hover:underline">Privacy Policy</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Licensing</a>
+                    <Link to="#" className="hover:underline">Licensing</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Terms &amp; Conditions</a>
+                    <Link to="#" className="hover:underline">Terms &amp; Conditions</Link>
                 </li>
             </ul>
         </div>
@@ -60,22 +61,22 @@ const Footer = () => {
             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Contact US</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">iOS</a>
+                    <Link to="#" className="hover:underline">iOS</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Android</a>
+                    <Link to="#" className="hover:underline">Android</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Windows</a>
+                    <Link to="#" className="hover:underline">Windows</Link>
                 </li>
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">MacOS</a>
+                    <Link to="#" className="hover:underline">MacOS</Link>
                 </li>
             </ul>
         </div>
     </div>
     <div className="px-4 py-6 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">
-        <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2023 <a href="https://flowbite.com/">Flowbite™</a>. All Rights Reserved.
+        <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2024 <a href="https://flowbite.com/">PulseCare™</a>. All Rights Reserved.
         </span>
         <div className="flex mt-4 sm:justify-center md:mt-0 space-x-5 rtl:space-x-reverse">
             <a href="#" className="text-gray-400 hover:text-gray-900 dark:hover:text-white">
