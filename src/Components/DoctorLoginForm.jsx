@@ -1,4 +1,6 @@
 import React,{useState} from "react";
+import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
+import { HiHome } from "react-icons/hi";
 
 const DoctorLoginForm = () => {
     const [showLogin, setShowLogin] = useState(true);
@@ -13,6 +15,20 @@ const DoctorLoginForm = () => {
 
   return (
     <div className="Doctor-login-form bg-custom-graybg">
+
+{/* Breadcrum starts */}
+<div className="p-8">
+<Breadcrumb aria-label="Default breadcrumb example">
+      <BreadcrumbItem href="/" icon={HiHome}>
+        Home
+      </BreadcrumbItem>
+
+      <BreadcrumbItem >Doctor Login</BreadcrumbItem>
+      {/* <BreadcrumbItem>Flowbite React</BreadcrumbItem> */}
+    </Breadcrumb>
+</div>
+{/* Breadcrum ends */}
+
       <div className="w-full flex justify-center align-middle">
 
         <div className="lg:w-3/5  flex">

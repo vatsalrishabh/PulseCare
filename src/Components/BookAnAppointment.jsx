@@ -1,4 +1,6 @@
 import React from "react";
+import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
+import { HiHome } from "react-icons/hi";
 import ConsultCard from "./ConsultCard";
 
 const BookAnAppointment = () => {
@@ -227,6 +229,20 @@ const BookAnAppointment = () => {
 
 {/* Speciality wise list starts */}
       <div className="Speciality-wise-cards bg-custom-graybg">
+
+{/* Breadcrum starts */}
+<div className="p-8">
+<Breadcrumb aria-label="Default breadcrumb example">
+      <BreadcrumbItem href="/" icon={HiHome}>
+        Home
+      </BreadcrumbItem>
+
+      <BreadcrumbItem >Book an appointment</BreadcrumbItem>
+      {/* <BreadcrumbItem>Flowbite React</BreadcrumbItem> */}
+    </Breadcrumb>
+</div>
+{/* Breadcrum ends */}
+        
         <div className="heading font-bold text-gray-700 text-4xl flex justify-center align-middle p-5">
          25+ Specialities
         </div>
