@@ -3,7 +3,7 @@ import { Card } from "flowbite-react";
 
 export default function ConsultCard(props) {
   return (
-    <div div className="py-3">
+    <div div className="p-3">
        <Card
           className="max-w-sm"
           imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
