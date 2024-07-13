@@ -70,7 +70,7 @@ const Footer = () => {
         <li className="flex items-center">
           <EmailIcon className="mr-2" />
           <span className="mr-2 font-bold">Email:</span>
-          <Link to="#" className="hover:underline">nishantkumar@gmail.com</Link>
+          <Link to="mailto:pulsecare39@gmail.com" className="hover:underline">pulsecare39@gmail.com</Link>
         </li>
         <li className="flex items-center">
           <CallIcon className="mr-2" />
@@ -85,7 +85,7 @@ const Footer = () => {
           <span className="mr-2 font-bold">Address:</span>
           <div>
             <p className='py-2'>USA:</p>
-            <p className='PY-1'>India: BF-3 Phase One Lake View Apartment, Chikkabanwara, Bengaluru</p>
+            <p className='PY-1'>India: BF-3 Phase One Lake View Apartment, Chikkabanwara, Bengaluru,Karnataka, India Pin:- 560090 </p>
           </div>
         </li>
       </ul>
