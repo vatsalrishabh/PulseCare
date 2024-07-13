@@ -1,5 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import CallIcon from '@mui/icons-material/Call';
+import EmailIcon from '@mui/icons-material/Email';
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
 
 const Footer = () => {
   return (
@@ -8,7 +11,7 @@ const Footer = () => {
 
 <footer className="bg-white dark:bg-gray-900">
     <div className="mx-auto w-full max-w-screen-xl">
-      <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
         <div>
             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">PulseCare</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
@@ -26,7 +29,8 @@ const Footer = () => {
                 </li>
             </ul>
         </div>
-        <div>
+
+        {/* <div>
             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Help center</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li className="mb-4">
@@ -42,7 +46,8 @@ const Footer = () => {
                     <Link to="#" className="hover:underline">Contact Us</Link>
                 </li>
             </ul>
-        </div>
+        </div> */}
+
         <div>
             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
@@ -58,21 +63,36 @@ const Footer = () => {
             </ul>
         </div>
         <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Contact US</h2>
-            <ul className="text-gray-500 dark:text-gray-400 font-medium">
-                <li className="mb-4">
-                    <Link to="#" className="hover:underline">iOS</Link>
-                </li>
-                <li className="mb-4">
-                    <Link to="#" className="hover:underline">Android</Link>
-                </li>
-                <li className="mb-4">
-                    <Link to="#" className="hover:underline">Windows</Link>
-                </li>
-                <li className="mb-4">
-                    <Link to="#" className="hover:underline">MacOS</Link>
-                </li>
-            </ul>
+
+        <div className="w-full p-6 bg-custom-maroon text-custom-graybg rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-4 text-gray-200">Contact Information</h2>
+      <ul className="text-gray-200 dark:text-gray-400 font-medium space-y-4">
+        <li className="flex items-center">
+          <EmailIcon className="mr-2" />
+          <span className="mr-2 font-bold">Email:</span>
+          <Link to="#" className="hover:underline">nishantkumar@gmail.com</Link>
+        </li>
+        <li className="flex items-center">
+          <CallIcon className="mr-2" />
+          <span className="mr-2 font-bold">Contact:</span>
+          <div>
+            <p>USA: +507-398-5808</p>
+            <p>India:+91-8217691302</p>
+          </div>
+        </li>
+        <li className="flex items-center">
+          <FmdGoodIcon className="mr-2" />
+          <span className="mr-2 font-bold">Address:</span>
+          <div>
+            <p className='py-2'>USA:</p>
+            <p className='PY-1'>India: BF-3 Phase One Lake View Apartment, Chikkabanwara, Bengaluru</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+
+           
         </div>
     </div>
     <div className="px-4 py-6 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">

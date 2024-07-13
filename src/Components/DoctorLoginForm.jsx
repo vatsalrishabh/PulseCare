@@ -12,17 +12,17 @@ const DoctorLoginForm = () => {
     };
 
   return (
-    <div className="Doctor-login-form">
+    <div className="Doctor-login-form bg-custom-graybg">
       <div className="w-full flex justify-center align-middle">
 
-        <div className="w-3/5  flex">
+        <div className="lg:w-3/5  flex">
         
 {showLogin? (
     //   login form starts 
-    <form className="max-w-sm mx-auto bg-white rounded-lg p-5 m-5 w-full border">
+    <form className="max-w-sm mx-auto border-2 border-custom-maroon2 bg-white rounded-lg p-5 m-5 w-full ">
             <div className="mb-5">
               <div className="heading text-center font-bold text-2xl">
-                Doctor Login
+                Doctor <span className="text-custom-maroon">Login</span> 
               </div>
               <div className="togglle flex w-full justify-center">
                 <div className="login rounded-md bg-custom-maroon text-white p-2 border w-1/2 flex justify-center align-middle my-2" onClick={displayLogin}>
@@ -91,10 +91,10 @@ const DoctorLoginForm = () => {
           : 
           (
             // registration form starts
-            <form className="max-w-sm mx-auto bg-white rounded-lg p-5 m-5 w-full">
+            <form className="max-w-sm mx-auto border-2 border-custom-maroon2 bg-white rounded-lg p-10 m-3  w-full">
             <div className="mb-5">
               <div className="heading text-center font-bold text-2xl">
-                Doctor Registraiton
+                Doctor <span className="text-custom-maroon">Registraiton</span> 
               </div>
               <div className="togglle flex w-full justify-center">
                 <div className="login p-2 border w-1/2 flex justify-center align-middle my-2" onClick={displayLogin}>
@@ -134,7 +134,7 @@ const DoctorLoginForm = () => {
     </div>
     <div class="relative z-0 w-full mb-5 group">
         <input type="text" name="floating_company" id="floating_company" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-        <label for="floating_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Company (Ex. Google)</label>
+        <label for="floating_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Registration Number</label>
     </div>
   </div>
             </div>

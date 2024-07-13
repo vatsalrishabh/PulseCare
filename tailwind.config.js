@@ -13,9 +13,12 @@ module.exports = withMT({
   theme: {
     extend: {
       colors: {
-        'custom-blue': '#1E3A8A', // Custom color name and value
+        'custom-maroon0': '#e01212', // Custom color name and value
         'custom-maroon': '#8f1b1b',
-        'custom-green': '#065F46',
+        'custom-maroon2': '#6d0101',
+        'custom-gray0': '#999',
+        'custom-graybg':'#edeeee',
+        'cutom-green':'#71a113',
       },
     },
   },
