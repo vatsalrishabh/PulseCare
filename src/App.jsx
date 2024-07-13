@@ -14,6 +14,7 @@ import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import ContactUs from './Components/ContactUs';
 import ChatBotButton from './Components/ChatBotButton';
+import PageNotFound from './Components/PageNotFound';
 
 function App() {
 
@@ -98,6 +99,17 @@ function App() {
            <Footer/>
            </>
            } />
+
+           <Route
+            path="*"
+           element={
+            <>
+            <Navbar/>
+            <PageNotFound/>
+            <Footer/>
+            </>
+           }
+           />
 
 
 

@@ -11,7 +11,7 @@ const Footer = () => {
 
 <footer className="bg-white dark:bg-gray-900">
     <div className="mx-auto w-full max-w-screen-xl">
-      <div className="grid grid-cols-3 gap-8 px-4 py-6 lg:py-8 md:grid-cols-3">
+      <div className="grid lg:grid-cols-3 gap-8 px-4 py-6 lg:py-8 md:grid-cols-3 grid-cols-1">
         <div>
             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">PulseCare</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">

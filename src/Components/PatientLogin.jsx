@@ -1,9 +1,10 @@
 import React from 'react'
+import PatientLoginForm from './PatientLoginForm'
 
 const PatientLogin = () => {
   return (
     <div className='Patient-Login'>
-      patient Login 
+      <PatientLoginForm/>
     </div>
   )
 }
