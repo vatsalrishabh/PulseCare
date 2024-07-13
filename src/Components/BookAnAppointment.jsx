@@ -3,7 +3,7 @@ import ConsultCard from "./ConsultCard";
 
 const BookAnAppointment = () => {
 
-  const cardDetail = [
+  const specialityCard = [
     {
       specialityImg: 'https://www.drbhushan.in/wp-content/uploads/2022/08/GI-Cancer-Surgery-1.jpg',
       specialityName: 'General Physician',
@@ -95,6 +95,70 @@ const BookAnAppointment = () => {
       specialityRate: '950',
     },
   ];
+
+
+  const commonHealthCard = [
+  {
+    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthName: 'Cough & Cold ?',
+    commonHealthServiceId: '#234DKHGDS',
+    commonHealthRate: '299',
+  },
+  {
+    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthName: 'Period Problems ?',
+    commonHealthServiceId: '#234DKHGDS',
+    commonHealthRate: '299',
+  },
+  {
+    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthName: 'Performance issues in bed ?',
+    commonHealthServiceId: '#234DKHGDS',
+    commonHealthRate: '299',
+  },
+  {
+    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthName: 'Skin Problem ?',
+    commonHealthServiceId: '#234DKHGDS',
+    commonHealthRate: '299',
+  },
+  {
+    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthName: 'Depression or anexiety ?',
+    commonHealthServiceId: '#234DKHGDS',
+    commonHealthRate: '299',
+  },
+  {
+    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthName: 'Want to loose weight ?',
+    commonHealthServiceId: '#234DKHGDS',
+    commonHealthRate: '299',
+  },
+  {
+    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthName: 'Stomatch Issue ?',
+    commonHealthServiceId: '#234DKHGDS',
+    commonHealthRate: '299',
+  },
+  {
+    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthName: 'Vaginal Infection ?',
+    commonHealthServiceId: '#234DKHGDS',
+    commonHealthRate: '299',
+  },
+  {
+    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthName: 'Diabates ?',
+    commonHealthServiceId: '#234DKHGDS',
+    commonHealthRate: '299',
+  },
+  {
+    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthName: 'Sick Kid ?',
+    commonHealthServiceId: '#234DKHGDS',
+    commonHealthRate: '299',
+  },
+];
   
 
 
@@ -171,7 +235,7 @@ const BookAnAppointment = () => {
         </div>
         <div className=" justify-center align-middle grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 lg:p-5 py-5">
         {
-cardDetail.map((card, index) => (
+specialityCard.map((card, index) => (
   <     ConsultCard
     key={index}
     specialityImg={card.specialityImg}
@@ -196,12 +260,20 @@ cardDetail.map((card, index) => (
         Consult a doctor online for any health issue
         </div>
         <div className=" justify-center align-middle grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 lg:p-5 py-5">
-          <ConsultCard />
-          <ConsultCard />
-          <ConsultCard />
-          <ConsultCard />
-          <ConsultCard />
-          <ConsultCard />
+
+          {
+              commonHealthCard.map((card, index)=>(
+                <ConsultCard
+                key={index}
+                specialityImg={card.commonHealthImg}
+                specialityName={card.commonHealthName}
+                specialityServiceId={card.commonHealthServiceId}
+                specialityRate={card.commonHealthRate}
+                />
+              ))
+          }
+         
+          
         </div>
       </div>
 {/* Speciality wise lists ends */}

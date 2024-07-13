@@ -73,19 +73,27 @@ const Footer = () => {
           <Link to="mailto:pulsecare39@gmail.com" className="hover:underline">pulsecare39@gmail.com</Link>
         </li>
         <li className="flex items-center">
-          <CallIcon className="mr-2" />
+          {/* <CallIcon className="mr-2" />
           <span className="mr-2 font-bold">Contact:</span>
           <div>
             <p>USA: +507-398-5808</p>
             <p>India:+91-8217691302</p>
-          </div>
+          </div> */}
         </li>
+        <hr />
         <li className="flex items-center">
           <FmdGoodIcon className="mr-2" />
-          <span className="mr-2 font-bold">Address:</span>
+          <span className="mr-2 font-bold">USA Address:</span>
           <div>
-            <p className='py-2'>USA:</p>
-            <p className='PY-1'>India: BF-3 Phase One Lake View Apartment, Chikkabanwara, Bengaluru,Karnataka, India Pin:- 560090 </p>
+            <p className='py-2'>723 1st Street, South West Rochester Minnesota, America 55902</p>
+          </div>
+        </li>
+        <hr />
+        <li className="flex items-center">
+          <FmdGoodIcon className="mr-2" />
+          <span className="mr-2 font-bold">India Address:</span>
+          <div>
+          <p className='PY-1'>BF-3 Phase One Lake View Apartment, Chikkabanwara, Bengaluru,Karnataka, India Pin:- 560090 </p>
           </div>
         </li>
       </ul>
