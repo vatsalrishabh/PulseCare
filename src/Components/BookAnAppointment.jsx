@@ -113,7 +113,7 @@ const BookAnAppointment = () => {
     commonHealthRate: '299',
   },
   {
-    commonHealthImg: 'https://images.healthshots.com/healthshots/en/uploads/2021/12/20155458/Cough1-1600x900.jpg',
+    commonHealthImg: 'https://www.issm.info/images/2021/11/24/Anxiety_Photo.jpg',
     commonHealthName: 'Performance issues in bed ?',
     commonHealthServiceId: '#234DKHGDS',
     commonHealthRate: '299',

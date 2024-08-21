@@ -15,10 +15,14 @@ import Footer from './Components/Footer';
 import ContactUs from './Components/ContactUs';
 import ChatBotButton from './Components/ChatBotButton';
 import PageNotFound from './Components/PageNotFound';
+import DoctorDashboard from './Components/DoctorDashboard';
+// import VideoCall from './Components/VideoCall';
 
 function App() {
-
-
+const [doctorIsLogged,setDoctorLogin]=useState(true);
+// sessionStorage.setItem('doctorId','Nishant Kumar','loggedIn',true);
+// const vatsal = sessionStorage.getItem('doctorId');
+// console.log(vatsal);
 
   return (
     <div className='h-full'>
@@ -40,6 +44,7 @@ function App() {
             <>
            <Navbar/>
            <Home />
+           <ChatBotButton/>
            <Footer/>
           </>
         } />
@@ -53,6 +58,7 @@ function App() {
             <>
                <Navbar/>
               <PatientLogin />
+              <ChatBotButton/>
               <Footer/>
             </>
             } />
@@ -62,9 +68,9 @@ function App() {
           path="/doctorlogin"
            element={
            <>
-              <Navbar/>
-              <DoctorLogin />
-              <Footer/>
+             
+            {doctorIsLogged ? <DoctorDashboard/>:<> <Navbar/><DoctorLogin />  <Footer/></>} 
+             
            </>
            } />
 
@@ -74,6 +80,7 @@ function App() {
             <>
                <Navbar/>
              <AboutUs />
+             <ChatBotButton/>
              <Footer/>
             </>
           }
@@ -85,10 +92,21 @@ function App() {
             <>
                <Navbar/>
              <ContactUs />
+             <ChatBotButton/>
              <Footer/>
             </>
            } />
 
+
+
+          <Route
+           path="/videocall"
+          element={
+            <>
+                   {/* <VideoCall/> */}
+            </>
+          }
+          />
 
           <Route 
           path="/bookappointment"
@@ -96,6 +114,7 @@ function App() {
            <>
               <Navbar/>
            <BookAnAppointment />
+           <ChatBotButton/>
            <Footer/>
            </>
            } />
@@ -117,7 +136,7 @@ function App() {
 
 
         </Routes>
-        <ChatBotButton/>
+       
     </BrowserRouter>
     </div>
   );

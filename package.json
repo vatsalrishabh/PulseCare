@@ -17,6 +17,7 @@
     "@material-tailwind/react": "^2.1.9",
     "@mui/icons-material": "^5.16.0",
     "@mui/material": "^5.16.0",
+    "axios": "^1.7.4",
     "bootstrap": "^5.3.3",
     "flowbite": "^2.4.1",
     "flowbite-react": "^0.10.1",
@@ -24,8 +25,11 @@
     "react-bootstrap": "^2.10.4",
     "react-chatbot-kit": "^2.2.2",
     "react-dom": "^18.3.1",
+    "react-otp-input": "^3.1.1",
     "react-router-dom": "^6.24.1",
-    "react-spinners": "^0.14.1"
+    "react-spinners": "^0.14.1",
+    "simple-peer": "^9.11.1",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
