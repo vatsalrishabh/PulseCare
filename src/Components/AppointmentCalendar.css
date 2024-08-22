@@ -1,0 +1,17 @@
+/* AppointmentCalendar.css */
+
+.react-calendar__tile--active {
+    background: #4CAF50;
+    color: white;
+  }
+  
+  .react-calendar__tile--now {
+    background: #FFC107;
+    color: black;
+  }
+  
+  .react-calendar__tile--disabled {
+    background: #E0E0E0;
+    color: #9E9E9E;
+  }
+  

@@ -16,6 +16,8 @@ import ContactUs from './Components/ContactUs';
 import ChatBotButton from './Components/ChatBotButton';
 import PageNotFound from './Components/PageNotFound';
 import DoctorDashboard from './Components/DoctorDashboard';
+import PatientDashboard from './Components/PatientDashboard';
+import PatientNavbar from './Components/PatientNavbar';
 // import VideoCall from './Components/VideoCall';
 
 function App() {
@@ -107,6 +109,16 @@ const [doctorIsLogged,setDoctorLogin]=useState(true);
             </>
           }
           />
+           <Route 
+          path="/pdash"
+           element={
+           <>
+           <PatientNavbar/>
+           <PatientDashboard/>
+           <ChatBotButton/>
+           <Footer/>
+           </>
+           } />
 
           <Route 
           path="/bookappointment"
