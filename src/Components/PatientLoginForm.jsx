@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
-import OtpInput from 'react-otp-input';
+import OtpInput from "react-otp-input";
 import { BaseUrl } from "./BaseUrl";
 
 const PatientLoginForm = () => {
@@ -24,7 +25,7 @@ const PatientLoginForm = () => {
   const [patientLoginEmail, setPatientLoginEmail] = useState("");
   const [patientLoginPassword, setLoginPassword] = useState("");
 
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState("");
 
   const displayLogin = () => {
     setShowLogin(true);
@@ -42,10 +43,10 @@ const PatientLoginForm = () => {
       patientEmail: patientLoginEmail,
       patientPassword: patientLoginPassword,
     };
-  
+
     try {
       const loginResponse = await axios.post(
-        `${BaseUrl}/api/patients/login`,  // Corrected endpoint (assuming it is a login endpoint)
+        `${BaseUrl}/api/patients/login`, // Corrected endpoint (assuming it is a login endpoint)
         loginForm,
         {
           headers: {
@@ -53,7 +54,7 @@ const PatientLoginForm = () => {
           },
         }
       );
-  
+
       if (loginResponse.status === 200) {
         console.log(loginResponse.status);
         // create session and context based on the logic
@@ -62,11 +63,6 @@ const PatientLoginForm = () => {
       console.error(error);
     }
   };
-  
-
-
-
-
 
   // registration api hit starts
   const handlePatientRegistration = async (e) => {
@@ -81,7 +77,6 @@ const PatientLoginForm = () => {
     registrationForm.append("age", patientAge);
     registrationForm.append("sex", patientSex);
 
-
     try {
       const response = await axios.post(
         `${BaseUrl}/api/patients/register`,
@@ -94,7 +89,7 @@ const PatientLoginForm = () => {
       );
       if (response.status === 200) {
         // Handle successful registration
-        setHideOtpModal(" ");  //maek the otp modal box visible
+        setHideOtpModal(" "); //maek the otp modal box visible
         console.log("Otp sent ");
       } else {
         // Handle registration failure
@@ -106,12 +101,12 @@ const PatientLoginForm = () => {
   };
 
   // Otp verification axios starts below
- // Otp verification axios starts below
-// Otp verification axios starts below
-const verifyOtp = async (e) => {
-  // Ensure to prevent default form submission
+  // Otp verification axios starts below
+  // Otp verification axios starts below
+  const verifyOtp = async (e) => {
+    // Ensure to prevent default form submission
 
-  const verifyOtpData = {
+    const verifyOtpData = {
       name: patientName,
       mobile: patientMobile,
       password: patientPassword,
@@ -119,50 +114,52 @@ const verifyOtp = async (e) => {
       age: patientAge,
       sex: patientSex,
       email: patientEmail,
-      otp: otp
-  };
+      otp: otp,
+    };
 
-  console.log("verify otp executed");
+    // console.log("verify otp executed");
 
-
-  try {
-      const response = await axios.post(`${BaseUrl}/api/patients/verifyOTP`, verifyOtpData, {
+    try {
+      const response = await axios.post(
+        `${BaseUrl}/api/patients/verifyOTP`,
+        verifyOtpData,
+        {
           headers: {
-              "Content-Type": "application/json",
-          }
-      });
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.status === 200) {
-          console.log("OTP verified, registration done");
-          setIsOtpCorrect("correct"); // verify it matches make that true
-          setTimeout(()=>{
-            // goto dashboard and finish Login.
-          },2000)
-          setHideOtpModal("hidden");
-          
+        console.log("OTP verified, registration done");
+        setIsOtpCorrect("correct"); // verify it matches make that true
+        setTimeout(() => {
+          // goto dashboard and finish Login.
+        }, 2000);
+        setHideOtpModal("hidden");
       } else {
-          console.log("Error:", response.data.message);
-          console.log("Status:", response.status);
-          setIsOtpCorrect(true); // verify it matches make that true
-          // Set the alert that the entered OTP does not match
-          console.error("Registration failed!");
+        console.log("Error:", response.data.message);
+        console.log("Status:", response.status);
+        setIsOtpCorrect(true); // verify it matches make that true
+        // Set the alert that the entered OTP does not match
+        console.error("Registration failed!");
       }
-  } catch (error) {
+    } catch (error) {
       console.error("An error occurred:", error);
-  }
-}
-// Otp verification axios ends
+    }
+  };
+  // Otp verification axios ends
 
-// Otp verification axios ends
+  // Otp verification axios ends
 
-    // Otp verification axios ends
+  // Otp verification axios ends
 
-// when the 6 digit otp entered then form autosubmit
-useEffect(()=>{
-  if(otp.length==6){
-    verifyOtp(); 
-  }
-},[otp])
+  // when the 6 digit otp entered then form autosubmit
+  useEffect(() => {
+    if (otp.length == 6) {
+      verifyOtp();
+    }
+  }, [otp]);
 
   return (
     <div className="Patient-login-form bg-custom-graybg">
@@ -215,37 +212,42 @@ useEffect(()=>{
                   <strong>{patientEmail}</strong>.
                 </p>
                 {isOtpCorrect ? (
-  <p className="mb-5 text-lg font-normal text-red-700 dark:text-red-700">
-    Incorrect Otp
-  </p>
-) : (
-  <p className="mb-5 text-lg font-normal text-green-500 dark:text-green-500">
-    {/* Render this if condition is false */}
-  
-  </p>
-)}
-               
-{/* react otp input starts */}
-<OtpInput
-      value={otp}
-      onChange={setOtp}
-      numInputs={6}
-      renderSeparator={<span> - </span>}
-      containerStyle={"justify center"}
-      inputStyle={{ color: "red", border: "1px solid #ccc", padding: "10px", width: "40px", margin: "5px" }}
-      renderInput={(props) => <input {...props} />}
-    />
-{/* react otp input ends */}
+                  <p className="mb-5 text-lg font-normal text-red-700 dark:text-red-700">
+                    Incorrect Otp
+                  </p>
+                ) : (
+                  <p className="mb-5 text-lg font-normal text-green-500 dark:text-green-500">
+                    {/* Render this if condition is false */}
+                  </p>
+                )}
+
+                {/* react otp input starts */}
+                <OtpInput
+                  value={otp}
+                  onChange={setOtp}
+                  numInputs={6}
+                  renderSeparator={<span> - </span>}
+                  containerStyle={"justify center"}
+                  inputStyle={{
+                    color: "red",
+                    border: "1px solid #ccc",
+                    padding: "10px",
+                    width: "40px",
+                    margin: "5px",
+                  }}
+                  renderInput={(props) => <input {...props} />}
+                />
+                {/* react otp input ends */}
 
                 <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"></h3>
                 <div
                   data-modal-hide="popup-modal"
-                  onClick={(e)=>{
+                  onClick={(e) => {
                     handlePatientRegistration(e);
                   }}
                   className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                 >
-                Resend OTP
+                  Resend OTP
                 </div>
                 {/* <button
                   data-modal-hide="popup-modal"
@@ -264,7 +266,10 @@ useEffect(()=>{
         <div className="lg:w-3/5  flex">
           {showLogin ? (
             //   login form starts
-            <form className="max-w-sm mx-auto border-2 border-custom-maroon2 bg-white rounded-lg p-5 m-5 w-full " onSubmit={loginPatient}>
+            <form
+              className="max-w-sm mx-auto border-2 border-custom-maroon2 bg-white rounded-lg p-5 m-5 w-full "
+              onSubmit={loginPatient}
+            >
               <div className="mb-5">
                 <div className="heading text-center font-bold text-2xl">
                   Patient <span className="text-custom-maroon">Login</span>
@@ -302,10 +307,10 @@ useEffect(()=>{
                       <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
                     </svg>
                   </span>
-{/* patient login starts */}
+                  {/* patient login starts */}
                   <input
                     value={patientLoginEmail}
-                    onChange={(e)=>setPatientLoginEmail(e.target.value)}
+                    onChange={(e) => setPatientLoginEmail(e.target.value)}
                     type="email"
                     id="website-admin"
                     className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -321,14 +326,14 @@ useEffect(()=>{
                   Your password
                 </label>
                 <input
-                    value={patientLoginPassword}
-                    onChange={(e)=>setLoginPassword(e.target.value)}
+                  value={patientLoginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
                   type="password"
                   id="password"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                 />
-{/* patient login ends */}
+                {/* patient login ends */}
               </div>
               <div className="flex items-start mb-5">
                 <div className="flex items-center h-5">
@@ -346,6 +351,15 @@ useEffect(()=>{
                 >
                   Remember me
                 </label> */}
+                <div className="flex">
+                  <p>Change Password :-</p>
+                  <Link to="../patientforgotPass">
+                    {" "}
+                    <p className="pl-5 text-blue-500 font-bold underline">
+                      Forgot Password
+                    </p>
+                  </Link>
+                </div>
               </div>
 
               <div className="w-full flex justify-center align-middle">
@@ -356,8 +370,7 @@ useEffect(()=>{
                   Login
                 </button>
 
-{/* login form button and it also ends */}
-
+                {/* login form button and it also ends */}
               </div>
             </form>
           ) : (

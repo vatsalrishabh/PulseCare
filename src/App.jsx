@@ -18,6 +18,7 @@ import PageNotFound from './Components/PageNotFound';
 import DoctorDashboard from './Components/DoctorDashboard';
 import PatientDashboard from './Components/PatientDashboard';
 import PatientNavbar from './Components/PatientNavbar';
+import PatientForgotPass from './Components/PatientForgotPass';
 // import VideoCall from './Components/VideoCall';
 
 function App() {
@@ -60,6 +61,16 @@ const [doctorIsLogged,setDoctorLogin]=useState(true);
             <>
                <Navbar/>
               <PatientLogin />
+              <ChatBotButton/>
+              <Footer/>
+            </>
+            } />
+  <Route
+           path="/patientforgotPass"
+            element={
+            <>
+               <Navbar/>
+              <PatientForgotPass />
               <ChatBotButton/>
               <Footer/>
             </>
