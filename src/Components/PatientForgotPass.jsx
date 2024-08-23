@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
+// import Stack from '@mui/material/Stack';
 import { BaseUrl } from "./BaseUrl";
+import './PatientForgotPass.css'
 
 const PatientForgotPass = () => {
   // forgot password form data
@@ -13,6 +16,9 @@ const PatientForgotPass = () => {
   const [displayOtpInput, setdisplayOtpInput] = useState("hidden");
   const [disableInput, setDisplay] = useState("hidden");
   const [emailReadOnly, setEmailReadOnly] = useState(false);
+
+
+  const navigate = useNavigate(); 
 
   // send otp axios functions
   const resetPassword = async (e) => {
@@ -38,6 +44,7 @@ const PatientForgotPass = () => {
         setdisplayOtpInput(""); // Display the OTP input
         setDisplay(""); // Make the password fields visible
         setEmailReadOnly(true); // Make the email input readonly
+        
       }
     } catch (error) {
       console.error(
@@ -48,6 +55,7 @@ const PatientForgotPass = () => {
   };
 
   // Verify OTP and change password
+  
   const otpVerifyChangePass = async () => {
     const payload = {
       email: emailUpdatePassword,
@@ -67,7 +75,8 @@ const PatientForgotPass = () => {
       );
 
       if(response.status==200){
-        console.log("updated the password successfully");
+        successAlert(); // this displays the alert saying tha password changed successfully
+     
       }
     } catch (error) {
       console.error("An error occurred during OTP verification:", error);
@@ -80,8 +89,35 @@ const PatientForgotPass = () => {
     }
   }, [otp]);
 
+
+
+
+//   Alert logic starts
+const [showSucAlert, setShowSucAlert] = useState("hidden");
+const successAlert =()=>{
+    setShowSucAlert(""); // this makes the alert visible
+    setTimeout(()=>{
+        setShowSucAlert("hidden");
+        navigate('../patientlogin');
+    },2000);
+};
+useEffect(()=>{
+
+},[showSucAlert])
+
   return (
     <div className="Forgot Password">
+
+{/* Alert starts */}
+        <div className="Alert holder w-full flex justify-end align-middle">
+        <div className={`${showSucAlert} alrt w-1/3 p-3`}>
+    <Alert variant="filled" severity="success">
+       Your Password has been changed successfully!
+      </Alert>
+    </div>
+        </div>
+{/* Alert ends */}
+       
       <form
         className="max-w-sm mx-auto border-2 border-custom-maroon2 bg-white rounded-lg p-5 m-5 w-full"
         onSubmit={resetPassword}
