@@ -19,10 +19,11 @@ import DoctorDashboard from './Components/DoctorDashboard';
 import PatientDashboard from './Components/PatientDashboard';
 import PatientNavbar from './Components/PatientNavbar';
 import PatientForgotPass from './Components/PatientForgotPass';
+import SchedulePage from './Components/SchedulePage';
 // import VideoCall from './Components/VideoCall';
 
 function App() {
-const [doctorIsLogged,setDoctorLogin]=useState(true);
+const [doctorIsLogged,setDoctorLogin]=useState(false);
 // sessionStorage.setItem('doctorId','Nishant Kumar','loggedIn',true);
 // const vatsal = sessionStorage.getItem('doctorId');
 // console.log(vatsal);
@@ -139,6 +140,14 @@ const [doctorIsLogged,setDoctorLogin]=useState(true);
            <BookAnAppointment />
            <ChatBotButton/>
            <Footer/>
+           </>
+           } />
+
+<Route 
+          path="/schedulepage"
+           element={
+           <>
+              <SchedulePage/>
            </>
            } />
 
