@@ -52,13 +52,16 @@ const Footer = () => {
             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li className="mb-4">
-                    <Link to="#" className="hover:underline">Privacy Policy</Link>
+                    <Link to="/cancel" className="hover:underline">Cancelling and Refund Policy</Link>
                 </li>
                 <li className="mb-4">
-                    <Link to="#" className="hover:underline">Licensing</Link>
+                    <Link to="/privacy" className="hover:underline">Privacy Policy</Link>
                 </li>
                 <li className="mb-4">
-                    <Link to="#" className="hover:underline">Terms &amp; Conditions</Link>
+                    <Link to="/shipping" className="cancel">Shipping Delivery</Link>
+                </li>
+                <li className="mb-4">
+                    <Link to="/terms" className="hover:underline">Terms &amp; Conditions</Link>
                 </li>
             </ul>
         </div>

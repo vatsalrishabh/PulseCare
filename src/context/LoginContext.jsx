@@ -1,12 +1,24 @@
 // /src/context/LoginContext.jsx
-import React,{createContext} from 'react'
+import React, { createContext, useState } from 'react';
 
-const LoginContext = createContext(); //making context object
+// Creating the context object
+const LoginContext = createContext();
 
-const LoginContextProvider = ({children}) => {
+// Context provider component
+const LoginContextProvider = ({ children }) => {
+  const [isloggedIn, setIsLoggedIn] = useState({
+    login: false,
+    jwt: 'null',
+    userType: 'patient',
+    userId: '',
+    email: ''
+  });
+
   return (
-   <></>
-  )
-}
+    <LoginContext.Provider value={{ isloggedIn, setIsLoggedIn }}>
+      {children}
+    </LoginContext.Provider>
+  );
+};
 
-export default LoginContext
+export { LoginContext, LoginContextProvider };

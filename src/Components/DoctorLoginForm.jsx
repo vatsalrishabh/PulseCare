@@ -79,6 +79,14 @@ const DoctorLoginForm = () => {
     registrationForm.append("sex", doctorSex);
     registrationForm.append("license", doctorLicense);
 
+
+//confim password and cpassword should be same
+if(registrationForm.doctorPassword!==registrationForm.doctorConPassword){
+  console.log("Registraion function cant use axios as password and cpassword not same");
+}
+//confim password and cpassword should be same    
+
+
     try {
       const response = await axios.post(
         `${BaseUrl}/api/doctors/register`,
@@ -117,7 +125,7 @@ const DoctorLoginForm = () => {
       sex: doctorSex,
       email: doctorEmail,
       otp: otp,
-      license:doctorLicense,
+      license:doctorl
     };
 
     // console.log("verify otp executed");

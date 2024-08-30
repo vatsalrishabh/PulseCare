@@ -57,7 +57,13 @@ const PatientLoginForm = () => {
 
       if (loginResponse.status === 200) {
         console.log(loginResponse.status);
-        // create session and context based on the logic
+        const { email, userId } = loginResponse.data.patientDetails;
+        sessionStorage.setItem('loginData',JSON.stringify({email,userId}));
+        localStorage.setItem(
+          'loginData',
+          JSON.stringify({ email, userId })
+        );
+        // create local storage. and context based on the logic
       }
     } catch (error) {
       console.error(error);
@@ -68,6 +74,7 @@ const PatientLoginForm = () => {
   const handlePatientRegistration = async (e) => {
     e.preventDefault();
 
+
     const registrationForm = new FormData();
     registrationForm.append("name", patientName);
     registrationForm.append("email", patientEmail);
@@ -76,6 +83,13 @@ const PatientLoginForm = () => {
     registrationForm.append("confirmPassword", patientConPassword);
     registrationForm.append("age", patientAge);
     registrationForm.append("sex", patientSex);
+
+//confim password and cpassword should be same
+if(registrationForm.password!==registrationForm.confirmPassword){
+    console.log("Registraion function cant use axios as password and cpassword not same");
+}
+//confim password and cpassword should be same
+
 
     try {
       const response = await axios.post(

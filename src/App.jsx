@@ -20,6 +20,10 @@ import PatientDashboard from './Components/PatientDashboard';
 import PatientNavbar from './Components/PatientNavbar';
 import PatientForgotPass from './Components/PatientForgotPass';
 import SchedulePage from './Components/SchedulePage';
+import CancellationRefundPolicies from './Components/Razorpay/CancellationRefunPolicies';
+import PrivacyPolicy from './Components/Razorpay/PrivacyPolicy';
+import ShippingDelivery from './Components/Razorpay/ShippingDelivery';
+import TermsConditions from './Components/Razorpay/TermsConditions';
 // import VideoCall from './Components/VideoCall';
 
 function App() {
@@ -150,6 +154,55 @@ const [doctorIsLogged,setDoctorLogin]=useState(false);
               <SchedulePage/>
            </>
            } />
+
+<Route 
+          path="/cancel"
+           element={
+           <>
+           <Navbar/>
+            <CancellationRefundPolicies/>
+            <Footer/>
+           </>
+           } />
+
+
+
+           <Route 
+          path="/privacy"
+           element={
+           <>
+           <Navbar/>
+            <PrivacyPolicy/>
+            <Footer/>
+           </>
+           } />
+
+
+              
+<Route 
+          path="/shipping"
+           element={
+           <>
+           <Navbar/>
+            <ShippingDelivery/>
+            <Footer/>
+           </>
+           } />
+
+
+              
+<Route 
+          path="/terms"
+           element={
+           <>
+           <Navbar/>
+            <TermsConditions/>
+            <Footer/>
+           </>
+           } />
+
+
+
 
            <Route
             path="*"
