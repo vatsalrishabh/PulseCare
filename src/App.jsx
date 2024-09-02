@@ -25,6 +25,7 @@ import PrivacyPolicy from './Components/Razorpay/PrivacyPolicy';
 import ShippingDelivery from './Components/Razorpay/ShippingDelivery';
 import TermsConditions from './Components/Razorpay/TermsConditions';
 import PaymentPage from './Components/PaymentPage';
+import Prescription from './Components/PDF/Prescription';
 // import VideoCall from './Components/VideoCall';
 
 function App() {
