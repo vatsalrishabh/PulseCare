@@ -60,6 +60,21 @@ const [doctorIsLogged,setDoctorLogin]=useState(false);
         } />
 
 
+
+
+           <Route
+              path="/pres"
+              element={
+                <>
+                  
+                  <Prescription />
+                
+                </>
+              }
+            />
+
+
+
          
        
           <Route
