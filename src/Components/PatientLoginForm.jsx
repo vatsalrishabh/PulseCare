@@ -5,11 +5,15 @@ import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import OtpInput from "react-otp-input";
 import { BaseUrl } from "./BaseUrl";
+import { SuccessAlert, ErrorAlert, FailedAlert }  from "./Alerts";
+// import { LoginContext } from "../context/LoginContext";
 
 const PatientLoginForm = () => {
   const [showLogin, setShowLogin] = useState(true);
   const [hideOtpModal, setHideOtpModal] = useState("hidden"); //initially hide otp modal
   const [isOtpCorrect, setIsOtpCorrect] = useState(false);
+  const [loginSuccessAlert,setLoginSuccessAlert] = useState(false);
+  const [wrongPassCpassAlert,setwrongPassCpassAlert] = useState(false);
 
   // Patient Registration form data starts
   const [patientName, setName] = useState("");
@@ -26,6 +30,7 @@ const PatientLoginForm = () => {
   const [patientLoginPassword, setLoginPassword] = useState("");
 
   const [otp, setOtp] = useState("");
+  // const { isloggedIn, loginUser, logoutUser, isAuthenticated } = useContext(LoginContext);
 
   const displayLogin = () => {
     setShowLogin(true);
@@ -36,7 +41,12 @@ const PatientLoginForm = () => {
   };
 
   // login api hit starts
-
+  const loginSuccessAlertf = async()=>{
+   setLoginSuccessAlert(true);
+    setTimeout(()=>{
+      setLoginSuccessAlert(false);
+    },3000);
+  }
   const loginPatient = async (e) => {
     e.preventDefault();
     const loginForm = {
@@ -57,18 +67,22 @@ const PatientLoginForm = () => {
 
       if (loginResponse.status === 200) {
         console.log(loginResponse.status);
-        const { email, userId } = loginResponse.data.patientDetails;
-        sessionStorage.setItem('loginData',JSON.stringify({email,userId}));
+        console.log(loginResponse.data.patientDetails)
+        const sessionData =loginResponse.data.patientDetails;
+        sessionStorage.setItem('loginData',JSON.stringify({sessionData}));
         localStorage.setItem(
           'loginData',
-          JSON.stringify({ email, userId })
+          JSON.stringify({ sessionData })
         );
+      loginSuccessAlertf();
         // create local storage. and context based on the logic
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+
 
   // registration api hit starts
   const handlePatientRegistration = async (e) => {
@@ -84,11 +98,24 @@ const PatientLoginForm = () => {
     registrationForm.append("age", patientAge);
     registrationForm.append("sex", patientSex);
 
-//confim password and cpassword should be same
-if(registrationForm.password!==registrationForm.confirmPassword){
-    console.log("Registraion function cant use axios as password and cpassword not same");
-}
-//confim password and cpassword should be same
+
+
+
+
+  //confim password and cpassword should be same
+  if (patientPassword !== patientConPassword) {
+    console.log("Passwords do not match!");
+      setwrongPassCpassAlert(true);
+      setTimeout(()=>{
+        setwrongPassCpassAlert(false);
+      },3000) // Optionally show an alert or update the UI
+    return; // Prevent further execution if passwords don't match
+  }
+ 
+
+
+
+
 
 
     try {
@@ -147,6 +174,7 @@ if(registrationForm.password!==registrationForm.confirmPassword){
       if (response.status === 200) {
         console.log("OTP verified, registration done");
         setIsOtpCorrect("correct"); // verify it matches make that true
+        loginUser('sample-jwt-token', 'patient', 'user-id', 'user@example.com');
         setTimeout(() => {
           // goto dashboard and finish Login.
         }, 2000);
@@ -189,6 +217,11 @@ if(registrationForm.password!==registrationForm.confirmPassword){
         </Breadcrumb>
       </div>
       {/* Breadcrum ends */}
+
+  {loginSuccessAlert?<SuccessAlert message="Logged in successfully!"/>:""}
+  {wrongPassCpassAlert?<ErrorAlert message="Password and Confirm Password do not match!"/>:""}
+ {/* <ErrorAlert message="Wrong Password !"/> */}
+  {/* <FailedAlert message="Unauthorized!"/>  */}
 
       <div className="w-full flex justify-center align-middle">
         {/* Otp verification Modal starts */}

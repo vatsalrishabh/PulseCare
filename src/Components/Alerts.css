@@ -1,0 +1,46 @@
+/* Alert Fade Animation */
+.fade-alert-enter {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  
+  .fade-alert-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 500ms, transform 500ms;
+  }
+  
+  .fade-alert-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .fade-alert-exit-active {
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 500ms, transform 500ms;
+  }
+  
+  /* Alert Positioning */
+  .center-mid-right {
+    position: absolute;
+    right: 20px;
+    top: 20%;
+    transform: translateY(-50%);
+  }
+  
+  .alert-moving-to-top-right {
+    animation: moveToTopRight 3s forwards;
+  }
+  
+  @keyframes moveToTopRight {
+    0% {
+      right: 20px;
+      top: 50%;
+    }
+    100% {
+      right: 20px;
+      top: 20px;
+    }
+  }
+  
