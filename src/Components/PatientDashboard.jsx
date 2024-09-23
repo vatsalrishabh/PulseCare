@@ -1,55 +1,94 @@
-import React from "react";
-import PCard from "./PCard";
+import React from 'react';
+import { Card, CardContent, Typography, Button, Grid } from '@mui/material';
+import { CalendarToday, History, LocalHospital } from '@mui/icons-material';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const PatientDashboard = () => {
   return (
-    <div className="PatientDashboard p-4">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className="p-3">
-          <PCard
-            Title="Upcoming Appointments"
-            TicketNumber="2243253453"
-            DateTime="Aug 27, 2024 btw 10:00am to 2:00pm"
-            buttonViewAppointment ="View Appointment"
-             buttonMyReports =""
-              buttonBookAppointment =""
-              button4=""
-          />
-        </div>
-        <div className="p-3">
-          <PCard
-            Title="My Reports"
-            TicketNumber="BH0023"
-            DateTime="Uploaded On:- Aug 27, 2024 btw 10:00am to 2:00pm"
-            buttonViewAppointment =""
-             buttonMyReports ="My Reports"
-              buttonBookAppointment =""
-              button4=""
-          />
-        </div>
-        <div className="p-3">
-          <PCard
-            Title="Book Appointments"
-            TicketNumber="2243253453"
-            DateTime="Aug 27, 2024 btw 10:00am to 2:00pm"
-            buttonViewAppointment =""
-             buttonMyReports =""
-              buttonBookAppointment ="Book Appointment"
-              button4=""
-          />
-        </div>
-        <div className="p-3">
-          <PCard
-            Title="Upcoming Appointments"
-            TicketNumber="2243253453"
-            DateTime="Aug 27, 2024 btw 10:00am to 2:00pm"
-            buttonViewAppointment =""
-            buttonMyReports =""
-             buttonBookAppointment =""
-             button4="Button4"
-          />
-        </div>
-      </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-custom-graybg p-6">
+      <h1 className="text-3xl font-bold text-custom-maroon mb-6">Patient Dashboard</h1>
+      
+      <Grid container spacing={3}>
+        {/* Upcoming Appointments Section */}
+        <Grid item xs={12} md={6}>
+          <Card className="bg-white shadow-lg transition-transform duration-300 hover:scale-105">
+            <CardContent>
+              <Typography variant="h5" component="div" className="flex items-center">
+                <CalendarToday className="mr-2 text-custom-maroon0" />
+                Upcoming Appointments
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                You have 2 upcoming appointments scheduled.
+              </Typography>
+              <Link to="/appointments" style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary" className="mt-4" style={{ backgroundColor: '#71a113' }}>
+                  View Details
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Book an Appointment Section */}
+        <Grid item xs={12} md={6}>
+          <Card className="bg-white shadow-lg transition-transform duration-300 hover:scale-105">
+            <CardContent>
+              <Typography variant="h5" component="div" className="flex items-center">
+                <LocalHospital className="mr-2 text-custom-maroon0" />
+                Book an Appointment
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Schedule your next visit with us.
+              </Typography>
+              <Link to="/schedulepage" style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary" className="mt-4" style={{ backgroundColor: '#71a113' }}>
+                  Book Now
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Patient History Section */}
+        <Grid item xs={12} md={6}>
+          <Card className="bg-white shadow-lg transition-transform duration-300 hover:scale-105">
+            <CardContent>
+              <Typography variant="h5" component="div" className="flex items-center">
+                <History className="mr-2 text-custom-maroon0" />
+                Patient History
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Review your past appointments and treatments.
+              </Typography>
+              <Link to="/history" style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary" className="mt-4" style={{ backgroundColor: '#71a113' }}>
+                  View History
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Additional Section (e.g., Health Tips) */}
+        <Grid item xs={12} md={6}>
+          <Card className="bg-white shadow-lg transition-transform duration-300 hover:scale-105">
+            <CardContent>
+              <Typography variant="h5" component="div" className="flex items-center">
+                <span className="material-icons mr-2 text-custom-maroon0">health_and_safety</span>
+                Health Tips
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Get the latest health tips and advice from our experts.
+              </Typography>
+              <Link to="/health-tips" style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary" className="mt-4" style={{ backgroundColor: '#71a113' }}>
+                  Learn More
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </div>
   );
 };

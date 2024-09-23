@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState,useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import OtpInput from "react-otp-input";
 import { BaseUrl } from "./BaseUrl";
 import { SuccessAlert, ErrorAlert, FailedAlert }  from "./Alerts";
-// import { LoginContext } from "../context/LoginContext";
+import {LoginContext} from '../context/LoginContext'
 
 const PatientLoginForm = () => {
+  const navigate = useNavigate();
+  const {loggedInUser, setLoggedInUser } = useContext(LoginContext);
   const [showLogin, setShowLogin] = useState(true);
   const [hideOtpModal, setHideOtpModal] = useState("hidden"); //initially hide otp modal
   const [isOtpCorrect, setIsOtpCorrect] = useState(false);
@@ -66,16 +68,12 @@ const PatientLoginForm = () => {
       );
 
       if (loginResponse.status === 200) {
-        console.log(loginResponse.status);
-        console.log(loginResponse.data.patientDetails)
-        const sessionData =loginResponse.data.patientDetails;
-        sessionStorage.setItem('loginData',JSON.stringify({sessionData}));
-        localStorage.setItem(
-          'loginData',
-          JSON.stringify({ sessionData })
-        );
-      loginSuccessAlertf();
-        // create local storage. and context based on the logic
+        setLoggedInUser({ isloggedIn: true,
+          jwt: loginResponse.data.patientDetails,
+          userId: '',
+          email: loginResponse.data.email});
+console.log(loginResponse.data);
+          navigate("/pdash");
       }
     } catch (error) {
       console.error(error);
