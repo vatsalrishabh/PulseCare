@@ -27,6 +27,7 @@ import { LoginContext } from './context/LoginContext';
 import PatientNotLoggedIn from "./Components/PatientNotLoggedIn";
 import VideoCall from "./Components/VideoCall";
 import "./App.css";
+import PaymentSuccess from "./Components/PaymentSuccess";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -132,6 +133,10 @@ function App() {
     {
       path: "/payment",
       element: loggedInUser.isloggedIn ? <Payment /> : <PatientNotLoggedIn />,
+    },
+    {
+      path: "/payment-success",
+      element: loggedInUser.isloggedIn ? <PaymentSuccess/> : <PatientNotLoggedIn />,
     },
     {
       path: "/bookappointment",
