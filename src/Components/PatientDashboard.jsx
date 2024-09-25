@@ -40,7 +40,7 @@ const PatientDashboard = () => {
               <Typography variant="body2" color="text.secondary">
                 Schedule your next visit with us.
               </Typography>
-              <Link to="/schedulepage" style={{ textDecoration: 'none' }}>
+              <Link to="/selectDis" style={{ textDecoration: 'none' }}>
                 <Button variant="contained" color="primary" className="mt-4" style={{ backgroundColor: '#71a113' }}>
                   Book Now
                 </Button>

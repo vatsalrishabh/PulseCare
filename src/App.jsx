@@ -28,6 +28,7 @@ import PatientNotLoggedIn from "./Components/PatientNotLoggedIn";
 import VideoCall from "./Components/VideoCall";
 import "./App.css";
 import PaymentSuccess from "./Components/PaymentSuccess";
+import SelectDiseaseType from "./Components/SelectDiseaseType";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -125,6 +126,17 @@ function App() {
         <>
       <PatientNavbar/>
           <PatientDashboard />
+          <ChatBotButton />
+          <Footer />
+        </>
+      ) : <PatientNotLoggedIn />,
+    },
+    {
+      path: "/selectDis",
+      element: loggedInUser.isloggedIn ? (
+        <>
+      <PatientNavbar/>
+     <SelectDiseaseType/>
           <ChatBotButton />
           <Footer />
         </>

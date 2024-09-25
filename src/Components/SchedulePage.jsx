@@ -8,7 +8,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { BaseUrl } from './BaseUrl';
 import { ThreeDots } from 'react-loader-spinner';
 
-const SchedulePage = () => {
+const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
   const [dates, setDates] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -125,6 +125,12 @@ const SchedulePage = () => {
   return (
     <>
       <h1 className="text-3xl font-extrabold text-custom-maroon mb-6 text-center">Available Dates</h1>
+      <div>
+      <h2>Schedule Your Appointment</h2>
+      <p>Selected Disease: {selectedDisease}</p>
+      <p>Selected Doctor: {selectedDoctor?.name} (ID: {selectedDoctor?.id})</p>
+      {/* Add scheduling logic here */}
+    </div>
 
       <div className="relative flex items-center w-full bg-custom-graybg p-4 rounded-lg overflow-hidden">
         {loading && (

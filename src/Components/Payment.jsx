@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { BaseUrl } from './BaseUrl';
 
 const Payment = () => {
   const [amount, setAmount] = useState('');
@@ -7,7 +8,7 @@ const Payment = () => {
   const payNow = async () => {
     try {
       // Call the create-order API
-      const response = await axios.post('http://localhost:3000/api/razorpay/create-order', {
+      const response = await axios.post(`${BaseUrl}/api/razorpay/create-order`, {
         amount: amount,
         currency: 'INR',
         receipt: 'receipt#1',
