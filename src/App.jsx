@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loader from "./Components/Loader";
 import AboutUs from "./Components/AboutUs";
@@ -14,6 +14,7 @@ import PageNotFound from "./Components/PageNotFound";
 import DoctorDashboard from "./Components/DoctorDashboard";
 import PatientDashboard from "./Components/PatientDashboard";
 import PatientForgotPass from "./Components/PatientForgotPass";
+import PatientNavbar from "./Components/PatientNavbar";
 import SchedulePage from "./Components/SchedulePage";
 import CancellationRefundPolicies from "./Components/Razorpay/CancellationRefunPolicies";
 import PrivacyPolicy from "./Components/Razorpay/PrivacyPolicy";
@@ -24,10 +25,23 @@ import Prescription from "./Components/PDF/Prescription";
 import Payment from "./Components/Payment";
 import { LoginContext } from './context/LoginContext';
 import PatientNotLoggedIn from "./Components/PatientNotLoggedIn";
+import VideoCall from "./Components/VideoCall";
 import "./App.css";
 
 function App() {
-  const { loggedInUser } = useContext(LoginContext);
+  const [loggedInUser, setLoggedInUser] = useState({});
+  const [loggedInDoctor, setLoggedInDoctor] = useState({});
+
+  useEffect(() => {
+    const storedUserDetails = localStorage.getItem('userDetails');
+    if (storedUserDetails) {
+      const userDetails = JSON.parse(storedUserDetails);
+      // console.log(userDetails);
+      // console.log(loggedInUser.isloggedIn);
+      setLoggedInUser(userDetails);
+    }
+  }, []);
+
 
   const router = createBrowserRouter([
     {
@@ -42,7 +56,6 @@ function App() {
           <Navbar />
           <Home />
           <ChatBotButton />
-          <PaymentPage />
           <Footer />
         </>
       ),
@@ -75,7 +88,7 @@ function App() {
     },
     {
       path: "/doctorlogin",
-      element: loggedInUser.isloggedIn ? <DoctorDashboard /> : (
+      element: loggedInDoctor.isloggedIn ? <DoctorDashboard /> : (
         <>
           <Navbar />
           <DoctorLogin />
@@ -109,6 +122,7 @@ function App() {
       path: "/pdash",
       element: loggedInUser.isloggedIn ? (
         <>
+      <PatientNavbar/>
           <PatientDashboard />
           <ChatBotButton />
           <Footer />
@@ -171,6 +185,14 @@ function App() {
           <Navbar />
           <TermsConditions />
           <Footer />
+        </>
+      ),
+    },
+     {
+      path: "/videocall",
+      element: (
+        <>
+        <VideoCall/>
         </>
       ),
     },

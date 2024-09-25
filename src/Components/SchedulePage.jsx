@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from '@mui/material/Modal';
 import Snackbar from '@mui/material/Snackbar';
@@ -6,11 +6,10 @@ import Alert from '@mui/material/Alert';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { BaseUrl } from './BaseUrl';
-import { LoginContext } from '../context/LoginContext';
 import { ThreeDots } from 'react-loader-spinner';
 
 const SchedulePage = () => {
-  const { loggedInUser } = useContext(LoginContext);
+  const [loggedInUser, setLoggedInUser] = useState({});
   const [dates, setDates] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -19,6 +18,17 @@ const SchedulePage = () => {
   const [offset, setOffset] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  useEffect(() => {
+    const storedUserDetails = localStorage.getItem('userDetails');
+    if (storedUserDetails) {
+      const userDetails = JSON.parse(storedUserDetails);
+      console.log(userDetails);
+      console.log(loggedInUser.isloggedIn);
+      setLoggedInUser(userDetails);
+    }
+  }, []);
+
 
   useEffect(() => {
     fetchBookings();

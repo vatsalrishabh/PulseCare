@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <div className='Navbar'>
       <nav className="bg-custom-maroon border-gray-200 dark:bg-gray-900">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
           <Link to="/" className="flex items-center lg:w-1/3 ">
             <img src={PulseCare} className="h-14" alt="PulseCare Logo" />
           </Link>

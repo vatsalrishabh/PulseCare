@@ -1,9 +1,23 @@
-
+import { useState,useEffect } from "react";
 import { Card } from "flowbite-react";
 
+
+
 export default function ConsultCard(props) {
+  const [loggedInUser, setLoggedInUser] = useState({});
+
+  useEffect(() => {
+    const storedUserDetails = localStorage.getItem('userDetails');
+    if (storedUserDetails) {
+      const userDetails = JSON.parse(storedUserDetails);
+      // console.log(userDetails);
+      // console.log(loggedInUser.isloggedIn);
+      setLoggedInUser(userDetails);
+    }
+  }, []);
 
   const handleBookAppointment = () => {
+  
     const url = `/schedulepage`; // Replace with your desired URL
     const width = 1000;
     const height = 600;

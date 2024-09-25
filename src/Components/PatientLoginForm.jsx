@@ -72,7 +72,16 @@ const PatientLoginForm = () => {
           jwt: loginResponse.data.patientDetails,
           userId: '',
           email: loginResponse.data.email});
-console.log(loginResponse.data);
+          
+// localStorage code below 
+          localStorage.setItem('userDetails', JSON.stringify({
+            isloggedIn: true,
+            jwt: loginResponse.data.patientDetails,
+            userId: '',
+            email: loginResponse.data.email,
+        }));
+// localStorage code above
+
           navigate("/pdash");
       }
     } catch (error) {
