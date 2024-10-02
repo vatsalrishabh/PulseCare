@@ -1,0 +1,17 @@
+.payment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .overlay {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  

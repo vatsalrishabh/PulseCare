@@ -9,7 +9,8 @@ const LoginContextProvider = ({ children }) => {
     isloggedIn: false,
     jwt: null,
     userId: '',
-    email: ''
+    email: '',
+    name:''
   });
 
   return (

@@ -1,18 +1,32 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {
+  Button,
+  Modal,
+  Box,
+  Typography,
+} from '@mui/material';
 import { BaseUrl } from './BaseUrl';
+import './Payment.css'; // Create a CSS file for additional styles
 
-const Payment = () => {
-  const [amount, setAmount] = useState('');
+const Payment = (props) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { bookingId, name, email, contact, disease, doctor, date, time } = props;
 
   const payNow = async () => {
     try {
       // Call the create-order API
       const response = await axios.post(`${BaseUrl}/api/razorpay/create-order`, {
-        amount: amount,
+        amount: 300,
         currency: 'INR',
-        receipt: 'receipt#1',
-        notes: {}
+        receipt: bookingId,
+        notes: {
+          name:name,
+          email:email,
+          contact:contact,
+          disease: disease,
+          doctor: doctor,
+        },
       });
 
       const order = response.data;
@@ -27,19 +41,19 @@ const Payment = () => {
         order_id: order.id,
         callback_url: 'http://localhost:3000/api/razorpay/payment-success', // Your success URL
         prefill: {
-          name: 'Your Name',
-          email: 'your.email@example.com',
-          contact: '9999999999'
+          name: name,
+          email: email,
+          contact: contact,
         },
         theme: {
-          color: '#F37254'
+          color: '#F37254',
         },
         handler: async function (response) {
           try {
             const verificationResponse = await axios.post('http://localhost:3000/api/razorpay/verify-payment', {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature
+              razorpay_signature: response.razorpay_signature,
             });
 
             if (verificationResponse.data.status === 'ok') {
@@ -51,11 +65,12 @@ const Payment = () => {
             console.error('Error verifying payment:', error);
             alert('Error verifying payment');
           }
-        }
+        },
       };
 
       const rzp = new window.Razorpay(options);
       rzp.open();
+      setModalIsOpen(false); // Close modal after payment is initiated
     } catch (error) {
       console.error('Error creating order:', error);
       alert('Error creating order');
@@ -63,21 +78,55 @@ const Payment = () => {
   };
 
   return (
-    <div>
-      <h1>Razorpay Payment Gateway Integration</h1>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <label htmlFor="amount">Amount:</label>
-        <input
-          type="number"
-          id="amount"
-          name="amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          required
-        />
-        <button type="button" onClick={payNow}>Pay Now</button>
-      </form>
-      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <div className="payment-container">
+      <Typography variant="h4" gutterBottom>
+        Razorpay Payment Gateway Integration
+      </Typography>
+      <Button variant="contained" color="primary" onClick={() => setModalIsOpen(true)}>
+        Checkout
+      </Button>
+
+      <Modal
+        open={modalIsOpen}
+        onClose={() => setModalIsOpen(false)}
+        aria-labelledby="checkout-modal-title"
+        aria-describedby="checkout-modal-description"
+      >
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+            width: 400,
+            margin: 'auto',
+            mt: '20%',
+          }}
+        >
+          <Typography id="checkout-modal-title" variant="h6" component="h2" gutterBottom>
+            Checkout Details
+          </Typography>
+          <Typography variant="body1"><strong>BookingId:</strong> {bookingId}</Typography>
+          <Typography variant="body1"><strong>Name:</strong> {name}</Typography>
+          <Typography variant="body1"><strong>Email:</strong> {email}</Typography>
+          <Typography variant="body1"><strong>Contact:</strong> {contact}</Typography>
+          <Typography variant="body1"><strong>Disease:</strong> {disease}</Typography>
+          <Typography variant="body1"><strong>Doctor:</strong> {doctor}</Typography>
+          <Typography variant="body1"><strong>Date:</strong> {date}</Typography>
+          <Typography variant="body1"><strong>Time:</strong> {time}</Typography>
+          <Typography variant="body1"><strong>Amount:</strong> ₹300</Typography>
+          
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={payNow}
+            fullWidth
+            sx={{ mt: 2 }}
+          >
+            Pay and Book the Slot
+          </Button>
+        </Box>
+      </Modal>
     </div>
   );
 };

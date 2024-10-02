@@ -79,6 +79,8 @@ const PatientLoginForm = () => {
             jwt: loginResponse.data.patientDetails,
             userId: '',
             email: loginResponse.data.email,
+            contact: loginResponse.data.contact,
+            name: loginResponse.data.name,
         }));
 // localStorage code above
 
