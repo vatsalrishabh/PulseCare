@@ -1,21 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import pulsecarelogo from '../assets/Puslecarelogo/PulseCare.png';
 
 const PatientNavbar = () => {
-  // State to manage dropdown visibility
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Toggle dropdown visibility
   const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+    setDropdownOpen(prev => !prev);
+  };
+
+  // Close dropdown when clicking outside
+  const handleClickOutside = (event) => {
+    const dropdown = document.getElementById('user-dropdown');
+    const button = document.getElementById('user-menu-button');
+    if (
+      dropdown && !dropdown.contains(event.target) && 
+      button && !button.contains(event.target)
+    ) {
+      setDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    // Remove user details from localStorage
+    localStorage.removeItem('userDetails');
+    // Optionally, redirect to the login page or perform other actions
+    window.location.href = '/home'; // Adjust the URL as needed
   };
 
   return (
     <nav className="bg-custom-maroon border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src={pulsecarelogo} className="h-8" alt="Flowbite Logo" />
+          <img src={pulsecarelogo} className="h-8" alt="PulseCare Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             PulseCare
           </span>
@@ -29,11 +54,11 @@ const PatientNavbar = () => {
             onClick={toggleDropdown} // Toggle dropdown on click
           >
             <span className="sr-only">Open user menu</span>
-            <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
+            <img className="w-8 h-8 rounded-full" src="https://via.placeholder.com/150" alt="user avatar" />
           </button>
           {/* Dropdown menu */}
           <div
-            className={`z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow  pt-10 dark:bg-gray-700 dark:divide-gray-600 absolute right-0 mt-2 ${dropdownOpen ? 'block' : 'hidden'}`}
+            className={`z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow pt-10 dark:bg-gray-700 dark:divide-gray-600 absolute right-0 mt-2 ${dropdownOpen ? 'block' : 'hidden'}`}
             id="user-dropdown"
           >
             <div className="px-4 py-3">
@@ -43,35 +68,47 @@ const PatientNavbar = () => {
             <ul className="py-2" aria-labelledby="user-menu-button">
               <li>
                 <Link
-                  to="#"
+                  to="/pdash"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  onClick={() => setDropdownOpen(false)}
                 >
                   Dashboard
                 </Link>
               </li>
               <li>
                 <Link
-                  to="#"
+                  to="/appointments"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  onClick={() => setDropdownOpen(false)}
                 >
-                  Settings
+                  Upcoming Appointments
                 </Link>
               </li>
               <li>
                 <Link
-                  to="#"
+                  to="/selectDis"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  onClick={() => setDropdownOpen(false)}
                 >
-                  Earnings
+                 Book an Appointment
                 </Link>
               </li>
               <li>
                 <Link
-                  to="#"
+                  to="/history"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  onClick={() => setDropdownOpen(false)}
+                >
+                 Patient History
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >
                   Sign out
-                </Link>
+                </button>
               </li>
             </ul>
           </div>
@@ -104,10 +141,10 @@ const PatientNavbar = () => {
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
           id="navbar-user"
         >
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          {/* <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <Link
-                to="#"
+                to="/"
                 className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
                 aria-current="page"
               >
@@ -116,7 +153,7 @@ const PatientNavbar = () => {
             </li>
             <li>
               <Link
-                to="#"
+                to="/appointments"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Appointments
@@ -124,13 +161,13 @@ const PatientNavbar = () => {
             </li>
             <li>
               <Link
-                to="#"
+                to="/reports"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 My Reports
               </Link>
             </li>
-          </ul>
+          </ul> */}
         </div>
       </div>
     </nav>

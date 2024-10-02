@@ -29,6 +29,8 @@ import VideoCall from "./Components/VideoCall";
 import "./App.css";
 import PaymentSuccess from "./Components/PaymentSuccess";
 import SelectDiseaseType from "./Components/SelectDiseaseType";
+import UpcomingApp from "./Components/UpcomingApp";
+import PatientHistory from "./Components/PatientHistory";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -157,6 +159,30 @@ useEffect(() => {
         </>
       ) : <PatientNotLoggedIn />,
     },
+    {
+      path: "/history",
+      element: loggedInUser.isloggedIn ? (
+        <>
+      <PatientNavbar/>
+     <PatientHistory/>
+          <ChatBotButton />
+          <Footer />
+        </>
+      ) : <PatientNotLoggedIn />,
+    },
+    {
+      path: "/appointments",
+      element: loggedInUser.isloggedIn ? (
+        <>
+      <PatientNavbar/>
+   <UpcomingApp/>
+          <ChatBotButton />
+          <Footer />
+        </>
+      ) : <PatientNotLoggedIn />,
+    },
+
+   
     {
       path: "/payment",
       element: loggedInUser.isloggedIn ? <Payment /> : <PatientNotLoggedIn />,

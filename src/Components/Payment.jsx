@@ -57,6 +57,8 @@ const Payment = (props) => {
             });
 
             if (verificationResponse.data.status === 'ok') {
+
+              
               window.location.href = '/payment-success'; // Redirect on success
             } else {
               alert('Payment verification failed');
