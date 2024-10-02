@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Carousel } from "flowbite-react";
 import image1 from '../assets/home/image1.jpg'
 import image2 from '../assets/home/image2.jpeg'
@@ -11,6 +11,14 @@ import './Chatbot.css'
 
 const Home = () => {
   const [displayBot,handleBotDisplay] = useState(false);
+  useEffect(() => {
+    console.log("Home component mounted");
+
+    // Cleanup function
+    return () => {
+      console.log("Home component unmounted");
+    };
+  }, []); // Empty dependency array means this runs once on mount and unmount
 
 
 

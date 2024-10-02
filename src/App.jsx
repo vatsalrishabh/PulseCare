@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, useLocation } from "react-router-dom";
 import Loader from "./Components/Loader";
 import AboutUs from "./Components/AboutUs";
 import BookAnAppointment from "./Components/BookAnAppointment";
@@ -33,17 +33,32 @@ import SelectDiseaseType from "./Components/SelectDiseaseType";
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
   const [loggedInDoctor, setLoggedInDoctor] = useState({});
+  
 
-  useEffect(() => {
+useEffect(() => {
+  const loadUserDetails = () => {
     const storedUserDetails = localStorage.getItem('userDetails');
     if (storedUserDetails) {
       const userDetails = JSON.parse(storedUserDetails);
-      // console.log(userDetails);
-      // console.log(loggedInUser.isloggedIn);
       setLoggedInUser(userDetails);
     }
-  }, []);
+  };
 
+  // Load user details immediately
+  loadUserDetails();
+
+  // Set a timeout to re-render (update user details) after 2 seconds
+  const timeoutId = setTimeout(() => {
+    loadUserDetails(); // Call the function again to fetch user details
+  }, 2000); // 2000 milliseconds = 2 seconds
+
+  // Cleanup the timeout on component unmount
+  return () => clearTimeout(timeoutId);
+}, []);
+
+
+
+  
 
   const router = createBrowserRouter([
     {

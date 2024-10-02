@@ -58,6 +58,7 @@ const DoctorLoginForm = () => {
 
       if (loginResponse.status === 200) {
         console.log(loginResponse.status);
+        localStorage.setItem()
         // create session and context based on the logic
       }
     } catch (error) {

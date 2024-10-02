@@ -125,8 +125,7 @@ const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
   return (
     <>
       <h1 className="text-3xl font-extrabold text-custom-maroon mb-6 text-center">Available Dates</h1>
-      <div>
-      <h2>Schedule Your Appointment</h2>
+      <div> 
       <p>Selected Disease: {selectedDisease}</p>
       <p>Selected Doctor: {selectedDoctor?.name} (ID: {selectedDoctor?.id})</p>
       {/* Add scheduling logic here */}

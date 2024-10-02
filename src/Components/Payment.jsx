@@ -19,11 +19,11 @@ const Payment = () => {
 
       // Open Razorpay Checkout
       const options = {
-        key: 'rzp_test_RYNvxWHdirjhUp', // Replace with your Razorpay key_id
+        key: 'rzp_live_1MxULmQnXguann', // Replace with your Razorpay key_id
         amount: order.amount,
         currency: order.currency,
         name: 'PulseCare',
-        description: 'Test Transaction',
+        description: 'Live Transaction',
         order_id: order.id,
         callback_url: 'http://localhost:3000/api/razorpay/payment-success', // Your success URL
         prefill: {
