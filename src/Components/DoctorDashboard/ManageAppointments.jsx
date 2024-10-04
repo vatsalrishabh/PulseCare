@@ -18,6 +18,7 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
   const [offset, setOffset] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('booked'); // Default to booked
 
   useEffect(() => {
     const storedUserDetails = localStorage.getItem('userDetails');
@@ -47,29 +48,29 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
   };
 
   const handleSlotSelect = (slot, date) => {
-    if (slot.status === 'booked') return;
     setSelectedSlot({ ...slot, date });
     setOpenModal(true); // Trigger modal display
   };
 
   const handleBookingConfirm = async () => {
     try {
-      await axios.post(`${BaseUrl}/api/patients/postBookings`, {
+      await axios.post(`${BaseUrl}/api/patients/postBookingsAdmin`, {
         bookingId: selectedSlot.bookingId,
         date: selectedSlot.date,
+        status: selectedStatus,
         bookedBy: loggedInUser.email,
         bookedOn: new Date().toLocaleDateString(),
       });
 
-      // Update state to reflect the booked slot
-      setDates(prevDates => 
+      // Update state to reflect the selected status
+      setDates(prevDates =>
         prevDates.map(dateObj => {
           if (dateObj.date === selectedSlot.date) {
             return {
               ...dateObj,
               slots: dateObj.slots.map(slot => {
                 if (slot.bookingId === selectedSlot.bookingId) {
-                  return { ...slot, status: 'booked' };
+                  return { ...slot, status: selectedStatus };
                 }
                 return slot;
               }),
@@ -80,11 +81,11 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
       );
 
       setOpenModal(false);
-      setSnackbarMessage('Booking successful');
+      setSnackbarMessage('Status updated successfully');
       setSnackbarOpen(true);
     } catch (error) {
-      console.error('Error confirming booking:', error);
-      setSnackbarMessage('Error confirming booking');
+      console.error('Error updating status:', error);
+      setSnackbarMessage('Error updating status');
       setSnackbarOpen(true);
     }
   };
@@ -104,8 +105,8 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
   return (
     <>
       <h1 className="text-3xl font-extrabold text-custom-maroon mb-6 text-center">Available Dates</h1>
-      {/* <p>Selected Disease: {selectedDisease}</p>
-      <p>Selected Doctor: {selectedDoctor?.name} (ID: {selectedDoctor?.id})</p> */}
+      <p>Selected Disease: {selectedDisease}</p>
+      <p>Selected Doctor: {selectedDoctor?.name} (ID: {selectedDoctor?.id})</p>
 
       <div className="relative flex items-center w-full bg-custom-graybg p-4 rounded-lg overflow-hidden">
         {loading && (
@@ -138,9 +139,9 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
                     <li
                       key={idx}
                       className={`mb-3 p-2 border border-custom-maroon rounded-lg 
-                      ${slot.status === 'booked' ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-custom-graybg text-custom-maroon2 cursor-pointer'}`}
+                      ${slot.status === 'not available' ? 'bg-red-400 text-white cursor-not-allowed' : slot.status === 'booked' ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-custom-graybg text-custom-maroon2 cursor-pointer'}`}
                       onClick={() => handleSlotSelect(slot, date)}
-                      style={{ pointerEvents: slot.status === 'booked' ? 'none' : 'auto' }}
+                      style={{ pointerEvents: slot.status === 'not available' ? 'none' : 'auto' }}
                     >
                       <span>{slot.time}</span>
                       <span className={`block text-sm ${slot.status === 'requested' ? 'text-green-700' : ''}`}>{slot.status}</span>
@@ -177,8 +178,15 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
       {/* Booking Confirmation Modal */}
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
         <div className="flex flex-col justify-center items-center p-6 bg-white rounded-lg shadow-lg">
-          <h2 className="text-xl font-bold mb-4">Confirm Booking</h2>
-          <p>Are you sure you want to book the slot at {selectedSlot?.time} on {selectedSlot?.date}?</p>
+          <h2 className="text-xl font-bold mb-4">Change Slot Status</h2>
+          <p>Select the new status for the slot at {selectedSlot?.time} on {selectedSlot?.date}:</p>
+          <div className="mt-4">
+            <select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)} className="p-2 border border-gray-300 rounded">
+              <option value="booked">Book this slot</option>
+              <option value="not available">Mark as Not Available</option>
+              <option value="available">Mark as Available</option>
+            </select>
+          </div>
           <div className="mt-4">
             <button className="bg-green-500 text-white p-2 rounded mr-2" onClick={handleBookingConfirm}>Confirm</button>
             <button className="bg-red-500 text-white p-2 rounded" onClick={() => setOpenModal(false)}>Cancel</button>

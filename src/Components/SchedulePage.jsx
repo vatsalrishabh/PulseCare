@@ -8,6 +8,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { BaseUrl } from './BaseUrl';
 import { ThreeDots } from 'react-loader-spinner';
 import Payment from './Payment';
+import Tooltip from '@mui/material/Tooltip';
 
 const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -49,7 +50,7 @@ const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
   };
 
   const handleSlotSelect = (slot, date) => {
-    if (slot.status === 'booked') return;
+    if (slot.status === 'not available' || slot.status === 'booked') return; // Prevent selection for not available or booked slots
     setSelectedSlot({ ...slot, date });
     setPaymentComponentVisible(true); // Trigger payment component display
     setOpenModal(true);
@@ -148,18 +149,28 @@ const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
                 <div key={index} className="inline-block mb-6 w-80 text-center border-2 border-custom-gray0 rounded-lg shadow-lg bg-white transition-all duration-300">
                   <h2 className="text-2xl font-semibold text-custom-maroon2 mb-4">{date}</h2>
                   <ul>
-                    {slots.map((slot, idx) => (
-                      <li
-                        key={idx}
-                        className={`mb-3 p-2 border border-custom-maroon rounded-lg 
-                        ${slot.status === 'booked' ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-custom-graybg text-custom-maroon2 cursor-pointer'}`}
-                        onClick={() => handleSlotSelect(slot, date)}
-                        style={{ pointerEvents: slot.status === 'booked' ? 'none' : 'auto' }}
-                      >
-                        <span>{slot.time}</span>
-                        <span className={`block text-sm ${slot.status === 'requested' ? 'text-green-700' : ''}`}>{slot.status}</span>
-                      </li>
-                    ))}
+                    {slots.map((slot, idx) => {
+                      const isNotAvailable = slot.status === 'not available';
+                      return (
+                        <Tooltip
+                          title={isNotAvailable ? "Doctor not available" : ""}
+                          arrow
+                          key={idx}
+                        >
+                          <li
+                            className={`mb-3 p-2 border border-custom-maroon rounded-lg 
+                            ${isNotAvailable ? 'bg-red-500 text-white cursor-not-allowed' : 
+                              slot.status === 'booked' ? 'bg-gray-400 text-white cursor-not-allowed' : 
+                              'bg-custom-graybg text-custom-maroon2 cursor-pointer'}`}
+                            onClick={() => handleSlotSelect(slot, date)}
+                            style={{ pointerEvents: isNotAvailable || slot.status === 'booked' ? 'none' : 'auto' }}
+                          >
+                            <span>{slot.time}</span>
+                            <span className={`block text-sm ${slot.status === 'requested' ? 'text-green-700' : ''}`}>{slot.status}</span>
+                          </li>
+                        </Tooltip>
+                      );
+                    })}
                   </ul>
                 </div>
               );
