@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, Typography, Button, Grid } from '@mui/material';
 import { CalendarToday, History, LocalHospital } from '@mui/icons-material';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const PatientDashboard = () => {
+  useEffect
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-custom-graybg p-6">
       <h1 className="text-3xl font-bold text-custom-maroon mb-6">Patient Dashboard</h1>
       
       <Grid container spacing={3}>
+
+  {/* Additional Section (e.g., Health Tips) */}
+  <Grid item xs={12} md={6}>
+          <Card className="bg-white shadow-lg transition-transform duration-300 hover:scale-105">
+            <CardContent>
+              <Typography variant="h5" component="div" className="flex items-center">
+                <span className="material-icons mr-2 text-custom-maroon0">old medecines</span>
+              Patient Profile
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Get the latest health tips and advice from our experts.
+              </Typography>
+              <Link to="/patientprofile" style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary" className="mt-4" style={{ backgroundColor: '#71a113' }}>
+                  Learn More
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </Grid>
+
         {/* Upcoming Appointments Section */}
         <Grid item xs={12} md={6}>
           <Card className="bg-white shadow-lg transition-transform duration-300 hover:scale-105">
@@ -69,25 +91,8 @@ const PatientDashboard = () => {
           </Card>
         </Grid>
 
-        {/* Additional Section (e.g., Health Tips) */}
-        <Grid item xs={12} md={6}>
-          <Card className="bg-white shadow-lg transition-transform duration-300 hover:scale-105">
-            <CardContent>
-              <Typography variant="h5" component="div" className="flex items-center">
-                <span className="material-icons mr-2 text-custom-maroon0">health_and_safety</span>
-                Health Tips
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Get the latest health tips and advice from our experts.
-              </Typography>
-              <Link to="/health-tips" style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary" className="mt-4" style={{ backgroundColor: '#71a113' }}>
-                  Learn More
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </Grid>
+      
+        
       </Grid>
     </div>
   );

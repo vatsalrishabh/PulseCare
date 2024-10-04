@@ -5,6 +5,7 @@ import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import OtpInput from "react-otp-input";
 import { BaseUrl } from "./BaseUrl";
+import SnackBarAlert from '../Components/SnackBarAlert'
 
 const DoctorLoginForm = () => {
   const [showLogin, setShowLogin] = useState(true);
@@ -25,6 +26,7 @@ const DoctorLoginForm = () => {
   // Doctor login form data starts
   const [doctorLoginEmail, setDoctorLoginEmail] = useState("");
   const [doctorLoginPassword, setLoginPassword] = useState("");
+  const [alert, setAlert] = useState({ message: "", status: "99" }); //no alert or Snackbar when status is 99
 
   const [otp, setOtp] = useState("");
 
@@ -58,11 +60,44 @@ const DoctorLoginForm = () => {
 
       if (loginResponse.status === 200) {
         console.log(loginResponse.status);
-        localStorage.setItem()
+    //  console.log(loginResponse.data.DoctorDetails);
+    localStorage.setItem("doctorDetails", JSON.stringify({ 
+      ...loginResponse.data.DoctorDetails, 
+      isLoggedIn: true 
+  }));
+  
+
+
+     setAlert({
+      message: "Logged in Successfully!.",
+      status: "200",
+    });
+    setTimeout(() => {
+      setAlert({ message: "", status: "99" });
+      location.reload();
+    }, 5000);
         // create session and context based on the logic
       }
     } catch (error) {
       console.error(error);
+      if (error.response && error.response.status === 400) {
+        setAlert({
+          message: "Incorrect Password.",
+          status: "400",
+        });
+        setTimeout(() => {
+          setAlert({ message: "", status: "99" });
+        }, 5000);
+      }
+      if (error.response && error.response.status === 404) {
+        setAlert({
+          message: "Email is not registered!",
+          status: "404",
+        });
+        setTimeout(() => {
+          setAlert({ message: "", status: "99" });
+        }, 5000);
+      }
     }
   };
 
@@ -175,6 +210,7 @@ if(registrationForm.doctorPassword!==registrationForm.doctorConPassword){
 
   return (
     <div className="Doctor-login-form bg-custom-graybg">
+       <SnackBarAlert message={alert.message} statusCode={alert.status} />
       {/* Breadcrum starts */}
       <div className="p-8">
         <Breadcrumb aria-label="Default breadcrumb example">

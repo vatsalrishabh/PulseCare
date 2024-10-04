@@ -31,12 +31,19 @@ import PaymentSuccess from "./Components/PaymentSuccess";
 import SelectDiseaseType from "./Components/SelectDiseaseType";
 import UpcomingApp from "./Components/UpcomingApp";
 import PatientHistory from "./Components/PatientHistory";
+import DoctorNavbar from "./Components/DoctorDashboard/DoctorNavbar";
+import AllPatientProfile from "./Components/DoctorDashboard/AllPatientProfile";
+import PatientProfile from "./Components/PatientProfile";
+import ManageAppointments from "./Components/DoctorDashboard/ManageAppointments";
+import PrescribeMedicine from "./Components/PrescribeMedicine";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
   const [loggedInDoctor, setLoggedInDoctor] = useState({});
 
   useEffect(() => {
+
+// load user details from local storage immediately
     const loadUserDetails = () => {
       const storedUserDetails = localStorage.getItem('userDetails');
       if (storedUserDetails) {
@@ -44,9 +51,22 @@ function App() {
         setLoggedInUser(userDetails);
       }
     };
-
-    // Load user details immediately
     loadUserDetails();
+// loaduserdeails immediatellly
+
+// load docotors details immdediately
+const loadDoctorDetails = () => {
+  const storedDoctorDetails = localStorage.getItem('doctorDetails');
+  if (storedDoctorDetails) {
+    const doctorDetails = JSON.parse(storedDoctorDetails);
+    setLoggedInDoctor(doctorDetails);
+  }
+};
+loadDoctorDetails();
+// load docotors details immdediately
+
+
+
 
     // Set a timeout to re-render (update user details) every 2 seconds
     const intervalId = setInterval(() => {
@@ -87,13 +107,71 @@ function App() {
               <Footer />
             </>
           } />
-          <Route path="/doctorlogin" element={loggedInDoctor.isloggedIn ? <DoctorDashboard /> : (
+
+
+{/* all the dcotors routes below */}
+          <Route path="/doctorlogin" element={loggedInDoctor.isLoggedIn ?
+          <>
+          <DoctorNavbar/>
+          <DoctorDashboard /> 
+          <Footer/>
+          </>
+           : (
             <>
               <Navbar />
               <DoctorLogin />
               <Footer />
             </>
           )} />
+
+           <Route path="/allpatientprofile" element={loggedInDoctor.isLoggedIn ?
+          <>
+          <DoctorNavbar/>
+          <AllPatientProfile /> 
+          <Footer/>
+          </>
+           : (
+            <>
+              <Navbar />
+              <DoctorLogin />
+              <Footer />
+            </>
+          )} />
+
+
+
+<Route path="/manageAppoint" element={loggedInDoctor.isLoggedIn ?
+          <>
+          <DoctorNavbar/>
+          <ManageAppointments /> 
+          <Footer/>
+          </>
+           : (
+            <>
+              <Navbar />
+              <DoctorLogin />
+              <Footer />
+            </>
+          )} />
+<Route path="/prescriptions" element={loggedInDoctor.isLoggedIn ?
+          <>
+          <DoctorNavbar/>
+          <PrescribeMedicine /> 
+          <Footer/>
+          </>
+           : (
+            <>
+              <Navbar />
+              <DoctorLogin />
+              <Footer />
+            </>
+          )} />
+
+
+
+
+
+
           <Route path="/aboutus" element={
             <>
               <Navbar />
@@ -110,6 +188,7 @@ function App() {
               <Footer />
             </>
           } />
+
           <Route path="/pdash" element={loggedInUser.isloggedIn ? (
             <>
               <PatientNavbar />
@@ -118,6 +197,16 @@ function App() {
               <Footer />
             </>
           ) : <PatientNotLoggedIn />} />
+           <Route path="/patientprofile" element={loggedInUser.isloggedIn ? (
+            <>
+              <PatientNavbar />
+              <PatientProfile />
+              <ChatBotButton />
+              <Footer />
+            </>
+          ) : <PatientNotLoggedIn />} />
+
+
           <Route path="/selectDis" element={loggedInUser.isloggedIn ? (
             <>
               <PatientNavbar />
