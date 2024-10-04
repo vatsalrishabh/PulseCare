@@ -50,7 +50,6 @@ const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
 
   const handleSlotSelect = (slot, date) => {
     if (slot.status === 'booked') return;
-
     setSelectedSlot({ ...slot, date });
     setPaymentComponentVisible(true); // Trigger payment component display
     setOpenModal(true);

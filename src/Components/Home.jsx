@@ -11,14 +11,14 @@ import './Chatbot.css'
 
 const Home = () => {
   const [displayBot,handleBotDisplay] = useState(false);
-  useEffect(() => {
-    console.log("Home component mounted");
+  // useEffect(() => {
 
-    // Cleanup function
-    return () => {
-      console.log("Home component unmounted");
-    };
-  }, []); // Empty dependency array means this runs once on mount and unmount
+
+  //   // Cleanup function
+  //   return () => {
+  //     console.log("Home component unmounted");
+  //   };
+  // }, []); // Empty dependency array means this runs once on mount and unmount
 
 
 

@@ -1,21 +1,22 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import OtpInput from "react-otp-input";
 import { BaseUrl } from "./BaseUrl";
-import { SuccessAlert, ErrorAlert, FailedAlert }  from "./Alerts";
-import {LoginContext} from '../context/LoginContext'
+import { SuccessAlert, ErrorAlert, FailedAlert } from "./Alerts";
+import { LoginContext } from "../context/LoginContext";
+import SnackBarAlert from "./SnackBarAlert";
 
 const PatientLoginForm = () => {
   const navigate = useNavigate();
-  const {loggedInUser, setLoggedInUser } = useContext(LoginContext);
+  const { loggedInUser, setLoggedInUser } = useContext(LoginContext);
   const [showLogin, setShowLogin] = useState(true);
   const [hideOtpModal, setHideOtpModal] = useState("hidden"); //initially hide otp modal
   const [isOtpCorrect, setIsOtpCorrect] = useState(false);
-  const [loginSuccessAlert,setLoginSuccessAlert] = useState(false);
-  const [wrongPassCpassAlert,setwrongPassCpassAlert] = useState(false);
+  const [loginSuccessAlert, setLoginSuccessAlert] = useState(false);
+  const [wrongPassCpassAlert, setwrongPassCpassAlert] = useState(false);
 
   // Patient Registration form data starts
   const [patientName, setName] = useState("");
@@ -32,6 +33,8 @@ const PatientLoginForm = () => {
   const [patientLoginPassword, setLoginPassword] = useState("");
 
   const [otp, setOtp] = useState("");
+  const [alert, setAlert] = useState({ message: "", status: "99" }); //no alert or Snackbar when status is 99
+
   // const { isloggedIn, loginUser, logoutUser, isAuthenticated } = useContext(LoginContext);
 
   const displayLogin = () => {
@@ -43,12 +46,12 @@ const PatientLoginForm = () => {
   };
 
   // login api hit starts
-  const loginSuccessAlertf = async()=>{
-   setLoginSuccessAlert(true);
-    setTimeout(()=>{
+  const loginSuccessAlertf = async () => {
+    setLoginSuccessAlert(true);
+    setTimeout(() => {
       setLoginSuccessAlert(false);
-    },3000);
-  }
+    }, 3000);
+  };
   const loginPatient = async (e) => {
     e.preventDefault();
     const loginForm = {
@@ -68,35 +71,61 @@ const PatientLoginForm = () => {
       );
 
       if (loginResponse.status === 200) {
-        setLoggedInUser({ isloggedIn: true,
+        setLoggedInUser({
+          isloggedIn: true,
           jwt: loginResponse.data.patientDetails,
-          userId: '',
-          email: loginResponse.data.email});
-          
-// localStorage code below 
-          localStorage.setItem('userDetails', JSON.stringify({
+          userId: "",
+          email: loginResponse.data.email,
+        });
+
+        localStorage.setItem(
+          "userDetails",
+          JSON.stringify({
             isloggedIn: true,
             jwt: loginResponse.data.patientDetails,
-            userId: '',
+            userId: "",
             email: loginResponse.data.email,
             contact: loginResponse.data.contact,
             name: loginResponse.data.name,
-        }));
-// localStorage code above
-
+          })
+        );
+        setAlert({ message: "Logged in Successfully!", status: "200" });
+        // localStorage code above
+        setTimeout(() => {
           navigate("/pdash");
+        }, 3000);
       }
     } catch (error) {
-      console.error(error);
+      // Corrected error handling
+      if (error.response && error.response.status === 404) {
+        setAlert({
+          message: "User not registered in database.",
+          status: "404",
+        });
+        setTimeout(() => {
+          setAlert({ message: "", status: "99" });
+        }, 5000);
+      } else if (error.response && error.response.status === 400) {
+        setAlert({ message: "Incorrect Password !", status: "400" });
+        setTimeout(() => {
+          setAlert({ message: "", status: "99" });
+        }, 5000);
+      } else {
+        console.error(error);
+        setAlert({
+          message: "Something went wrong! Server issue",
+          status: "500",
+        });
+        setTimeout(() => {
+          setAlert({ message: "", status: "99" });
+        }, 5000);
+      }
     }
   };
-
-
 
   // registration api hit starts
   const handlePatientRegistration = async (e) => {
     e.preventDefault();
-
 
     const registrationForm = new FormData();
     registrationForm.append("name", patientName);
@@ -107,25 +136,23 @@ const PatientLoginForm = () => {
     registrationForm.append("age", patientAge);
     registrationForm.append("sex", patientSex);
 
+    //confim password and cpassword should be same
+    if (patientPassword !== patientConPassword) {
+      console.log("Passwords do not match!");
+      
+        //   message: "Password and confirm password does not match",
+        //   status: "500",
+        // });
+        // setTimeout(() => {
+        //   setAlert({ message: "", status: "99" });
+        // }, 5000);
 
-
-
-
-  //confim password and cpassword should be same
-  if (patientPassword !== patientConPassword) {
-    console.log("Passwords do not match!");
       setwrongPassCpassAlert(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         setwrongPassCpassAlert(false);
-      },3000) // Optionally show an alert or update the UI
-    return; // Prevent further execution if passwords don't match
-  }
- 
-
-
-
-
-
+      }, 3000); // Optionally show an alert or update the UI
+      return; // Prevent further execution if passwords don't match
+    }
 
     try {
       const response = await axios.post(
@@ -146,13 +173,20 @@ const PatientLoginForm = () => {
         console.error("Registration failed!");
       }
     } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setAlert({
+          message: "This email is already registered",
+          status: "400",
+        });
+        setTimeout(() => {
+          setAlert({ message: "", status: "99" });
+        }, 5000);
+      console.error("An error occurred:", error);
+    }
       console.error("An error occurred:", error);
     }
   };
 
-  // Otp verification axios starts below
-  // Otp verification axios starts below
-  // Otp verification axios starts below
   const verifyOtp = async (e) => {
     // Ensure to prevent default form submission
 
@@ -166,8 +200,6 @@ const PatientLoginForm = () => {
       email: patientEmail,
       otp: otp,
     };
-
-    // console.log("verify otp executed");
 
     try {
       const response = await axios.post(
@@ -183,9 +215,9 @@ const PatientLoginForm = () => {
       if (response.status === 200) {
         console.log("OTP verified, registration done");
         setIsOtpCorrect("correct"); // verify it matches make that true
-        loginUser('sample-jwt-token', 'patient', 'user-id', 'user@example.com');
+        // loginUser("sample-jwt-token", "patient", "user-id", "user@example.com");
         setTimeout(() => {
-          // goto dashboard and finish Login.
+          navigate("/pdash");
         }, 2000);
         setHideOtpModal("hidden");
       } else {
@@ -196,24 +228,39 @@ const PatientLoginForm = () => {
         console.error("Registration failed!");
       }
     } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setAlert({
+          message: "Invalid OTP. Please try again.",
+          status: "400",
+        });
+        setTimeout(() => {
+          setAlert({ message: "", status: "99" });
+        }, 5000);
+      }if(error.response && error.response.status === 500){
+        setAlert({
+          message: "Something went wrong! Server issue",
+          status: "500",
+        });
+        setTimeout(() => {
+          setAlert({ message: "", status: "99" });
+        }, 5000);
+      }
       console.error("An error occurred:", error);
     }
+    setOtp(""); //clear the otp field after clicking the submit button
   };
   // Otp verification axios ends
 
-  // Otp verification axios ends
-
-  // Otp verification axios ends
-
-  // when the 6 digit otp entered then form autosubmit
-  useEffect(() => {
-    if (otp.length == 6) {
-      verifyOtp();
-    }
-  }, [otp]);
+  // useEffect(() => {
+  //   if (otp.length == 6) {
+  //     verifyOtp();
+  //   }
+  // }, [otp]);
 
   return (
     <div className="Patient-login-form bg-custom-graybg">
+      <SnackBarAlert message={alert.message} statusCode={alert.status} />
+
       {/* Breadcrum starts */}
       <div className="p-8">
         <Breadcrumb aria-label="Default breadcrumb example">
@@ -227,10 +274,18 @@ const PatientLoginForm = () => {
       </div>
       {/* Breadcrum ends */}
 
-  {loginSuccessAlert?<SuccessAlert message="Logged in successfully!"/>:""}
-  {wrongPassCpassAlert?<ErrorAlert message="Password and Confirm Password do not match!"/>:""}
- {/* <ErrorAlert message="Wrong Password !"/> */}
-  {/* <FailedAlert message="Unauthorized!"/>  */}
+      {loginSuccessAlert ? (
+        <SuccessAlert message="Logged in successfully!" />
+      ) : (
+        ""
+      )}
+      {wrongPassCpassAlert ? (
+        <ErrorAlert message="Password and Confirm Password do not match!" />
+      ) : (
+        ""
+      )}
+      {/* <ErrorAlert message="Wrong Password !"/> */}
+      {/* <FailedAlert message="Unauthorized!"/>  */}
 
       <div className="w-full flex justify-center align-middle">
         {/* Otp verification Modal starts */}
@@ -267,13 +322,13 @@ const PatientLoginForm = () => {
                   Please enter the OTP which was sent to your email:{" "}
                   <strong>{patientEmail}</strong>.
                 </p>
-                {isOtpCorrect ? (
+                {!isOtpCorrect ? (
                   <p className="mb-5 text-lg font-normal text-red-700 dark:text-red-700">
-                    Incorrect Otp
+                 
                   </p>
                 ) : (
                   <p className="mb-5 text-lg font-normal text-green-500 dark:text-green-500">
-                    {/* Render this if condition is false */}
+                      Account Created Successfully! 
                   </p>
                 )}
 
@@ -298,10 +353,17 @@ const PatientLoginForm = () => {
                 <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"></h3>
                 <div
                   data-modal-hide="popup-modal"
+                  onClick={verifyOtp}
+                  className=" mx-2 text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                >
+               Submit Otp
+                </div>
+                <div
+                  data-modal-hide="popup-modal "
                   onClick={(e) => {
                     handlePatientRegistration(e);
                   }}
-                  className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                  className="mx-2 text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                 >
                   Resend OTP
                 </div>

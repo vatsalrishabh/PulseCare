@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { createBrowserRouter, RouterProvider, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Loader from "./Components/Loader";
 import AboutUs from "./Components/AboutUs";
 import BookAnAppointment from "./Components/BookAnAppointment";
@@ -35,241 +35,163 @@ import PatientHistory from "./Components/PatientHistory";
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
   const [loggedInDoctor, setLoggedInDoctor] = useState({});
-  
 
-useEffect(() => {
-  const loadUserDetails = () => {
-    const storedUserDetails = localStorage.getItem('userDetails');
-    if (storedUserDetails) {
-      const userDetails = JSON.parse(storedUserDetails);
-      setLoggedInUser(userDetails);
-    }
-  };
+  useEffect(() => {
+    const loadUserDetails = () => {
+      const storedUserDetails = localStorage.getItem('userDetails');
+      if (storedUserDetails) {
+        const userDetails = JSON.parse(storedUserDetails);
+        setLoggedInUser(userDetails);
+      }
+    };
 
-  // Load user details immediately
-  loadUserDetails();
+    // Load user details immediately
+    loadUserDetails();
 
-  // Set a timeout to re-render (update user details) after 2 seconds
-  const timeoutId = setTimeout(() => {
-    loadUserDetails(); // Call the function again to fetch user details
-  }, 2000); // 2000 milliseconds = 2 seconds
+    // Set a timeout to re-render (update user details) every 2 seconds
+    const intervalId = setInterval(() => {
+      loadUserDetails(); // Call the function to fetch user details
+    }, 2000); // 2000 milliseconds = 2 seconds
 
-  // Cleanup the timeout on component unmount
-  return () => clearTimeout(timeoutId);
-}, []);
-
-
-
-  
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Loader />,
-      errorElement: <PageNotFound />,
-    },
-    {
-      path: "/home",
-      element: (
-        <>
-          <Navbar />
-          <Home />
-          <ChatBotButton />
-          <Footer />
-        </>
-      ),
-    },
-    {
-      path: "/pres",
-      element: <Prescription />,
-    },
-    {
-      path: "/patientlogin",
-      element: (
-        <>
-          <Navbar />
-          <PatientLogin />
-          <ChatBotButton />
-          <Footer />
-        </>
-      ),
-    },
-    {
-      path: "/patientforgotPass",
-      element: (
-        <>
-          <Navbar />
-          <PatientForgotPass />
-          <ChatBotButton />
-          <Footer />
-        </>
-      ),
-    },
-    {
-      path: "/doctorlogin",
-      element: loggedInDoctor.isloggedIn ? <DoctorDashboard /> : (
-        <>
-          <Navbar />
-          <DoctorLogin />
-          <Footer />
-        </>
-      ),
-    },
-    {
-      path: "/aboutus",
-      element: (
-        <>
-          <Navbar />
-          <AboutUs />
-          <ChatBotButton />
-          <Footer />
-        </>
-      ),
-    },
-    {
-      path: "/contactus",
-      element: (
-        <>
-          <Navbar />
-          <ContactUs />
-          <ChatBotButton />
-          <Footer />
-        </>
-      ),
-    },
-    {
-      path: "/pdash",
-      element: loggedInUser.isloggedIn ? (
-        <>
-      <PatientNavbar/>
-          <PatientDashboard />
-          <ChatBotButton />
-          <Footer />
-        </>
-      ) : <PatientNotLoggedIn />,
-    },
-    {
-      path: "/selectDis",
-      element: loggedInUser.isloggedIn ? (
-        <>
-      <PatientNavbar/>
-     <SelectDiseaseType/>
-          <ChatBotButton />
-          <Footer />
-        </>
-      ) : <PatientNotLoggedIn />,
-    },
-    {
-      path: "/history",
-      element: loggedInUser.isloggedIn ? (
-        <>
-      <PatientNavbar/>
-     <PatientHistory/>
-          <ChatBotButton />
-          <Footer />
-        </>
-      ) : <PatientNotLoggedIn />,
-    },
-    {
-      path: "/appointments",
-      element: loggedInUser.isloggedIn ? (
-        <>
-      <PatientNavbar/>
-   <UpcomingApp/>
-          <ChatBotButton />
-          <Footer />
-        </>
-      ) : <PatientNotLoggedIn />,
-    },
-
-   
-    {
-      path: "/payment",
-      element: loggedInUser.isloggedIn ? <Payment /> : <PatientNotLoggedIn />,
-    },
-    {
-      path: "/payment-success",
-      element: loggedInUser.isloggedIn ? <PaymentSuccess/> : <PatientNotLoggedIn />,
-    },
-    {
-      path: "/bookappointment",
-      element: (
-        <>
-          <Navbar />
-          <BookAnAppointment />
-          <ChatBotButton />
-          <Footer />
-        </>
-      ),
-    },
-    {
-      path: "/schedulepage",
-      element: loggedInUser.isloggedIn ? <SchedulePage /> : <PatientNotLoggedIn />,
-    },
-    {
-      path: "/cancel",
-      element: (
-        <>
-          <Navbar />
-          <CancellationRefundPolicies />
-          <Footer />
-        </>
-      ),
-    },
-    {
-      path: "/privacy",
-      element: (
-        <>
-          <Navbar />
-          <PrivacyPolicy />
-          <Footer />
-        </>
-      ),
-    },
-    {
-      path: "/shipping",
-      element: (
-        <>
-          <Navbar />
-          <ShippingDelivery />
-          <Footer />
-        </>
-      ),
-    },
-    {
-      path: "/terms",
-      element: (
-        <>
-          <Navbar />
-          <TermsConditions />
-          <Footer />
-        </>
-      ),
-    },
-     {
-      path: "/videocall",
-      element: (
-        <>
-        <VideoCall/>
-        </>
-      ),
-    },
-    {
-      path: "*",
-      element: (
-        <>
-          <Navbar />
-          <PageNotFound />
-          <Footer />
-        </>
-      ),
-    },
-  ]);
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
-    <div className="h-full">
-      <RouterProvider router={router} />
-    </div>
+    <Router>
+      <div className="h-full">
+        <Routes>
+          <Route path="/" element={<Loader />} />
+          <Route path="/home" element={
+            <>
+              <Navbar />
+              <Home />
+              <ChatBotButton />
+              <Footer />
+            </>
+          } />
+          <Route path="/pres" element={<Prescription />} />
+          <Route path="/patientlogin" element={
+            <>
+              <Navbar />
+              <PatientLogin />
+              <ChatBotButton />
+              <Footer />
+            </>
+          } />
+          <Route path="/patientforgotPass" element={
+            <>
+              <Navbar />
+              <PatientForgotPass />
+              <ChatBotButton />
+              <Footer />
+            </>
+          } />
+          <Route path="/doctorlogin" element={loggedInDoctor.isloggedIn ? <DoctorDashboard /> : (
+            <>
+              <Navbar />
+              <DoctorLogin />
+              <Footer />
+            </>
+          )} />
+          <Route path="/aboutus" element={
+            <>
+              <Navbar />
+              <AboutUs />
+              <ChatBotButton />
+              <Footer />
+            </>
+          } />
+          <Route path="/contactus" element={
+            <>
+              <Navbar />
+              <ContactUs />
+              <ChatBotButton />
+              <Footer />
+            </>
+          } />
+          <Route path="/pdash" element={loggedInUser.isloggedIn ? (
+            <>
+              <PatientNavbar />
+              <PatientDashboard />
+              <ChatBotButton />
+              <Footer />
+            </>
+          ) : <PatientNotLoggedIn />} />
+          <Route path="/selectDis" element={loggedInUser.isloggedIn ? (
+            <>
+              <PatientNavbar />
+              <SelectDiseaseType />
+              <ChatBotButton />
+              <Footer />
+            </>
+          ) : <PatientNotLoggedIn />} />
+          <Route path="/history" element={loggedInUser.isloggedIn ? (
+            <>
+              <PatientNavbar />
+              <PatientHistory />
+              <ChatBotButton />
+              <Footer />
+            </>
+          ) : <PatientNotLoggedIn />} />
+          <Route path="/appointments" element={loggedInUser.isloggedIn ? (
+            <>
+              <PatientNavbar />
+              <UpcomingApp />
+              <ChatBotButton />
+              <Footer />
+            </>
+          ) : <PatientNotLoggedIn />} />
+          <Route path="/payment" element={loggedInUser.isloggedIn ? <Payment /> : <PatientNotLoggedIn />} />
+          <Route path="/payment-success" element={loggedInUser.isloggedIn ? <PaymentSuccess /> : <PatientNotLoggedIn />} />
+          <Route path="/bookappointment" element={
+            <>
+              <Navbar />
+              <BookAnAppointment />
+              <ChatBotButton />
+              <Footer />
+            </>
+          } />
+          <Route path="/schedulepage" element={loggedInUser.isloggedIn ? <SchedulePage /> : <PatientNotLoggedIn />} />
+          <Route path="/cancel" element={
+            <>
+              <Navbar />
+              <CancellationRefundPolicies />
+              <Footer />
+            </>
+          } />
+          <Route path="/privacy" element={
+            <>
+              <Navbar />
+              <PrivacyPolicy />
+              <Footer />
+            </>
+          } />
+          <Route path="/shipping" element={
+            <>
+              <Navbar />
+              <ShippingDelivery />
+              <Footer />
+            </>
+          } />
+          <Route path="/terms" element={
+            <>
+              <Navbar />
+              <TermsConditions />
+              <Footer />
+            </>
+          } />
+          <Route path="/videocall" element={<VideoCall />} />
+          <Route path="*" element={
+            <>
+              <Navbar />
+              <PageNotFound />
+              <Footer />
+            </>
+          } />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
