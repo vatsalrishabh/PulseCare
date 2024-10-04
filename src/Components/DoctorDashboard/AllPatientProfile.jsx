@@ -20,6 +20,7 @@ import { styled } from '@mui/material/styles';  // Import styled
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import { BreadCrumb } from './BreadCrumb';
 
 const style = {
   position: 'absolute',
@@ -182,12 +183,7 @@ const AllPatientProfile = () => {
 
   return (
     <div className="p-4 h-[70vh]">
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link to="/home" className="flex items-center">
-          <HomeIcon /> Home
-        </Link>
-        <Typography color="text.primary">Patient Profiles</Typography>
-      </Breadcrumbs>
+      <BreadCrumb first="Doctor Dashboard" second="Patient Profile" firstLink="/doctorlogin" secondLink="/allpatientprofile" />
 
       <h1 className="text-2xl font-bold my-4">Patient Profiles</h1>
 

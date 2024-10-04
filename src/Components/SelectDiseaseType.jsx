@@ -5,6 +5,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { Search, ArrowForward } from '@mui/icons-material';
 import { Button, Typography, Paper } from '@mui/material';
 import SchedulePage from './SchedulePage';
+import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 
 const diseaseTypes = [
   { label: 'Diabetes' },
@@ -54,6 +55,7 @@ const SelectDiseaseType = () => {
         className={`flex flex-col items-center justify-center h-screen bg-gradient-to-r from-custom-graybg to-custom-green p-6`}
       >
         <Paper elevation={3} className="p-6 rounded-lg shadow-lg w-full max-w-md">
+        <BreadCrumb first="Patient Dashboard" second="Appointment Booking" firstLink="/pdash" secondLink="/selectDis" />
           <Typography variant="h4" className="text-custom-maroon text-center font-bold mb-4">
             Appointment Booking
           </Typography>

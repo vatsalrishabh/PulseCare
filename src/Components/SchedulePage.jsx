@@ -9,6 +9,7 @@ import { BaseUrl } from './BaseUrl';
 import { ThreeDots } from 'react-loader-spinner';
 import Payment from './Payment';
 import Tooltip from '@mui/material/Tooltip';
+import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 
 const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -118,6 +119,7 @@ const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
       />
     ) : (
       <>
+           <BreadCrumb first="Patient Dashboard" second="Appointment Booking" firstLink="/pdash" secondLink="/selectDis" />
         <h1 className="text-3xl font-extrabold text-custom-maroon mb-6 text-center">Available Dates</h1>
         <p>Selected Disease: {selectedDisease}</p>
         <p>Selected Doctor: {selectedDoctor?.name} (ID: {selectedDoctor?.id})</p>

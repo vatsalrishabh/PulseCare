@@ -7,6 +7,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { BaseUrl } from '../BaseUrl';
 import { ThreeDots } from 'react-loader-spinner';
+import { BreadCrumb } from './BreadCrumb';
 
 const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -104,9 +105,11 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
 
   return (
     <>
-      <h1 className="text-3xl font-extrabold text-custom-maroon mb-6 text-center">Available Dates</h1>
-      <p>Selected Disease: {selectedDisease}</p>
-      <p>Selected Doctor: {selectedDoctor?.name} (ID: {selectedDoctor?.id})</p>
+      <h1 className="text-3xl font-extrabold text-custom-maroon mb-6 text-center">
+      <BreadCrumb first="Doctor Dashboard" second="Manage Appointment" firstLink="/doctorlogin" secondLink="/manageAppoint" />
+        Available Dates</h1>
+      {/* <p>Selected Disease: {selectedDisease}</p>
+      <p>Selected Doctor: {selectedDoctor?.name} (ID: {selectedDoctor?.id})</p> */}
 
       <div className="relative flex items-center w-full bg-custom-graybg p-4 rounded-lg overflow-hidden">
         {loading && (

@@ -14,6 +14,7 @@ import {
 import InfoIcon from '@mui/icons-material/Info';
 import { Link } from 'react-router-dom';
 import PrescribeModal from './PrescribeModal';
+import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 
 const PrescribeMedicine = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -48,10 +49,7 @@ const PrescribeMedicine = () => {
 
   return (
     <div className="p-5">
-      <Breadcrumbs aria-label="breadcrumb" className="mb-4">
-        <Link to="/doctorlogin" className="text-blue-600 hover:text-blue-800">Home</Link>
-        <Typography color="text.primary">Prescribe Medicine</Typography>
-      </Breadcrumbs>
+     <BreadCrumb first="Doctor Dashboard" second="Treatment/Prescription" firstLink="/doctorlogin" secondLink="/prescriptions" />
 
       <TableContainer component={Paper} elevation={3} className="shadow-lg transition-shadow duration-300">
         <Table>

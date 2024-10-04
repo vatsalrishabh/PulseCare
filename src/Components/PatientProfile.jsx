@@ -20,6 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import axios from 'axios';
 import { BaseUrl } from './BaseUrl';
+import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 
 const PatientProfile = () => {
     const [loggedInUser, setLoggedInUser] = useState({})
@@ -80,10 +81,10 @@ const PatientProfile = () => {
 
   return (
     <Paper elevation={3} style={{ padding: '20px' }}>
+            <BreadCrumb first="Patient Dashboard" second="Patient Profile" firstLink="/pdash" secondLink="/patientprofile" />
       <Typography variant="h4" gutterBottom>
-        Patient Medical History
+        Patient Profile
       </Typography>
-
       {/* Allergies Section */}
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Card, CardContent, Typography, Tooltip } from '@mui/material';
 import { FaCopy, FaLink, FaRegCalendarAlt, FaUserMd } from 'react-icons/fa';
+import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 
 const appointments = [
   {
@@ -33,7 +34,7 @@ const UpcomingApp = () => {
   return (
     <div className="bg-gray-100 min-h-screen p-6">
       <Typography variant="h4" className="font-semibold text-gray-800 mb-6">Upcoming Appointments</Typography>
-
+      <BreadCrumb first="Doctor Dashboard" second="Upcoming Appointments" firstLink="/doctorlogin" secondLink="/appointments" />
       {appointments.length === 0 ? (
         <Typography className="text-gray-600">No upcoming appointments.</Typography>
       ) : (

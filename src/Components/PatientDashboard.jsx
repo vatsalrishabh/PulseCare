@@ -2,11 +2,14 @@ import React, { useEffect } from 'react';
 import { Card, CardContent, Typography, Button, Grid } from '@mui/material';
 import { CalendarToday, History, LocalHospital } from '@mui/icons-material';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 
 const PatientDashboard = () => {
   useEffect
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-custom-graybg p-6">
+    <>
+      <BreadCrumb first="Patient Dashboard" second="" firstLink="/pdash" secondLink="/" />
+      <div className="flex flex-col items-center justify-center min-h-screen bg-custom-graybg p-6">
       <h1 className="text-3xl font-bold text-custom-maroon mb-6">Patient Dashboard</h1>
       
       <Grid container spacing={3}>
@@ -95,6 +98,8 @@ const PatientDashboard = () => {
         
       </Grid>
     </div>
+    </>
+ 
   );
 };
 

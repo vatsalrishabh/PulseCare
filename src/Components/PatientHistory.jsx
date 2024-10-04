@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, CardContent, Typography, Modal, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import { FaFileUpload, FaPills, FaCalendarCheck, FaClipboardList, FaTimes, FaDownload, FaFlask } from 'react-icons/fa';
+import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 
 const prescriptions = [
   { date: '2024-10-01', medicines: [
@@ -47,6 +48,7 @@ const PatientHistory = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen p-6">
+        <BreadCrumb first="Patient Dashboard" second="Patient History" firstLink="/pdash" secondLink="/history" />
       <Typography variant="h4" className="font-semibold text-gray-800 mb-6">Patient History</Typography>
 
       {/* Uploaded Documents Section */}

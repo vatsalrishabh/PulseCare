@@ -97,7 +97,7 @@ const Navbar = () => {
 
               <li className='bg-red-700 lg:p-2'>
                 <Link
-                  to="/bookappointment"
+                  to="/patientlogin"
                   className="block py-2 px-3 font-bold text-white rounded hover:bg-red-500 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   onClick={handleDropDown}
                 >
