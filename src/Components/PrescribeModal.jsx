@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   Box,
@@ -41,30 +41,12 @@ const style = {
 const PrescribeModal = ({ open, onClose, data }) => {
   const [prescriptionType, setPrescriptionType] = useState('');
   const [newPrescription, setNewPrescription] = useState({
-    bookingId: '',
-    date: '',
+    bookingId: data?._doc.bookingId || '',
+    date: data?.date || '',
     medicines: [{ medicine: '', dosage: '', frequency: '', duration: '' }],
   });
 
-  const [appointments] = useState([
-    {
-      date: '2023-10-01',
-      appointmentNumber: 'A001',
-      contactNumber: '123-456-7890',
-      medicines: [
-        { serialNum: '1', medicine: 'Aspirin', dosage: '500mg', frequency: 'Once daily', duration: '7 days' },
-        { serialNum: '2', medicine: 'Ibuprofen', dosage: '400mg', frequency: 'Twice daily', duration: '5 days' },
-      ],
-    },
-    {
-      date: '2023-09-15',
-      appointmentNumber: 'A002',
-      contactNumber: '987-654-3210',
-      medicines: [
-        { serialNum: '1', medicine: 'Amoxicillin', dosage: '250mg', frequency: 'Three times daily', duration: '10 days' },
-      ],
-    },
-  ]);
+  const [appointments] = useState(data?.appointments || []);
 
   const handlePrescriptionTypeChange = (event) => {
     setPrescriptionType(event.target.value);
@@ -108,6 +90,16 @@ const PrescribeModal = ({ open, onClose, data }) => {
           </IconButton>
         </Box>
 
+        {/* Patient Info Header */}
+        <Box mb={2}>
+          <Typography variant="h6">Patient Information</Typography>
+          <Typography><strong>Name:</strong> {data?.patientName}</Typography>
+          <Typography><strong>Email:</strong> {data?.patientEmail}</Typography>
+          <Typography><strong>Contact:</strong> {data?.patientContact}</Typography>
+          <Typography><strong>Booking Status:</strong> {data?.status}</Typography>
+          <Typography><strong>Booking ID:</strong> {newPrescription.bookingId}</Typography>
+        </Box>
+
         <FormControl fullWidth margin="normal">
           <InputLabel id="prescription-type-label">Prescription Type</InputLabel>
           <Select
@@ -122,57 +114,61 @@ const PrescribeModal = ({ open, onClose, data }) => {
 
         {prescriptionType === 'old' && (
           <div>
-            {appointments.map((appointment, index) => (
-              <Accordion key={index}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>
-                    {appointment.date} - {appointment.appointmentNumber} - {appointment.contactNumber}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <TableContainer>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Serial No.</TableCell>
-                          <TableCell>Medicine</TableCell>
-                          <TableCell>Dosage</TableCell>
-                          <TableCell>Frequency</TableCell>
-                          <TableCell>Duration</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {appointment.medicines.map((med, medIndex) => (
-                          <TableRow key={medIndex}>
-                            <TableCell>{med.serialNum}</TableCell>
-                            <TableCell>{med.medicine}</TableCell>
-                            <TableCell>{med.dosage}</TableCell>
-                            <TableCell>{med.frequency}</TableCell>
-                            <TableCell>{med.duration}</TableCell>
+            {appointments.length > 0 ? (
+              appointments.map((appointment, index) => (
+                <Accordion key={index}>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>
+                      {appointment.date} - {appointment.appointmentNumber} - {appointment.contactNumber}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <TableContainer>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Serial No.</TableCell>
+                            <TableCell>Medicine</TableCell>
+                            <TableCell>Dosage</TableCell>
+                            <TableCell>Frequency</TableCell>
+                            <TableCell>Duration</TableCell>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-                    <Button
-                      variant="outlined"
-                      startIcon={<PrintIcon />}
-                      onClick={() => handlePrint(appointment.appointmentNumber)}
-                    >
-                      Print
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      startIcon={<EmailIcon />}
-                      onClick={() => handleEmail(appointment.appointmentNumber)}
-                    >
-                      Send to Email
-                    </Button>
-                  </Box>
-                </AccordionDetails>
-              </Accordion>
-            ))}
+                        </TableHead>
+                        <TableBody>
+                          {appointment.medicines.map((med, medIndex) => (
+                            <TableRow key={medIndex}>
+                              <TableCell>{med.serialNum}</TableCell>
+                              <TableCell>{med.medicine}</TableCell>
+                              <TableCell>{med.dosage}</TableCell>
+                              <TableCell>{med.frequency}</TableCell>
+                              <TableCell>{med.duration}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+                      <Button
+                        variant="outlined"
+                        startIcon={<PrintIcon />}
+                        onClick={() => handlePrint(appointment.appointmentNumber)}
+                      >
+                        Print
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        startIcon={<EmailIcon />}
+                        onClick={() => handleEmail(appointment.appointmentNumber)}
+                      >
+                        Send to Email
+                      </Button>
+                    </Box>
+                  </AccordionDetails>
+                </Accordion>
+              ))
+            ) : (
+              <Typography>No previous prescriptions found.</Typography>
+            )}
           </div>
         )}
 
@@ -185,6 +181,7 @@ const PrescribeModal = ({ open, onClose, data }) => {
               <InputLabel>Booking ID</InputLabel>
               <input
                 type="text"
+                value={newPrescription.bookingId}
                 onChange={(e) => setNewPrescription({ ...newPrescription, bookingId: e.target.value })}
               />
             </FormControl>
@@ -192,6 +189,7 @@ const PrescribeModal = ({ open, onClose, data }) => {
               <InputLabel>Date</InputLabel>
               <input
                 type="date"
+                value={newPrescription.date}
                 onChange={(e) => setNewPrescription({ ...newPrescription, date: e.target.value })}
               />
             </FormControl>

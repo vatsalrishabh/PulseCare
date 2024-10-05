@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios'; // Make sure to import axios
 import { motion } from 'framer-motion';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -6,6 +7,7 @@ import { Search, ArrowForward } from '@mui/icons-material';
 import { Button, Typography, Paper } from '@mui/material';
 import SchedulePage from './SchedulePage';
 import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
+import { BaseUrl } from './BaseUrl'; // Import your BaseUrl
 
 const diseaseTypes = [
   { label: 'Diabetes' },
@@ -17,17 +19,11 @@ const diseaseTypes = [
   { label: 'General/Not Aware!' },
 ];
 
-const doctorsList = [
-  { name: 'Dr. John Doe', id: '12345' },
-  { name: 'Dr. Jane Smith', id: '67890' },
-  { name: 'Dr. Alice Brown', id: '54321' },
-  // Add more doctors as needed
-];
-
 const SelectDiseaseType = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [selectedDisease, setSelectedDisease] = useState('');
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [doctorsList, setDoctorsList] = useState([]); // State to hold doctors
   const [showDates, setShowDates] = useState(false);
 
   useEffect(() => {
@@ -36,6 +32,23 @@ const SelectDiseaseType = () => {
       const userDetails = JSON.parse(storedUserDetails);
       setLoggedInUser(userDetails);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await axios.get(`${BaseUrl}/api/doctors/getAllDoctors`);
+        const doctorsWithId = response.data.map(doctor => ({
+          name: doctor.name,
+          id: doctor.email.split('@')[0], // Extract ID from email before '@'
+        }));
+        setDoctorsList(doctorsWithId);
+      } catch (error) {
+        console.error('Error fetching doctors:', error);
+      }
+    };
+
+    fetchDoctors();
   }, []);
 
   const handleNext = () => {
@@ -55,7 +68,7 @@ const SelectDiseaseType = () => {
         className={`flex flex-col items-center justify-center h-screen bg-gradient-to-r from-custom-graybg to-custom-green p-6`}
       >
         <Paper elevation={3} className="p-6 rounded-lg shadow-lg w-full max-w-md">
-        <BreadCrumb first="Patient Dashboard" second="Appointment Booking" firstLink="/pdash" secondLink="/selectDis" />
+          <BreadCrumb first="Patient Dashboard" second="Appointment Booking" firstLink="/pdash" secondLink="/selectDis" />
           <Typography variant="h4" className="text-custom-maroon text-center font-bold mb-4">
             Appointment Booking
           </Typography>
