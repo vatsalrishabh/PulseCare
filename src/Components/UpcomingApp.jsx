@@ -5,13 +5,26 @@ import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 import axios from 'axios';
 import { BaseUrl } from './BaseUrl';
 
+
 const UpcomingApp = () => {
   const [appointments, setAppointments] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useState({});
 
   useEffect(() => {
+    const loadUserDetails = () => {
+      const storedUserDetails = localStorage.getItem('userDetails');
+      if (storedUserDetails) {
+        const userDetails = JSON.parse(storedUserDetails);
+        setLoggedInUser(userDetails);
+      }
+    };
+    loadUserDetails();
+// loaduserdeails immediatellly
+
+
     const fetchAppointments = async () => {
       try {
-        const response = await axios.post(`${BaseUrl}/api/patients/upcomingBookings`, { email: 'vatsalrishabh00@gmail.com' });
+        const response = await axios.post(`${BaseUrl}/api/patients/upcomingBookings`, { email: loggedInUser.email });
         // console.log(response.data); Check the response data structure
         setAppointments(response.data);
       } catch (error) {
@@ -57,7 +70,7 @@ const UpcomingApp = () => {
   return (
     <div className="bg-gray-100 min-h-screen p-6">
       <Typography variant="h4" className="font-semibold text-gray-800 mb-6">Upcoming Appointments</Typography>
-      <BreadCrumb first="Doctor Dashboard" second="Appointments" firstLink="/doctorlogin" secondLink="/appointments" />
+      <BreadCrumb first="Patient Dashboard" second="Appointments" firstLink="/pdash" secondLink="/appointments" />
       {appointments.length === 0 ? (
         <Typography className="text-gray-600">No upcoming appointments.</Typography>
       ) : (

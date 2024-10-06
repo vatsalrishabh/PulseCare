@@ -20,10 +20,9 @@ import CancellationRefundPolicies from "./Components/Razorpay/CancellationRefunP
 import PrivacyPolicy from "./Components/Razorpay/PrivacyPolicy";
 import ShippingDelivery from "./Components/Razorpay/ShippingDelivery";
 import TermsConditions from "./Components/Razorpay/TermsConditions";
-import PaymentPage from "./Components/PaymentPage";
+// import PaymentPage from "./Components/PaymentPage";
 import Prescription from "./Components/PDF/Prescription";
 import Payment from "./Components/Payment";
-import { LoginContext } from './context/LoginContext';
 import PatientNotLoggedIn from "./Components/PatientNotLoggedIn";
 import VideoCall from "./Components/VideoCall";
 import "./App.css";
@@ -36,6 +35,9 @@ import AllPatientProfile from "./Components/DoctorDashboard/AllPatientProfile";
 import PatientProfile from "./Components/PatientProfile";
 import ManageAppointments from "./Components/DoctorDashboard/ManageAppointments";
 import PrescribeMedicine from "./Components/PrescribeMedicine";
+import EditPatientProfile from "./Components/EditPatientProfile";
+import DEditPProfile from "./Components/DoctorDashboard/DEditPProfile";
+import DPProfile from "./Components/DoctorDashboard/DPProfile";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -140,6 +142,41 @@ loadDoctorDetails();
 
 
 
+<Route path="/DpatientprofileEdit/:patientEmail" element={loggedInDoctor.isLoggedIn ?
+          <>
+          <DoctorNavbar/>
+          <DEditPProfile /> 
+          <Footer/>
+          </>
+           : (
+            <>
+              <Navbar />
+              <DoctorLogin />
+              <Footer />
+            </>
+          )} />
+
+
+<Route path="/Dpatientprofile/:patientEmail" element={loggedInDoctor.isLoggedIn ?
+          <>
+          <DoctorNavbar/>
+          <DPProfile /> 
+          <Footer/>
+          </>
+           : (
+            <>
+              <Navbar />
+              <DoctorLogin />
+              <Footer />
+            </>
+          )} />
+
+
+
+
+
+
+
 <Route path="/manageAppoint" element={loggedInDoctor.isLoggedIn ?
           <>
           <DoctorNavbar/>
@@ -153,6 +190,7 @@ loadDoctorDetails();
               <Footer />
             </>
           )} />
+
 <Route path="/prescriptions" element={loggedInDoctor.isLoggedIn ?
           <>
           <DoctorNavbar/>
@@ -197,10 +235,20 @@ loadDoctorDetails();
               <Footer />
             </>
           ) : <PatientNotLoggedIn />} />
+
            <Route path="/patientprofile" element={loggedInUser.isloggedIn ? (
             <>
               <PatientNavbar />
               <PatientProfile />
+              <ChatBotButton />
+              <Footer />
+            </>
+          ) : <PatientNotLoggedIn />} />
+
+<Route path="/editpatientprofile" element={loggedInUser.isloggedIn ? (
+            <>
+              <PatientNavbar />
+              <EditPatientProfile />
               <ChatBotButton />
               <Footer />
             </>

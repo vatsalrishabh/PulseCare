@@ -1,5 +1,6 @@
 // src/PaymentPage.jsx
 import React, { useState } from 'react';
+import { BaseUrl } from './BaseUrl';
 
 const PaymentPage = () => {
   const [amount, setAmount] = useState('');
@@ -11,7 +12,7 @@ const PaymentPage = () => {
       const amountInPaise = parseInt(amount) * 100;
 
       // Create order by calling the server endpoint
-      const response = await fetch('http://localhost:3000/razorpay', {
+      const response = await fetch(`${BaseUrl}/razorpay`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

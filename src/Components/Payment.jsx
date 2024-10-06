@@ -39,7 +39,7 @@ const Payment = (props) => {
         name: 'PulseCare',
         description: 'Live Transaction',
         order_id: order.id,
-        callback_url: 'http://localhost:3000/api/razorpay/payment-success', // Your success URL
+        callback_url: `${BaseUrl}/api/razorpay/payment-success`, // Your success URL
         prefill: {
           name: name,
           email: email,
@@ -50,7 +50,7 @@ const Payment = (props) => {
         },
         handler: async function (response) {
           try {
-            const verificationResponse = await axios.post('http://localhost:3000/api/razorpay/verify-payment', {
+            const verificationResponse = await axios.post(`${BaseUrl}/api/razorpay/verify-payment`, {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,

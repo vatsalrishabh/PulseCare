@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -12,13 +12,14 @@ import {
   Typography,
 } from '@mui/material';
 import axios from 'axios';
-import { BaseUrl } from './BaseUrl';
-import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
+import { BaseUrl } from '../BaseUrl';
+import { BreadCrumb } from './BreadCrumb';
 
-const PatientProfile = () => {
-  const [loggedInUser, setLoggedInUser] = useState({});
+const DPProfile = () => {
+  const { patientEmail } = useParams(); // Extract email from URL
+  const [loggedInUser, setLoggedInUser] = useState({ email: patientEmail });
   const [patientHistory, setPatientHistory] = useState({
-    email: 'john.doe@example.com',
+    email: patientEmail,
     ongoingConditions: [],
     currentMedications: {},
     medicalHistory: {},
@@ -30,26 +31,19 @@ const PatientProfile = () => {
   });
 
   useEffect(() => {
-    const storedUserDetails = localStorage.getItem('userDetails');
-    if (storedUserDetails) {
-      const userDetails = JSON.parse(storedUserDetails);
-      setLoggedInUser(userDetails);
-      setPatientHistory((prev) => ({ ...prev, email: userDetails.email }));
+    // Fetch patient history using patientEmail
+    const fetchPatientHistory = async () => {
+      try {
+        const response = await axios.get(`${BaseUrl}/api/patients/getPatientHistory/${patientEmail}`);
+        console.log('Fetched patient history:', response.data); // Log the fetched data
+        setPatientHistory(response.data);
+      } catch (error) {
+        console.error('Error fetching patient history:', error);
+      }
+    };
 
-      // Fetch patient history after setting user details
-      const fetchPatientHistory = async () => {
-        try {
-          const response = await axios.get(`${BaseUrl}/api/patients/getPatientHistory/${userDetails.email}`);
-          console.log('Fetched patient history:', response.data); // Log the fetched data
-          setPatientHistory(response.data);
-        } catch (error) {
-          console.error('Error fetching patient history:', error);
-        }
-      };
-
-      fetchPatientHistory();
-    }
-  }, []);
+    fetchPatientHistory();
+  }, [patientEmail]); // Fetch data whenever patientEmail changes
 
   const renderConditionsTable = (conditions, title) => (
     <TableContainer component={Paper} sx={{ marginBottom: 2 }}>
@@ -109,13 +103,13 @@ const PatientProfile = () => {
 
   return (
     <>
-      <BreadCrumb first="Patient Dashboard" second="Patient Profile" firstLink="/pdash" secondLink="/patientprofile" />
+     <BreadCrumb first="Doctor Dashboard" second="Patient Profile" firstLink="/doctorlogin" secondLink="/allpatientprofile" />
       
       <Typography variant="h4" gutterBottom>
         Patient History
       </Typography>
 
-      {/* Display the email of the logged-in user */}
+      {/* Display the email of the patient */}
       <Typography variant="h6" gutterBottom>
         User Email: {loggedInUser.email || patientHistory.email}
       </Typography>
@@ -129,7 +123,7 @@ const PatientProfile = () => {
       {renderSingleValueTable('Lifestyle', patientHistory.lifestyle)}
       {renderSingleValueTable('Family History', patientHistory.familyHistory)}
 
-      <Link to="/editpatientprofile">
+      <Link to={`/DpatientprofileEdit/${patientEmail}`}>
         <Button variant="outlined" color="primary">
           Edit Data
         </Button>
@@ -138,4 +132,4 @@ const PatientProfile = () => {
   );
 };
 
-export default PatientProfile;
+export default DPProfile;
