@@ -121,6 +121,9 @@ const DPresMedecine = (props) => {
         <Typography variant="body1">
           <strong>Phone:</strong> {props.phone}
         </Typography>
+        <hr />
+        <hr />
+        <hr />
 
         <Typography variant="h6" className="flex items-center mt-4">
           <FaPills className="mr-2 text-green-600" />
