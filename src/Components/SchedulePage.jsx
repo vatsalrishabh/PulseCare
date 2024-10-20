@@ -33,16 +33,37 @@ const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
   useEffect(() => {
     fetchBookings();
   }, []);
+  // console.log(dates);
+  // console.log(dates.date);
+  // console.log(dates.date);
+  // console.log(dates.slots);
 
-  const fetchBookings = async () => {
-    try {
-      const response = await axios.get(`${BaseUrl}/api/patients/getBookings`);
-      setDates(response.data);
-      setDisplayedDates(response.data.slice(offset, offset + getDatesToShow()));
-    } catch (error) {
-      console.error('Error fetching bookings:', error);
-    }
-  };
+const fetchBookings = async () => {
+  try {
+    // You can set a desired status here or get it from props or state
+    const desiredStatus = 'pending'; // or 'success', 'failed', etc.
+    const response = await axios.get(`${BaseUrl}/api/patients/getBookings`, {
+      params: { status: desiredStatus } // Pass the filter as query parameters
+    });
+    
+    const today = new Date();
+    const todayStr = today.toLocaleDateString('en-GB').split('/').reverse().join('-'); // 'DD-MM-YYYY'
+
+    // Filter the response to only include dates >= today's date
+    const filteredDates = response.data.filter(booking => {
+      const [day, month, year] = booking.date.split('-');
+      const bookingDate = new Date(`${year}-${month}-${day}`);
+      return bookingDate >= today;
+    });
+
+    // Set the filtered dates in the state
+    setDates(filteredDates);
+    setDisplayedDates(filteredDates.slice(offset, offset + getDatesToShow()));
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
+  }
+};
+
 
   const getDatesToShow = () => {
     if (window.innerWidth < 640) return 1; // Mobile: 1 date
@@ -102,7 +123,7 @@ const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
         setDisplayedDates(dates.slice(newOffset, newOffset + getDatesToShow()));
         return newOffset;
       });
-    }, 3000);
+    }, 1000);
   };
 
   return (

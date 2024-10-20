@@ -46,7 +46,7 @@ const DoctorDashboard = () => {
         <Typography variant="body2" color="text.secondary">
           You have 2 upcoming appointments scheduled.
         </Typography>
-        <Link to="/appointments" style={{ textDecoration: 'none' }}>
+        <Link to="/Dappointments" style={{ textDecoration: 'none' }}>
           <Button variant="contained" color="primary" className="mt-4" style={{ backgroundColor: '#71a113' }}>
             View Details
           </Button>

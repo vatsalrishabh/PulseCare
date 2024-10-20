@@ -21,19 +21,19 @@ const Payment = (props) => {
         currency: 'INR',
         receipt: bookingId,
         notes: {
-          name:name,
-          email:email,
-          contact:contact,
+          name: name,
+          email: email,
+          contact: contact,
           disease: disease,
           doctor: doctor,
         },
       });
-
+  
       const order = response.data;
-
+  
       // Open Razorpay Checkout
-      const options = {
-        key: 'rzp_live_1MxULmQnXguann', // Replace with your Razorpay key_id
+      const options = { 
+        key: 'rzp_test_l0gnUnaG8U4VmM',
         amount: order.amount,
         currency: order.currency,
         name: 'PulseCare',
@@ -55,9 +55,19 @@ const Payment = (props) => {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
             });
-
+  
             if (verificationResponse.data.status === 'ok') {
-
+              // Store booking data in localStorage dynamically
+              localStorage.setItem('paymentData', JSON.stringify({
+                patientId: bookingId,  // Assuming bookingId is the patient ID
+                name: name,
+                appointmentDate: date,  // Use the date prop
+                appointmentTime: time,   // Use the time prop
+                doctorName: doctor,      // Use the doctor prop
+                diseaseType: disease,    // Use the disease prop
+                amount: order.amount/100,     // Use the dynamic amount from the order
+                bookingId: bookingId,    // Use the bookingId prop
+              }));
               
               window.location.href = '/payment-success'; // Redirect on success
             } else {
@@ -69,7 +79,7 @@ const Payment = (props) => {
           }
         },
       };
-
+  
       const rzp = new window.Razorpay(options);
       rzp.open();
       setModalIsOpen(false); // Close modal after payment is initiated
@@ -78,6 +88,7 @@ const Payment = (props) => {
       alert('Error creating order');
     }
   };
+  
 
   return (
     <div className="payment-container">

@@ -1,0 +1,6 @@
+@media print {
+    .no-print {
+      display: none !important; /* Hide elements with the class 'no-print' during printing */
+    }
+  }
+  

@@ -38,6 +38,8 @@ import PrescribeMedicine from "./Components/PrescribeMedicine";
 import EditPatientProfile from "./Components/EditPatientProfile";
 import DEditPProfile from "./Components/DoctorDashboard/DEditPProfile";
 import DPProfile from "./Components/DoctorDashboard/DPProfile";
+import DUpcoming from "./Components/DoctorDashboard/DUpcoming";
+import PatientPrescription from "./Components/DoctorDashboard/PatientPrescription";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -141,6 +143,21 @@ loadDoctorDetails();
           )} />
 
 
+<Route path="/PatientPres" element={loggedInDoctor.isLoggedIn ?
+          <>
+          <DoctorNavbar/>
+          <PatientPrescription /> 
+          <Footer/>
+          </>
+           : (
+            <>
+              <Navbar />
+              <DoctorLogin />
+              <Footer />
+            </>
+          )} />
+
+
 
 <Route path="/DpatientprofileEdit/:patientEmail" element={loggedInDoctor.isLoggedIn ?
           <>
@@ -190,6 +207,22 @@ loadDoctorDetails();
               <Footer />
             </>
           )} />
+
+
+<Route path="/Dappointments" element={loggedInDoctor.isLoggedIn ?
+          <>
+          <DoctorNavbar/>
+          <DUpcoming /> 
+          <Footer/>
+          </>
+           : (
+            <>
+              <Navbar />
+              <DoctorLogin />
+              <Footer />
+            </>
+          )} />
+
 
 <Route path="/prescriptions" element={loggedInDoctor.isLoggedIn ?
           <>

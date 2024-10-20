@@ -1,57 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
-  Modal,
-  Box,
-  Typography,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
-  Paper,
   IconButton,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
+  CircularProgress,
+  Snackbar,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoIcon from '@mui/icons-material/Info';
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
-import Autocomplete from '@mui/material/Autocomplete';
-import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
-import axios from 'axios';
-import { BaseUrl } from './BaseUrl';
+import { BaseUrl } from '../Components/BaseUrl'; // Adjust the import according to your structure
+import DPresMedecine from './DPresMedecine';
 
 const PrescribeMedicine = () => {
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedData, setSelectedData] = useState(null);
   const [bookingData, setBookingData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [statusFilter, setStatusFilter] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filteredData, setFilteredData] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
-  const [prescriptionType, setPrescriptionType] = useState('');
-  const [newPrescription, setNewPrescription] = useState({
-    bookingId: '',
-    date: '',
-    medicines: [{ medicine: '', dosage: '', frequency: '', duration: '' }],
-  });
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
-        const response = await axios.get(`${BaseUrl}/api/patients/getAllBookings`);
-        setBookingData(response.data);
-        console.log(response.data);
-        setFilteredData(response.data);
+        const statusQuery = statusFilter ? `?status=${statusFilter}` : '';
+        const response = await axios.get(`${BaseUrl}/api/patients/getAllBookings${statusQuery}`);
+        console.log('Fetched booking data:', response.data);
+
+        if (typeof response.data === 'object' && response.data !== null) {
+          const bookingsArray = Object.values(response.data);
+          setBookingData(bookingsArray);
+          setFilteredData(bookingsArray);
+        } else {
+          throw new Error('Data is not an array');
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -60,261 +45,110 @@ const PrescribeMedicine = () => {
     };
 
     fetchBookingData();
-  }, []);
+  }, [statusFilter]);
 
-  useEffect(() => {
-    setFilteredData(
-      bookingData.filter((booking) =>
-        booking.slots.some((slot) => slot._doc.bookingId.includes(searchValue))
-      )
-    );
-  }, [searchValue, bookingData]);
-
-  const handleInfoClick = (slot) => {
-    const parentBooking = slot.$__parent; // Adjusted to extract patient info from parent
-    setSelectedData({
-      ...slot,
-      patientName: parentBooking.patientName || "N/A",
-      patientEmail: parentBooking.patientEmail || "N/A",
-      patientContact: parentBooking.patientContact || "N/A",
-      status: slot._doc.status || "N/A",
-    });
-    setNewPrescription({
-      bookingId: slot._doc.bookingId,
-      date: '', // Set to today's date or relevant date
-      medicines: [{ medicine: '', dosage: '', frequency: '', duration: '' }],
-    });
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setSelectedData(null);
-    setPrescriptionType('');
-    setNewPrescription({
-      bookingId: '',
-      date: '',
-      medicines: [{ medicine: '', dosage: '', frequency: '', duration: '' }],
-    });
+  const handleInfoClick = (booking) => {
+    setSelectedBooking(booking);
+    setIsModalOpen(true);
   };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'available':
+      case 'Confirmed':
         return 'green';
-      case 'not available':
+      case 'Pending':
+        return 'orange';
+      case 'Cancelled':
         return 'red';
-      case 'booked':
-        return 'grey';
       default:
         return 'black';
     }
   };
 
-  const handlePrescriptionTypeChange = (event) => {
-    setPrescriptionType(event.target.value);
+  const handleCloseSnackbar = () => {
+    setError(null);
   };
 
-  const handleNewMedicineChange = (index, field, value) => {
-    const updatedMedicines = [...newPrescription.medicines];
-    updatedMedicines[index][field] = value;
-    setNewPrescription({ ...newPrescription, medicines: updatedMedicines });
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedBooking(null);
   };
 
-  const handleAddMedicine = () => {
-    setNewPrescription({
-      ...newPrescription,
-      medicines: [...newPrescription.medicines, { medicine: '', dosage: '', frequency: '', duration: '' }],
-    });
-  };
-
-  const handleSubmit = () => {
-    console.log('Submitting new prescription:', newPrescription);
-    handleCloseModal();
-  };
-// console.log(selectedData);
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>Error: {error}</Typography>;
+  if (loading) {
+    return <CircularProgress />;
+  }
 
   return (
-    <div className="p-5">
-      <BreadCrumb
-        first="Doctor Dashboard"
-        second="Treatment/Prescription"
-        firstLink="/doctorlogin"
-        secondLink="/prescriptions"
-      />
+    <div className="p-4">
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-black opacity-50" onClick={closeModal} />
+          <div className="bg-white rounded-lg shadow-lg z-10 w-11/12 h-11/12 max-w-3xl max-h-[90vh] overflow-auto">
+            <div className="p-4">
+              <h2 className="text-lg font-semibold mb-4">Prescribe Medicine</h2>
+              {selectedBooking && (
+                <DPresMedecine
+                  bookingId={selectedBooking.bookingId}
+                  patientId={selectedBooking.patientId}
+                  name={selectedBooking.name}
+                  email={selectedBooking.email}
+                  phone={selectedBooking.mobile}
+                />
+              )}
+              <button
+                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+                onClick={closeModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-      <Autocomplete
-        options={bookingData.flatMap(booking => booking.slots.map(slot => slot._doc.bookingId))}
-        onInputChange={(event, newValue) => setSearchValue(newValue)}
-        renderInput={(params) => (
-          <TextField {...params} label="Search by Booking ID" variant="outlined" />
-        )}
-        style={{ marginBottom: '20px' }}
-      />
-
-      <TableContainer component={Paper} elevation={3}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Booking ID</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Time</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredData.length > 0 ? (
-              filteredData.map((booking) =>
-                booking.slots.map((slot) => (
-                  <TableRow key={`${slot._doc.bookingId}-${booking.date}-${slot._doc.time}`}>
-                    <TableCell>{slot._doc.bookingId}</TableCell>
-                    <TableCell>{booking.date}</TableCell>
-                    <TableCell>{slot._doc.time}</TableCell>
-                    <TableCell style={{ color: getStatusColor(slot._doc.status) }}>
-                      {slot._doc.status}
-                    </TableCell>
-                    <TableCell>
-                      <IconButton onClick={() => handleInfoClick(slot)}>
-                        <InfoIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )
-            ) : (
-              <TableRow>
-                <TableCell colSpan={5} align="center">
-                  No bookings available
+      <Table className="mt-4">
+        <TableHead>
+          <TableRow>
+            <TableCell>Booking ID</TableCell>
+            <TableCell>Date</TableCell>
+            <TableCell>Patient ID</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Info</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {Array.isArray(filteredData) && filteredData.length > 0 ? (
+            filteredData.map((booking) => (
+              <TableRow key={booking.bookingId}>
+                <TableCell>{booking.bookingId}</TableCell>
+                <TableCell>{booking.date}</TableCell>
+                <TableCell>{booking.patientId}</TableCell>
+                <TableCell style={{ color: getStatusColor(booking.status) }}>
+                  {booking.status}
+                </TableCell>
+                <TableCell>
+                  <IconButton onClick={() => handleInfoClick(booking)}>
+                    <InfoIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {/* Prescription Modal */}
-      <Modal open={openModal} onClose={handleCloseModal}>
-        <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: 'background.paper', boxShadow: 24, borderRadius: 0, p: 4, overflowY: 'auto' }}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-            <Typography variant="h4">Prescribe Medicine for {selectedData?.patientName} (Booking ID: {selectedData?._doc?.bookingId})</Typography>
-            <IconButton onClick={handleCloseModal}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
-
-          <Box mb={2}>
-            <Typography variant="h6">Patient Information</Typography>
-            <Typography><strong>Name:</strong> {selectedData?.patientName || "N/A"}</Typography>
-            <Typography><strong>Email:</strong> {selectedData?.patientEmail || "N/A"}</Typography>
-            <Typography><strong>Contact:</strong> {selectedData?.patientContact || "N/A"}</Typography>
-            <Typography><strong>Booking Status:</strong> {selectedData?.status || "N/A"}</Typography>
-            <Typography><strong>Booking ID:</strong> {selectedData?._doc?.bookingId || "N/A"}</Typography>
-          </Box>
-
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="prescription-type-label">Prescription Type</InputLabel>
-            <Select
-              labelId="prescription-type-label"
-              value={prescriptionType}
-              onChange={handlePrescriptionTypeChange}
-            >
-              <MenuItem value="old">Old Prescription</MenuItem>
-              <MenuItem value="new">Prescribe Now</MenuItem>
-            </Select>
-          </FormControl>
-
-          {prescriptionType === 'old' && selectedData?.appointments?.length > 0 ? (
-            selectedData.appointments.map((appointment, index) => (
-              <Accordion key={index}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>{appointment.date} - {appointment.appointmentNumber}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <TableContainer>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Medicine</TableCell>
-                          <TableCell>Dosage</TableCell>
-                          <TableCell>Frequency</TableCell>
-                          <TableCell>Duration</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {appointment.medicines.map((med, medIndex) => (
-                          <TableRow key={medIndex}>
-                            <TableCell>{med.medicine}</TableCell>
-                            <TableCell>{med.dosage}</TableCell>
-                            <TableCell>{med.frequency}</TableCell>
-                            <TableCell>{med.duration}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </AccordionDetails>
-              </Accordion>
             ))
-          ) : null}
-
-          {prescriptionType === 'new' && (
-            <>
-              {newPrescription.medicines.map((med, index) => (
-                <Box key={index} display="flex" alignItems="center" mb={2}>
-                  <TextField
-                    label="Medicine"
-                    variant="outlined"
-                    value={med.medicine}
-                    onChange={(e) => handleNewMedicineChange(index, 'medicine', e.target.value)}
-                    sx={{ flex: 1, marginRight: 1 }}
-                  />
-                  <TextField
-                    label="Dosage"
-                    variant="outlined"
-                    value={med.dosage}
-                    onChange={(e) => handleNewMedicineChange(index, 'dosage', e.target.value)}
-                    sx={{ flex: 1, marginRight: 1 }}
-                  />
-                  <TextField
-                    label="Frequency"
-                    variant="outlined"
-                    value={med.frequency}
-                    onChange={(e) => handleNewMedicineChange(index, 'frequency', e.target.value)}
-                    sx={{ flex: 1, marginRight: 1 }}
-                  />
-                  <TextField
-                    label="Duration"
-                    variant="outlined"
-                    value={med.duration}
-                    onChange={(e) => handleNewMedicineChange(index, 'duration', e.target.value)}
-                    sx={{ flex: 1, marginRight: 1 }}
-                  />
-                </Box>
-              ))}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleAddMedicine}
-                startIcon={<AddIcon />}
-              >
-                Add Medicine
-              </Button>
-            </>
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} align="center">
+                No bookings available
+              </TableCell>
+            </TableRow>
           )}
+        </TableBody>
+      </Table>
 
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            style={{ marginTop: '20px' }}
-          >
-            Submit Prescription
-          </Button>
-        </Box>
-      </Modal>
+      <Snackbar
+        open={!!error}
+        message={error}
+        onClose={handleCloseSnackbar}
+        autoHideDuration={3000}
+      />
     </div>
   );
 };

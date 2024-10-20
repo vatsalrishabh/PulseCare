@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Typography, Card, CardContent } from '@mui/material';
 import { CheckCircle, Person, CalendarToday, AccessTime, MedicalServices, Receipt } from '@mui/icons-material';
 import pulsecarelogo from '../assets/Puslecarelogo/PulseCare.png'; // Ensure correct path for your logo
 
 const PaymentSuccess = () => {
-  const patientDetails = {
-    patientId: 'P123456',
-    name: 'John Doe',
-    appointmentDate: '2023-09-25',
-    appointmentTime: '10:00 AM',
-    doctorName: 'Dr. Smith',
-    diseaseType: 'Consultation',
-    category: 'General',
-    receiptId: 'REC123456',
-    transactionId: 'TRANS123456',
-  };
+  const [patientDetails, setPatientDetails] = useState(null);
+
+  useEffect(() => {
+    // Retrieve payment data from localStorage
+    const storedData = localStorage.getItem('paymentData');
+    if (storedData) {
+      setPatientDetails(JSON.parse(storedData));
+    }
+  }, []);
 
   const handlePrint = () => {
     window.print();
   };
+
+  // Check if patientDetails is available
+  if (!patientDetails) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-custom-graybg p-4">
+        <Typography variant="h6">Loading payment details...</Typography>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-custom-graybg p-4">
@@ -57,7 +64,7 @@ const PaymentSuccess = () => {
           <Button
             variant="contained"
             onClick={handlePrint}
-            className="mt-4 w-full"
+            className="mt-4 w-full no-print" // Add the no-print class here
             style={{ backgroundColor: '#71a113' }} // Custom green color
           >
             Print Receipt

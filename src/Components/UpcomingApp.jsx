@@ -5,7 +5,6 @@ import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 import axios from 'axios';
 import { BaseUrl } from './BaseUrl';
 
-
 const UpcomingApp = () => {
   const [appointments, setAppointments] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -18,22 +17,26 @@ const UpcomingApp = () => {
         setLoggedInUser(userDetails);
       }
     };
+
     loadUserDetails();
-// loaduserdeails immediatellly
-
-
-    const fetchAppointments = async () => {
-      try {
-        const response = await axios.post(`${BaseUrl}/api/patients/upcomingBookings`, { email: loggedInUser.email });
-        // console.log(response.data); Check the response data structure
-        setAppointments(response.data);
-      } catch (error) {
-        console.error('Error fetching appointments:', error);
-      }
-    };
-
-    fetchAppointments();
   }, []);
+
+  useEffect(() => {
+    if (loggedInUser.email) {
+      console.log(loggedInUser.email + ' logged IN User');
+      
+      const fetchAppointments = async () => {
+        try {
+          const response = await axios.post(`${BaseUrl}/api/patients/upcomingBookings`, { email: loggedInUser.email });
+          setAppointments(response.data);
+        } catch (error) {
+          console.error('Error fetching appointments:', error);
+        }
+      };
+
+      fetchAppointments();
+    }
+  }, [loggedInUser]);
 
   const handleCopyLink = (link) => {
     navigator.clipboard.writeText(link);
@@ -44,9 +47,8 @@ const UpcomingApp = () => {
     return status === 'pending' ? 'yellow' : 'green'; // Adjust colors as needed
   };
 
-  // Function to extract date from bookingId
   const parseBookingIdDate = (bookingId) => {
-    const year = `20${bookingId.slice(0, 2)}`; // Assuming the bookingId starts with two digits of the year
+    const year = `20${bookingId.slice(0, 2)}`;
     const monthMap = {
       'JAN': 'January',
       'FEB': 'February',
@@ -80,19 +82,17 @@ const UpcomingApp = () => {
             createdAt,
             paymentInfo,
             status,
-            slotTime, // Assuming this is coming directly from the appointment
+            slotTime,
           } = appointment;
 
-          // Safely extract information from notes
           const patientName = paymentInfo.notes?.name || 'N/A';
           const patientEmail = paymentInfo.notes?.email || 'N/A';
           const patientContact = paymentInfo.notes?.contact || 'N/A';
           const doctor = paymentInfo.notes?.doctor || 'Doctor Not Assigned';
-          const googleMeet = paymentInfo.googleMeet || 'Na'; // Extract the Google Meet link
+          const googleMeet = paymentInfo.googleMeet || 'Na'; 
 
-          // Use the bookingId to get the formatted date
           const date = parseBookingIdDate(bookingId);
-          
+
           return (
             <Card key={bookingId} className="mb-4 shadow-lg transition-transform transform hover:scale-105">
               <CardContent>
@@ -103,7 +103,7 @@ const UpcomingApp = () => {
                 <Typography className="text-gray-600">
                   <FaRegCalendarAlt className="inline mr-1" />
                   Date: {date} <br />
-                  Time: {slotTime || 'N/A'} {/* Use slotTime directly */}
+                  Time: {slotTime || 'N/A'}
                 </Typography>
                 <Typography className="text-gray-600">
                   Booking ID: {bookingId}
