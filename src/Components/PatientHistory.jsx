@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Card, CardContent, Typography, Button, Drawer } from '@mui/material';
 import { FaCalendarCheck, FaClipboardList } from 'react-icons/fa';
 import UploadedDocuments from './UploadedDocuments';
@@ -10,6 +10,21 @@ const PatientHistory = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const handleDrawerOpen = () => setOpenDrawer(true);
   const handleDrawerClose = () => setOpenDrawer(false);
+  const [loggedInUser, setLoggedInUser] = useState({});
+
+  useEffect(() => {
+
+    // load user details from local storage immediately
+        const loadUserDetails = () => {
+          const storedUserDetails = localStorage.getItem('userDetails');
+          if (storedUserDetails) {
+            const userDetails = JSON.parse(storedUserDetails);
+            setLoggedInUser(userDetails);
+          }
+        };
+        loadUserDetails();
+    // loaduserdeails immediatellly
+      },[]);
 
   return (
     <div className="bg-gray-100 min-h-screen p-6">
@@ -54,7 +69,7 @@ const PatientHistory = () => {
       <UploadedDocuments />
 
       {/* Prescribed Medicines Component */}
-      <PrescribedMedicines />
+      <PrescribedMedicines patientEmail={loggedInUser.email} />
 
       {/* Tests Recommended Component */}
       <TestsRecommended />

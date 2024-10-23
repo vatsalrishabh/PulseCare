@@ -40,6 +40,7 @@ import DEditPProfile from "./Components/DoctorDashboard/DEditPProfile";
 import DPProfile from "./Components/DoctorDashboard/DPProfile";
 import DUpcoming from "./Components/DoctorDashboard/DUpcoming";
 import PatientPrescription from "./Components/DoctorDashboard/PatientPrescription";
+import FinalReport from "./Components/DoctorDashboard/FinalReport";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -312,6 +313,7 @@ loadDoctorDetails();
               <Footer />
             </>
           ) : <PatientNotLoggedIn />} />
+           <Route path="/finalreport" element={loggedInUser.isloggedIn ? <FinalReport /> : <PatientNotLoggedIn />} />
           <Route path="/payment" element={loggedInUser.isloggedIn ? <Payment /> : <PatientNotLoggedIn />} />
           <Route path="/payment-success" element={loggedInUser.isloggedIn ? <PaymentSuccess /> : <PatientNotLoggedIn />} />
           <Route path="/bookappointment" element={

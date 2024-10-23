@@ -18,10 +18,13 @@ import { IoClose } from 'react-icons/io5'; // Importing a close icon
 import axios from 'axios';
 import { BaseUrl } from './BaseUrl';
 import Person4Icon from '@mui/icons-material/Person4';
+import DTestRecom from './DoctorDashboard/DTestRecom';
 
 const DPresMedecine = (props) => {
   const [prescriptions, setPrescriptions] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [openDecisionModal, setOpenDecisionModal] = useState(false);
+  const [openPrescriptionModal, setOpenPrescriptionModal] = useState(false);
+  const [openTestRecomModal, setOpenTestRecomModal] = useState(false);
   const [selectedPrescription, setSelectedPrescription] = useState(null);
 
   // State for the form
@@ -94,12 +97,32 @@ const DPresMedecine = (props) => {
   const handleOpen = (prescription) => {
     setSelectedPrescription(prescription);
     setFormData({ medicines: prescription.medicines }); // Load the selected prescription into the form
-    setOpen(true);
+    setOpenPrescriptionModal(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDecisionModal(false);
+    setOpenPrescriptionModal(false);
+    setOpenTestRecomModal(false);
     setSelectedPrescription(null);
+  };
+
+  const handleOpenDecisionModal = () => {
+    setOpenDecisionModal(true);
+  };
+
+  const handleCloseDecisionModal = () => {
+    setOpenDecisionModal(false);
+  };
+
+  const handlePrescribeMedicine = () => {
+    handleCloseDecisionModal();
+    setOpenPrescriptionModal(true); // Open the first modal
+  };
+
+  const handleRecommendTest = () => {
+    handleCloseDecisionModal();
+    setOpenTestRecomModal(true); // Open the second modal
   };
 
   return (
@@ -163,18 +186,30 @@ const DPresMedecine = (props) => {
           </div>
         ))}
 
-        {/* Modal to Edit Prescription */}
-        <Modal open={open} onClose={handleClose}>
+        {/* Decision Modal */}
+        <Modal open={openDecisionModal} onClose={handleCloseDecisionModal}>
+          <Box className="bg-white p-4 shadow-md mx-auto mt-20 rounded-lg relative" style={{ width: '90%', height: '30%', overflow: 'auto' }}>
+            <button
+              className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+              onClick={handleCloseDecisionModal}
+            >
+              <IoClose size={30} />
+            </button>
+            <Typography variant="h6" className="font-bold">Choose Action</Typography>
+            <Button variant="contained" color="primary" onClick={handlePrescribeMedicine} className="mt-4">Prescribe Medicine</Button>
+            <Button variant="contained" color="secondary" onClick={handleRecommendTest} className="mt-2">Recommend Test</Button>
+          </Box>
+        </Modal>
+
+        {/* First Modal: Edit Prescription */}
+        <Modal open={openPrescriptionModal} onClose={handleClose}>
           <Box className="bg-white p-4 shadow-md mx-auto mt-20 rounded-lg relative" style={{ width: '90%', height: '90%', overflow: 'auto' }}>
-            
-            {/* Close Icon */}
             <button
               className="absolute top-2 right-2 text-red-500 hover:text-red-700"
               onClick={handleClose}
             >
               <IoClose size={30} />
             </button>
-
             <Typography variant="h6" className="font-bold">Edit Prescription</Typography>
             <form onSubmit={handleFormSubmit}>
               {formData.medicines.map((med, index) => (
@@ -185,29 +220,23 @@ const DPresMedecine = (props) => {
                   <TextField label="Duration" name="duration" value={med.duration} onChange={(e) => handleChange(index, e)} fullWidth margin="normal" />
                 </div>
               ))}
-              <Button variant="outlined" color="primary" onClick={addMoreMedicines}>Add More Medicines</Button>
-              <Button type="submit" variant="contained" color="primary" className="mt-4">Update Prescription</Button>
+              <Button variant="outlined" onClick={addMoreMedicines}>Add More Medicines</Button>
+              <Button type="submit" variant="contained" color="primary" className="mt-4">Save Prescription</Button>
             </form>
           </Box>
         </Modal>
 
-        {/* New Prescription Form */}
-        <Typography variant="h6" className="flex items-center mt-4">
-          <FaPills className="mr-2 text-green-600" />
-          Add New Prescription
-        </Typography>
-        <form onSubmit={handleFormSubmit}>
-          {formData.medicines.map((med, index) => (
-            <div key={index} className="mb-4">
-              <TextField label="Medicine Name" name="name" value={med.name} onChange={(e) => handleChange(index, e)} fullWidth margin="normal" />
-              <TextField label="Dosage" name="dosage" value={med.dosage} onChange={(e) => handleChange(index, e)} fullWidth margin="normal" />
-              <TextField label="Frequency" name="frequency" value={med.frequency} onChange={(e) => handleChange(index, e)} fullWidth margin="normal" />
-              <TextField label="Duration" name="duration" value={med.duration} onChange={(e) => handleChange(index, e)} fullWidth margin="normal" />
-            </div>
-          ))}
-          <Button variant="outlined" color="primary" onClick={addMoreMedicines}>Add More Medicines</Button>
-          <Button type="submit" variant="contained" color="primary" className="mt-4">Save New Prescription</Button>
-        </form>
+        {/* Second Modal: Recommend Test */}
+       {/* Second Modal: Recommend Test */}
+<Modal open={openTestRecomModal} onClose={handleClose}>
+  <Box className="bg-white p-4 shadow-md mx-auto mt-20 rounded-lg relative" style={{ width: '90%', height: '90%', overflow: 'auto' }}>
+    <DTestRecom handleClose={handleClose} patientId={props.patientId} bookingId={props.bookingId} />
+  </Box>
+</Modal>
+
+        
+
+        <Button variant="contained" color="primary" onClick={handleOpenDecisionModal} className="mt-4">New Prescription</Button>
       </CardContent>
     </Card>
   );

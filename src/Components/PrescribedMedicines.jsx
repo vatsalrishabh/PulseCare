@@ -4,7 +4,7 @@ import { FaPills, FaDownload } from 'react-icons/fa';
 import axios from 'axios';
 import { BaseUrl } from './BaseUrl';
 
-const PrescribedMedicines = () => {
+const PrescribedMedicines = ({ patientEmail }) => { // Accept patientEmail as a prop
   const [prescriptions, setPrescriptions] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedPrescription, setSelectedPrescription] = useState(null);
@@ -12,15 +12,17 @@ const PrescribedMedicines = () => {
   useEffect(() => {
     const fetchPrescriptions = async () => {
       try {
-        const response = await axios.get(`${BaseUrl}/api/patients/oldPrescription`);
+        const response = await axios.post(`${BaseUrl}/api/patients/PatientOldPrescription`, { patientEmail }); // POST request with patientEmail
         setPrescriptions(response.data);
       } catch (error) {
         console.error('Error fetching prescriptions:', error);
       }
     };
+setTimeout(()=>{
+  fetchPrescriptions();
+},2000)
 
-    fetchPrescriptions();
-  }, []);
+  }, [patientEmail]); // Fetch prescriptions when patientEmail changes
 
   const handleOpen = (prescription) => {
     setSelectedPrescription(prescription);
@@ -32,6 +34,24 @@ const PrescribedMedicines = () => {
     setSelectedPrescription(null);
   };
 
+  // Create a unique set of medicines
+  const getUniqueMedicines = (medicines) => {
+    const uniqueMedicines = [];
+    const seen = new Set();
+    medicines.forEach(med => {
+      if (!seen.has(med.id)) {
+        seen.add(med.id);
+        uniqueMedicines.push(med);
+      }
+    });
+    return uniqueMedicines;
+  };
+
+  // Filter out duplicate prescriptions by bookingId
+  const uniquePrescriptions = prescriptions.filter((prescription, index, self) =>
+    index === self.findIndex((p) => p.bookingId === prescription.bookingId)
+  );
+
   return (
     <Card className="mb-4 shadow-lg">
       <CardContent>
@@ -40,8 +60,8 @@ const PrescribedMedicines = () => {
           Prescribed Medicines
         </Typography>
 
-        {prescriptions.map((prescription) => (
-          <div key={prescription.bookingId} className="mb-4">
+        {uniquePrescriptions.map((prescription) => (
+          <div key={prescription._id} className="mb-4"> {/* Use a unique key for each prescription */}
             <Typography variant="subtitle1" className="font-bold">{`Booking ID: ${prescription.bookingId} (Patient ID: ${prescription.patientId})`}</Typography>
             <Table>
               <TableHead>
@@ -53,8 +73,8 @@ const PrescribedMedicines = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {prescription.medicines.map((med) => (
-                  <TableRow key={med.id}>
+                {getUniqueMedicines(prescription.medicines).map((med) => ( // Use the function to get unique medicines
+                  <TableRow key={med.id}> {/* Ensure each medicine has a unique key */}
                     <TableCell>{med.name}</TableCell>
                     <TableCell>{med.dosage}</TableCell>
                     <TableCell>{med.frequency}</TableCell>
@@ -93,7 +113,7 @@ const PrescribedMedicines = () => {
                   Download the prescription file:
                 </Typography>
                 <ul className="mt-2">
-                  {selectedPrescription.medicines.map((med) => (
+                  {getUniqueMedicines(selectedPrescription.medicines).map((med) => ( // Use the function to get unique medicines
                     <li key={med.id}>
                       <a
                         href={`/path/to/prescriptions/${med.prescriptionFile}`}
