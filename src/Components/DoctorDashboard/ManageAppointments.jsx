@@ -11,15 +11,18 @@ import { BreadCrumb } from './BreadCrumb';
 
 const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
-  const [dates, setDates] = useState([]);
-  const [selectedSlot, setSelectedSlot] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [displayedDates, setDisplayedDates] = useState([]);
   const [offset, setOffset] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('booked'); // Default to booked
+  const [selectedStatus, setSelectedStatus] = useState('booked'); 
+  const [hiddenUSA , setHiddenUSA] = useState(true); 
+
+  const [dates, setDates] = useState([]);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [displayedDates, setDisplayedDates] = useState([]);
+  const [minnesotaDates, setMinnesotaDates]  = useState([]);
 
   useEffect(() => {
     const storedUserDetails = localStorage.getItem('userDetails');
@@ -32,25 +35,54 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
     fetchBookings();
   }, []);
 
+  useEffect(() => {
+    if (minnesotaDates.length > 0) {
+      console.log(minnesotaDates[0], "Minnesota date/time data");
+    }
+  }, [minnesotaDates]);
+
+  function addMinnesotaDateTime(bookings) {
+    bookings.forEach(booking => {
+        booking.slots.forEach(slot => {
+            // Create a date object from the original date and time
+            const [day, month, year] = booking.date.split('-').map(Number);
+            const originalDateTime = new Date(year, month - 1, day, ...slot.time.split(':').map(Number));
+
+            // Subtract 10 hours and 30 minutes
+            const minnesotaDateTime = new Date(originalDateTime.getTime() - (10 * 60 * 60 * 1000 + 30 * 60 * 1000));
+            
+            // Set new fields
+            slot.minnesotaTime = minnesotaDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            slot.minnesotaDate = minnesotaDateTime.toLocaleDateString('en-CA'); // Format as YYYY-MM-DD
+        });
+    });
+    return bookings; // Return modified bookings
+}
+
   const fetchBookings = async () => {
     try {
       const response = await axios.get(`${BaseUrl}/api/patients/getBookings`);
-      setDates(response.data);
-      setDisplayedDates(response.data.slice(offset, offset + getDatesToShow()));
+      const fetchedDates = response.data;
+      setDates(fetchedDates); // to set dates useState
+      
+      const updatedDates = addMinnesotaDateTime(fetchedDates);  //just returns slots ie just dates for now
+      setMinnesotaDates(updatedDates);
+      console.log(minnesotaDates+"in the fetch block");
+      setDisplayedDates(fetchedDates.slice(offset, offset + getDatesToShow()));
     } catch (error) {
       console.error('Error fetching bookings:', error);
     }
   };
 
   const getDatesToShow = () => {
-    if (window.innerWidth < 640) return 1; // Mobile: 1 date
-    if (window.innerWidth < 1024) return 3; // Medium screens: 3 dates
-    return 5; // Large screens: 5 dates
+    if (window.innerWidth < 640) return 1; 
+    if (window.innerWidth < 1024) return 3; 
+    return 5;
   };
 
   const handleSlotSelect = (slot, date) => {
     setSelectedSlot({ ...slot, date });
-    setOpenModal(true); // Trigger modal display
+    setOpenModal(true);
   };
 
   const handleBookingConfirm = async () => {
@@ -63,7 +95,6 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
         bookedOn: new Date().toLocaleDateString(),
       });
 
-      // Update state to reflect the selected status
       setDates(prevDates =>
         prevDates.map(dateObj => {
           if (dateObj.date === selectedSlot.date) {
@@ -106,10 +137,16 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
   return (
     <>
       <h1 className="text-3xl font-extrabold text-custom-maroon mb-6 text-center">
-      <BreadCrumb first="Doctor Dashboard" second="Manage Appointment" firstLink="/doctorlogin" secondLink="/manageAppoint" />
-        Available Dates</h1>
-      {/* <p>Selected Disease: {selectedDisease}</p>
-      <p>Selected Doctor: {selectedDoctor?.name} (ID: {selectedDoctor?.id})</p> */}
+        <BreadCrumb first="Doctor Dashboard" second="Manage Appointment" firstLink="/doctorlogin" secondLink="/manageAppoint" />
+        Available Dates
+        
+        <label class="inline-flex items-center cursor-pointer px-2">
+  <input type="checkbox"   checked={hiddenUSA} onChange={() => setHiddenUSA(!hiddenUSA)} className="sr-only peer"/>
+  <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+  <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{!hiddenUSA?<>Minnesota Slots</>:<>Indian Slots</>}</span>
+</label>
+      </h1>
+     
 
       <div className="relative flex items-center w-full bg-custom-graybg p-4 rounded-lg overflow-hidden">
         {loading && (
@@ -125,7 +162,7 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
           </div>
         )}
 
-        <div className={`flex space-x-4 overflow-hidden transition-all duration-500`}>
+        <div className="flex space-x-4 overflow-hidden transition-all duration-500">
           {displayedDates.map((dateObj, index) => {
             const { date, slots } = dateObj;
 
@@ -146,7 +183,14 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
                       onClick={() => handleSlotSelect(slot, date)}
                       style={{ pointerEvents: slot.status === 'not available' ? 'none' : 'auto' }}
                     >
-                      <span>{slot.time}</span>
+                    {/* when toggeled for Indian slots display onley these two */}
+                      <span className={`${!hiddenUSA?"hidden":""}`}>{slot.time}</span><br />
+{/* when toggeled for INdian slots display onley these two */}
+
+                  {/* when toggeled for Minnesota dates display onley these two */}
+                      <span className={`${hiddenUSA?"hidden":""}`}>{slot.minnesotaTime}</span><br />
+                      <span className={`${hiddenUSA?"hidden":""}`}>{slot.minnesotaDate}</span>
+                        {/* when toggeled for Minnesota dates display onley these two */}
                       <span className={`block text-sm ${slot.status === 'requested' ? 'text-green-700' : ''}`}>{slot.status}</span>
                     </li>
                   ))}
@@ -157,7 +201,7 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
         </div>
       </div>
 
-      {/* Fixed Navigation Buttons */}
+      {/* Navigation Buttons */}
       <div className="fixed left-0 top-1/2 transform -translate-y-1/2 p-2">
         <button 
           className="bg-custom-maroon0 text-white p-2 rounded-full flex items-center hover:bg-custom-maroon1 transition"
@@ -180,28 +224,26 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
 
       {/* Booking Confirmation Modal */}
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <div className="flex flex-col justify-center items-center p-6 bg-white rounded-lg shadow-lg">
-          <h2 className="text-xl font-bold mb-4">Change Slot Status</h2>
-          <p>Select the new status for the slot at {selectedSlot?.time} on {selectedSlot?.date}:</p>
+        <div className="p-6 bg-white shadow-lg rounded-md w-80 mx-auto mt-20">
+          <h2 className="text-xl font-bold mb-4">Confirm Booking</h2>
+          <p>Do you want to change the booking status for the selected slot?</p>
           <div className="mt-4">
-            <select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)} className="p-2 border border-gray-300 rounded">
-              <option value="booked">Book this slot</option>
-              <option value="not available">Mark as Not Available</option>
-              <option value="available">Mark as Available</option>
+            <select className="w-full border p-2 rounded" value={selectedStatus} onChange={e => setSelectedStatus(e.target.value)}>
+              <option value="booked">Booked</option>
+              <option value="requested">Requested</option>
+              <option value="not available">Not Available</option>
             </select>
           </div>
-          <div className="mt-4">
-            <button className="bg-green-500 text-white p-2 rounded mr-2" onClick={handleBookingConfirm}>Confirm</button>
-            <button className="bg-red-500 text-white p-2 rounded" onClick={() => setOpenModal(false)}>Cancel</button>
+          <div className="mt-4 flex justify-between">
+            <button className="bg-gray-400 text-white px-4 py-2 rounded" onClick={() => setOpenModal(false)}>Cancel</button>
+            <button className="bg-custom-maroon0 text-white px-4 py-2 rounded" onClick={handleBookingConfirm}>Confirm</button>
           </div>
         </div>
       </Modal>
 
-      {/* Snackbar for alerts */}
-      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={() => setSnackbarOpen(false)}>
-        <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
+      {/* Snackbar */}
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => setSnackbarOpen(false)}>
+        <Alert onClose={() => setSnackbarOpen(false)} severity="success">{snackbarMessage}</Alert>
       </Snackbar>
     </>
   );

@@ -1,0 +1,548 @@
+[
+    {
+        "_id": "670b6350849f6d5e3f2457f0",
+        "date": "13-10-2024",
+        "slots": [
+            {
+                "bookingId": "24OCT130900",
+                "time": "09:00",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f1"
+            },
+            {
+                "bookingId": "24OCT130945",
+                "time": "09:45",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f2"
+            },
+            {
+                "bookingId": "24OCT131030",
+                "time": "10:30",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f3"
+            },
+            {
+                "bookingId": "24OCT131115",
+                "time": "11:15",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f4"
+            },
+            {
+                "bookingId": "24OCT131200",
+                "time": "12:00",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f5"
+            },
+            {
+                "bookingId": "24OCT131245",
+                "time": "12:45",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f6"
+            },
+            {
+                "bookingId": "24OCT131330",
+                "time": "13:30",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f7"
+            },
+            {
+                "bookingId": "24OCT131415",
+                "time": "14:15",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f8"
+            },
+            {
+                "bookingId": "24OCT131500",
+                "time": "15:00",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f9"
+            },
+            {
+                "bookingId": "24OCT131545",
+                "time": "15:45",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457fa"
+            },
+            {
+                "bookingId": "24OCT131630",
+                "time": "16:30",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457fb"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "670b6350849f6d5e3f245803",
+        "date": "14-10-2024",
+        "slots": [
+            {
+                "bookingId": "24OCT140900",
+                "time": "09:00",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f245804"
+            },
+            {
+                "bookingId": "24OCT140945",
+                "time": "09:45",
+                "status": "not available",
+                "bookedby": "NA",
+                "bookedOn": "Sun Oct 13 2024 11:37:20 GMT+0530 (India Standard Time)",
+                "_id": "670b6350849f6d5e3f245805"
+            },
+            {
+                "bookingId": "24OCT141030",
+                "time": "10:30",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f245806"
+            },
+            {
+                "bookingId": "24OCT141115",
+                "time": "11:15",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f245807"
+            },
+            {
+                "bookingId": "24OCT141200",
+                "time": "12:00",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f245808"
+            },
+            {
+                "bookingId": "24OCT141245",
+                "time": "12:45",
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f245809"
+            }, I want such a function if it creates new array of obect then the new format should be [
+    {
+        "_id": "670b6350849f6d5e3f2457f0",
+        "date": "12-10-2024", 
+        "slots": [
+            {
+                "bookingId": "24OCT130900",
+                "time": "10:30 PM", 
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f1"
+            },
+            {
+                "bookingId": "24OCT130945",
+                "time": "11:15", 
+                "status": "available",
+                "bookedby": "NA",
+                "bookedOn": "NA",
+                "_id": "670b6350849f6d5e3f2457f2"
+            },
+
+
+            import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Modal from "@mui/material/Modal";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { BaseUrl } from "../BaseUrl";
+import { ThreeDots } from "react-loader-spinner";
+import { BreadCrumb } from "./BreadCrumb";
+
+const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
+  const [loggedInUser, setLoggedInUser] = useState({});
+  const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("booked"); // Default to booked
+
+  const [dates, setDates] = useState([]);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [displayedDates, setDisplayedDates] = useState([]);
+  const [minessotaDates, setminessotaDates] = useState([]);
+
+  // fetch loggedInUser user email
+  useEffect(() => {
+    const storedUserDetails = localStorage.getItem("userDetails");
+    if (storedUserDetails) {
+      setLoggedInUser(JSON.parse(storedUserDetails));
+    }
+  }, []);
+  // fetch loggedInUser user email
+
+  useEffect(() => {
+    fetchBookings(); // get all dates and slots, from backend and also
+   
+  }, []);
+
+
+// convert to minessota dates function
+function adjustBookings(bookings) {
+  return bookings.map(booking => {
+      const newDate = new Date(`${booking.date}T00:00:00`);
+      newDate.setDate(newDate.getDate() - 1); // Shift to previous date
+
+      return {
+          _id: booking._id,
+          date: newDate.toISOString().split('T')[0].split('-').reverse().join('-'), // Format date to DD-MM-YYYY
+          slots: booking.slots.map(slot => {
+              const [hours, minutes] = slot.time.split(':').map(Number);
+              const slotDate = new Date(newDate);
+              slotDate.setHours(hours);
+              slotDate.setMinutes(minutes);
+              slotDate.setMinutes(slotDate.getMinutes() - 630); // Reduce time by 10 hours 30 minutes
+
+              // Check if time goes negative and adjust
+              if (slotDate.getHours() < 0) {
+                  slotDate.setDate(slotDate.getDate() - 1); // Move to previous day if time goes negative
+                  slotDate.setHours(24 + slotDate.getHours()); // Adjust hours to a positive value
+              }
+
+              const adjustedTime = `${slotDate.getHours() % 12 || 12}:${String(slotDate.getMinutes()).padStart(2, '0')} ${slotDate.getHours() >= 12 ? 'PM' : 'AM'}`;
+
+              return {
+                  bookingId: slot.bookingId,
+                  time: adjustedTime,
+                  status: slot.status,
+                  bookedby: slot.bookedby,
+                  bookedOn: slot.bookedOn,
+                  _id: slot._id
+              };
+          })
+      };
+  });
+}
+// convert to minesotta dates ends
+
+
+  const fetchBookings = async () => {
+    try {
+      const response = await axios.get(`${BaseUrl}/api/patients/getBookings`);
+      setDates(response.data); // sets json from server to dates states
+      setDisplayedDates(response.data.slice(offset, offset + getDatesToShow())); // slices up the json form server and to displayedDates state. 1. offset=0 and getDatesToShow() gives 1 , 3 or 5 based upon screensize
+
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
+  };
+
+  // returns the value 1, 3 or 5 based upon screensize
+  const getDatesToShow = () => {
+    if (window.innerWidth < 640) return 1; // Mobile: 1 date
+    if (window.innerWidth < 1024) return 3; // Medium screens: 3 dates
+    return 5; // Large screens: 5 dates
+  };
+
+  const handleSlotSelect = (slot, date) => {
+    setSelectedSlot({ ...slot, date });
+    setOpenModal(true); // Trigger modal display
+  };
+
+  // book the slots logic starts
+  const handleBookingConfirm = async () => {
+    try {
+      await axios.post(`${BaseUrl}/api/patients/postBookingsAdmin`, {
+        bookingId: selectedSlot.bookingId,
+        date: selectedSlot.date,
+        status: selectedStatus,
+        bookedBy: loggedInUser.email,
+        bookedOn: new Date().toLocaleDateString(),
+      });
+
+      // Update state to reflect the selected status
+      setDates((prevDates) =>
+        prevDates.map((dateObj) => {
+          if (dateObj.date === selectedSlot.date) {
+            return {
+              ...dateObj,
+              slots: dateObj.slots.map((slot) => {
+                if (slot.bookingId === selectedSlot.bookingId) {
+                  return { ...slot, status: selectedStatus };
+                }
+                return slot;
+              }),
+            };
+          }
+          return dateObj;
+        })
+      );
+
+      setOpenModal(false);
+      setSnackbarMessage("Status updated successfully");
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error("Error updating status:", error);
+      setSnackbarMessage("Error updating status");
+      setSnackbarOpen(true);
+    }
+  };
+  // book the slots logic starts
+
+  // go front and back in dates
+  const loadMoreDates = (direction) => {
+    setLoading(true); //show three dots loading
+    setTimeout(() => {
+      setLoading(false);
+      setOffset((prevOffset) => {
+        const newOffset =
+          direction === "next"
+            ? prevOffset + getDatesToShow()
+            : prevOffset - getDatesToShow();
+        setDisplayedDates(dates.slice(newOffset, newOffset + getDatesToShow()));
+        return newOffset;
+      });
+    }, 1000);
+  };
+  
+console.log(displayedDates[0].date+"sdsd");
+console.log(displayedDates[0].slots[0].time+"sdsd");
+  // go front and back in dates
+ setminessotaDates adjustbookings(displayedDates);
+
+  return (
+    <>
+      <h1 className="text-3xl font-extrabold text-custom-maroon mb-6 text-center">
+        <BreadCrumb
+          first="Doctor Dashboard"
+          second="Manage Appointment"
+          firstLink="/doctorlogin"
+          secondLink="/manageAppoint"
+        />
+        Available Dates
+      </h1>
+      {/* <p>Selected Disease: {selectedDisease}</p>
+      <p>Selected Doctor: {selectedDoctor?.name} (ID: {selectedDoctor?.id})</p> */}
+
+      {/* three dots loadaer */}
+      <div className="relative flex items-center w-full bg-custom-graybg p-4 rounded-lg overflow-hidden">
+        {loading && (
+          <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-10">
+            <ThreeDots
+              visible={true}
+              height="80"
+              width="80"
+              color="#4fa94d"
+              radius="9"
+              ariaLabel="three-dots-loading"
+            />
+          </div>
+        )}
+
+        {/* the maind date display logic */}
+        <div
+          className={`flex space-x-4 overflow-hidden transition-all duration-500`}
+        >
+          {displayedDates.map((dateObj, index) => {
+            const { date, slots } = dateObj;
+
+            if (!Array.isArray(slots)) {
+              console.warn(`Slots is not an array for date: ${date}`, slots);
+              return null;
+            }
+
+            return (
+              <div
+                key={index}
+                className="inline-block mb-6 w-80 text-center border-2 border-custom-gray0 rounded-lg shadow-lg bg-white transition-all duration-300"
+              >
+                <h2 className="text-2xl font-semibold text-custom-maroon2 mb-4">
+                  {date}
+                </h2>
+                <ul>
+                  {slots.map((slot, idx) => (
+                    <li
+                      key={idx}
+                      className={`mb-3 p-2 border border-custom-maroon rounded-lg 
+                      ${
+                        slot.status === "not available"
+                          ? "bg-red-400 text-white cursor-not-allowed"
+                          : slot.status === "booked"
+                          ? "bg-gray-400 text-white cursor-not-allowed"
+                          : "bg-custom-graybg text-custom-maroon2 cursor-pointer"
+                      }`}
+                      onClick={() => handleSlotSelect(slot, date)}
+                      style={{
+                        pointerEvents:
+                          slot.status === "not available" ? "none" : "auto",
+                      }}
+                    >
+                      <span>{slot.time}</span>
+                      <span
+                        className={`block text-sm ${
+                          slot.status === "requested" ? "text-green-700" : ""
+                        }`}
+                      >
+                        {slot.status}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+
+        <div
+          className={`flex space-x-4 overflow-hidden transition-all duration-500`}
+        >
+          {minesotda .map((dateObj, index) => {
+            const { date, slots } = dateObj;
+
+            if (!Array.isArray(slots)) {
+              console.warn(`Slots is not an array for date: ${date}`, slots);
+              return null;
+            }
+
+            return (
+              <div
+                key={index}
+                className="inline-block mb-6 w-80 text-center border-2 border-custom-gray0 rounded-lg shadow-lg bg-white transition-all duration-300"
+              >
+                <h2 className="text-2xl font-semibold text-custom-maroon2 mb-4">
+                  {date}
+                </h2>
+                <ul>
+                  {slots.map((slot, idx) => (
+                    <li
+                      key={idx}
+                      className={`mb-3 p-2 border border-custom-maroon rounded-lg 
+                      ${
+                        slot.status === "not available"
+                          ? "bg-red-400 text-white cursor-not-allowed"
+                          : slot.status === "booked"
+                          ? "bg-gray-400 text-white cursor-not-allowed"
+                          : "bg-custom-graybg text-custom-maroon2 cursor-pointer"
+                      }`}
+                      onClick={() => handleSlotSelect(slot, date)}
+                      style={{
+                        pointerEvents:
+                          slot.status === "not available" ? "none" : "auto",
+                      }}
+                    >
+                      <span>{slot.time}</span>
+                      <span
+                        className={`block text-sm ${
+                          slot.status === "requested" ? "text-green-700" : ""
+                        }`}
+                      >
+                        {slot.status}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+        {/* the main date display logic ends here */}
+      </div>
+      {/* three dots laoder */}
+
+      {/* Fixed Navigation Buttons */}
+      <div className="fixed left-0 top-1/2 transform -translate-y-1/2 p-2">
+        <button
+          className="bg-custom-maroon0 text-white p-2 rounded-full flex items-center hover:bg-custom-maroon1 transition"
+          onClick={() => loadMoreDates("previous")}
+          disabled={offset === 0}
+        >
+          <ArrowBackIcon />
+        </button>
+      </div>
+
+      <div className="fixed right-0 top-1/2 transform -translate-y-1/2 p-2">
+        <button
+          className="bg-custom-maroon0 text-white p-2 rounded-full flex items-center hover:bg-custom-maroon1 transition"
+          onClick={() => loadMoreDates("next")}
+          disabled={offset + getDatesToShow() >= dates.length}
+        >
+          <ArrowForwardIcon />
+        </button>
+      </div>
+
+      {/* Booking Confirmation Modal */}
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <div className="flex flex-col justify-center items-center p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-xl font-bold mb-4">Change Slot Status</h2>
+          <p>
+            Select the new status for the slot at {selectedSlot?.time} on{" "}
+            {selectedSlot?.date}:
+          </p>
+          <div className="mt-4">
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="p-2 border border-gray-300 rounded"
+            >
+              <option value="booked">Book this slot</option>
+              <option value="not available">Mark as Not Available</option>
+              <option value="available">Mark as Available</option>
+            </select>
+          </div>
+          <div className="mt-4">
+            <button
+              className="bg-green-500 text-white p-2 rounded mr-2"
+              onClick={handleBookingConfirm}
+            >
+              Confirm
+            </button>
+            <button
+              className="bg-red-500 text-white p-2 rounded"
+              onClick={() => setOpenModal(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Snackbar for alerts */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+    </>
+  );
+};
+
+export default ManageAppointments;

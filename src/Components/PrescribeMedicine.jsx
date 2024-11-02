@@ -143,30 +143,31 @@ const PrescribeMedicine = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Array.isArray(filteredData) && filteredData.length > 0 ? (
-            filteredData.map((booking) => (
-              <TableRow key={booking.bookingId}>
-                <TableCell>{booking.bookingId}</TableCell>
-                <TableCell>{booking.date}</TableCell>
-                <TableCell>{booking.patientId}</TableCell>
-                <TableCell style={{ color: getStatusColor(booking.status) }}>
-                  {booking.status}
-                </TableCell>
-                <TableCell>
-                  <IconButton onClick={() => handleInfoClick(booking)}>
-                    <InfoIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={5} align="center">
-                No bookings available
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
+  {Array.isArray(filteredData) && filteredData.length > 0 ? (
+    filteredData.map((booking) => (
+      <TableRow key={booking.bookingId}>
+        <TableCell>{booking.bookingId}</TableCell>
+        <TableCell>{booking.date}</TableCell>
+        <TableCell>{booking.patientId}</TableCell>
+        <TableCell style={{ color: getStatusColor(booking.status) }}>
+          {booking.status}
+        </TableCell>
+        <TableCell>
+          <IconButton onClick={() => handleInfoClick(booking)}>
+            <InfoIcon />
+          </IconButton>
+        </TableCell>
+      </TableRow>
+    ))
+  ) : (
+    <TableRow>
+      <TableCell colSpan={5} align="center">
+        No bookings available
+      </TableCell>
+    </TableRow>
+  )}
+</TableBody>
+
       </Table>
 
       <Snackbar

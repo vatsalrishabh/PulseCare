@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, Typography, Button, Table, TableBody, TableCell, TableHead, TableRow, Modal, Box } from '@mui/material';
 import { FaPills, FaDownload } from 'react-icons/fa';
 import axios from 'axios';
@@ -115,13 +116,13 @@ setTimeout(()=>{
                 <ul className="mt-2">
                   {getUniqueMedicines(selectedPrescription.medicines).map((med) => ( // Use the function to get unique medicines
                     <li key={med.id}>
-                      <a
-                        href={`/path/to/prescriptions/${med.prescriptionFile}`}
+                      <Link
+                        to={`/path/to/prescriptions/${med.prescriptionFile}`}
                         download
                         className="text-blue-600 underline"
                       >
                         {med.prescriptionFile}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

@@ -1,18 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Button, List, ListItem, ListItemText } from '@mui/material';
 import { FaFlask } from 'react-icons/fa';
+import axios from 'axios';
+import { BaseUrl } from './BaseUrl';
 
-const testsRecommended = [
-  { date: '2024-10-01', tests: [
-    { id: 1, name: 'Blood Sugar Test' },
-    { id: 2, name: 'Lipid Profile' },
-  ]},
-  { date: '2024-09-15', tests: [
-    { id: 3, name: 'Complete Blood Count' },
-  ]}
-];
+const TestsRecommended = (props) => {
+  const [testsRecommended, setTestsRecommended] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useState({});
 
-const TestsRecommended = () => {
+
+  useEffect(()=>{
+    console.log(props.patientId+"test recom");
+   console.log(props.bookingId+"test recom");
+    const loadUserDetails = () => {
+      const storedUserDetails = localStorage.getItem('userDetails');
+      if (storedUserDetails) {
+        const userDetails = JSON.parse(storedUserDetails);
+        setLoggedInUser(userDetails);
+      }
+    };
+    loadUserDetails();
+  },[])
+  // Fetch recommended tests from API
+  const fetchRecommendedTests = async () => {
+    try {
+      const response = await axios.get(`${BaseUrl}/api/patients/viewRecommendedTest`, {
+        params: {
+          patientId: props.patientId,
+          bookingId: props.bookingId,
+        },
+      });
+      console.log('API Response:', response.data); // Log API response for debugging
+      setTestsRecommended(response.data);
+    } catch (error) {
+      console.error('Error fetching recommended tests:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecommendedTests();
+  }, []); // Empty dependency array to run only once on mount
+
   return (
     <Card className="mb-4 shadow-lg">
       <CardContent>
