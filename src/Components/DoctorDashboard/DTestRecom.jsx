@@ -17,12 +17,12 @@ import {
 import { FaFlask } from 'react-icons/fa';
 import { BaseUrl } from '../BaseUrl';
 
-const DTestRecom = () => {
+const DTestRecom = (props) => {
   const [testsRecommended, setTestsRecommended] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [newTest, setNewTest] = useState({ name: '', date: '' });
-  const patientId = '202406278'; // Hardcoded patient ID
-  const bookingId = '24OCT200945'; // Hardcoded booking ID
+  const patientId = props.patientId; // Hardcoded patient ID
+  const bookingId = props.bookingId; // Hardcoded booking ID
 
   // Fetch recommended tests from the API
   const fetchRecommendedTests = async () => {

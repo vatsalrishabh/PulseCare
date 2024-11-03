@@ -52,8 +52,8 @@ const PatientHistory = () => {
       <BreadCrumb first="Patient Dashboard" second="Patient History" firstLink="/pdash" secondLink="/history" />
       <Typography variant="h4" className="font-semibold text-gray-800 mb-6">Patient History</Typography>
 
-      <div>
-        {/* Next Checkup Date Section */}
+      {/* <div>
+      
         <Card className="mb-4 shadow-lg">
           <CardContent>
             <Typography variant="h6" className="flex items-center">
@@ -64,7 +64,7 @@ const PatientHistory = () => {
           </CardContent>
         </Card>
 
-        {/* Progress Section */}
+   
         <Card className="mb-4 shadow-lg">
           <CardContent>
             <Typography variant="h6" className="flex items-center">
@@ -78,13 +78,13 @@ const PatientHistory = () => {
             <Drawer anchor="right" open={openDrawer} onClose={handleDrawerClose}>
               <div className="w-80 p-4">
                 <Typography variant="h6" className="mb-4">Detailed Progress</Typography>
-                {/* Add more detailed progress info here */}
+          
                 <Button variant="outlined" onClick={handleDrawerClose}>Close</Button>
               </div>
             </Drawer>
           </CardContent>
         </Card>
-      </div>
+      </div> */}
 
       {/* Uploaded Documents Component */}
       <UploadedDocuments patientEmail={loggedInUser.email} patientId={patientId} bookingId={bookingId} />

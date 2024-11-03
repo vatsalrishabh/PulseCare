@@ -4,14 +4,12 @@ import { FaFlask } from 'react-icons/fa';
 import axios from 'axios';
 import { BaseUrl } from './BaseUrl';
 
-const TestsRecommended = (props) => {
+const TestsRecommended = ({ patientId, bookingId }) => {
   const [testsRecommended, setTestsRecommended] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState({});
 
-
-  useEffect(()=>{
-    console.log(props.patientId+"test recom");
-   console.log(props.bookingId+"test recom");
+  // Load user details from local storage
+  useEffect(() => {
     const loadUserDetails = () => {
       const storedUserDetails = localStorage.getItem('userDetails');
       if (storedUserDetails) {
@@ -20,17 +18,17 @@ const TestsRecommended = (props) => {
       }
     };
     loadUserDetails();
-  },[])
+  }, []);
+
   // Fetch recommended tests from API
   const fetchRecommendedTests = async () => {
     try {
       const response = await axios.get(`${BaseUrl}/api/patients/viewRecommendedTest`, {
         params: {
-          patientId: props.patientId,
-          bookingId: props.bookingId,
+          patientId,
+          bookingId,
         },
       });
-      console.log('API Response:', response.data); // Log API response for debugging
       setTestsRecommended(response.data);
     } catch (error) {
       console.error('Error fetching recommended tests:', error);
@@ -39,7 +37,17 @@ const TestsRecommended = (props) => {
 
   useEffect(() => {
     fetchRecommendedTests();
-  }, []); // Empty dependency array to run only once on mount
+  }, [patientId, bookingId]); // Refetch if patientId or bookingId changes
+
+  // Group tests by date for better display
+  const testsByDate = testsRecommended.reduce((acc, test) => {
+    const date = test.date;
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(test);
+    return acc;
+  }, {});
 
   return (
     <Card className="mb-4 shadow-lg">
@@ -48,14 +56,29 @@ const TestsRecommended = (props) => {
           <FaFlask className="mr-2 text-orange-600" />
           Tests Recommended by Doctor
         </Typography>
-        {testsRecommended.map(testGroup => (
-          <div key={testGroup.date} className="mb-4">
-            <Typography variant="subtitle1" className="font-bold">{testGroup.date}</Typography>
+        <Typography variant="body2" className="mt-2">
+          <strong>Patient ID:</strong> {patientId}
+        </Typography>
+        <Typography variant="body2" className="mb-4">
+          <strong>Booking ID:</strong> {bookingId}
+        </Typography>
+
+        {Object.keys(testsByDate).map(date => (
+          <div key={date} className="mb-4">
+            <Typography variant="subtitle1" className="font-bold">
+              Date: {new Date(date).toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })}
+            </Typography>
             <List>
-              {testGroup.tests.map(test => (
-                <ListItem key={test.id} className="flex justify-between items-center">
+              {testsByDate[date].map(test => (
+                <ListItem key={test._id} className="flex justify-between items-center">
                   <ListItemText primary={test.name} />
-                  <Button variant="outlined" color="primary" className="ml-2">Schedule Test</Button>
+                  <Button variant="outlined" color="primary">
+                    Schedule Test
+                  </Button>
                 </ListItem>
               ))}
             </List>

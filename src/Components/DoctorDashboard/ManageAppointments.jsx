@@ -62,10 +62,28 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
   const fetchBookings = async () => {
     try {
       const response = await axios.get(`${BaseUrl}/api/patients/getBookings`);
-      const fetchedDates = response.data;
+
+      // today's date fileter
+      function fromTodaySlot(data) {
+        // Get today's date in the same format as the data
+        const today = new Date();
+        const formattedToday = today.toLocaleDateString('en-GB').split('/').reverse().join('-');
+      
+        // Filter the data to include only dates from today onwards
+        const result = data.filter(item => {
+          const itemDate = item.date.split('-').reverse().join('-'); // Convert to YYYY-MM-DD for comparison
+          return new Date(itemDate) >= new Date(formattedToday);
+        });
+      
+        return result;
+      }
+      // today's date fileter
+
+
+      const fetchedDates = fromTodaySlot(response.data);
       setDates(fetchedDates); // to set dates useState
       
-      const updatedDates = addMinnesotaDateTime(fetchedDates);  //just returns slots ie just dates for now
+      const updatedDates = addMinnesotaDateTime(fetchedDates);  // add minnesota date and date slot..
       setMinnesotaDates(updatedDates);
       console.log(minnesotaDates+"in the fetch block");
       setDisplayedDates(fetchedDates.slice(offset, offset + getDatesToShow()));
