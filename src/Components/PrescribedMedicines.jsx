@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, CardContent, Typography, Button, Table, TableBody, TableCell, TableHead, TableRow, Modal, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, Typography, Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { FaPills, FaDownload } from 'react-icons/fa';
 import axios from 'axios';
 import { BaseUrl } from './BaseUrl';
-import Prescription from './PDF/Prescription';
 
 const PrescribedMedicines = ({ patientEmail }) => {
   const [prescriptions, setPrescriptions] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [selectedPrescription, setSelectedPrescription] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPrescriptions = async () => {
@@ -25,14 +23,8 @@ const PrescribedMedicines = ({ patientEmail }) => {
     }, 2000);
   }, [patientEmail]);
 
-  const handleOpen = (prescription) => {
-    setSelectedPrescription(prescription);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setSelectedPrescription(null);
+  const handleOpen = (bookingId) => {
+    navigate(`/pres/${bookingId}`);
   };
 
   const getUniqueMedicines = (medicines) => {
@@ -98,58 +90,17 @@ const PrescribedMedicines = ({ patientEmail }) => {
                 </TableBody>
               </Table>
 
-              <Button variant="outlined" color="primary" className="mt-2" onClick={() => handleOpen({ bookingId, date, medicines })}>
+              <Button
+                variant="outlined"
+                color="primary"
+                className="mt-2"
+                onClick={() => handleOpen(bookingId)}
+              >
                 <FaDownload className="mr-1" /> Download Prescription
               </Button>
             </div>
           );
         })}
-
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-title"
-          aria-describedby="modal-description"
-        >
-          <Box className="bg-white p-4 shadow-md mx-auto mt-20 rounded-lg" style={{ width: 400 }}>
-            <Typography id="modal-title" variant="h6" className="font-bold">
-              Prescription Download
-            </Typography>
-            {selectedPrescription && (
-              <div>
-                <Typography variant="subtitle1" className="mt-2">
-                  <strong>Date:</strong> {new Date(selectedPrescription.date).toLocaleDateString('en-IN', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                  })}
-                </Typography>
-                <Typography variant="subtitle1">
-                  <strong>Booking ID:</strong> {selectedPrescription.bookingId}
-                </Typography>
-                <Typography variant="subtitle1" className="mt-2">
-                  Download the prescription file:
-                </Typography>
-                <ul className="mt-2">
-                  {getUniqueMedicines(selectedPrescription.medicines).map((med) => (
-                    <li key={med._id}>
-                      <Link
-                        to={`/path/to/prescriptions/${med.prescriptionFile}`}
-                        download
-                        className="text-blue-600 underline"
-                      >
-                        {med.prescriptionFile || `${med.name}.pdf`}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <Button variant="contained" color="primary" className="mt-4" onClick={handleClose}>
-              Close
-            </Button>
-          </Box>
-        </Modal>
       </CardContent>
     </Card>
   );

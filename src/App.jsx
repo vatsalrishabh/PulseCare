@@ -95,7 +95,7 @@ loadDoctorDetails();
               <Footer />
             </>
           } />
-          <Route path="/pres" element={<Prescription />} />
+          <Route path="/pres/:bookingId" element={<Prescription />} />
           <Route path="/patientlogin" element={
             <>
               <Navbar />

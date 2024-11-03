@@ -8,6 +8,7 @@ import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 import { BaseUrl } from './BaseUrl';
 import axios from 'axios';
 
+
 const PatientHistory = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -48,7 +49,8 @@ const PatientHistory = () => {
   }, [loggedInUser.email]); // Depend on loggedInUser.email to re-run if it changes
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6">
+    <div className="">
+      <div className="bg-gray-100 min-h-screen p-6">
       <BreadCrumb first="Patient Dashboard" second="Patient History" firstLink="/pdash" secondLink="/history" />
       <Typography variant="h4" className="font-semibold text-gray-800 mb-6">Patient History</Typography>
 
@@ -94,6 +96,9 @@ const PatientHistory = () => {
 
       {/* Tests Recommended Component */}
       <TestsRecommended patientEmail={loggedInUser.email} patientId={patientId} bookingId={bookingId} />
+      </div>
+
+
     </div>
   );
 };

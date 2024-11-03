@@ -19,6 +19,8 @@ import axios from 'axios';
 import { BaseUrl } from './BaseUrl';
 import Person4Icon from '@mui/icons-material/Person4';
 import DTestRecom from './DoctorDashboard/DTestRecom';
+import PatientComplaint from './DoctorDashboard/PatientComplaint';
+import DoctorDiagnosis from './DoctorDashboard/DoctorDiagnosis';
 
 const DPresMedecine = (props) => {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -188,18 +190,23 @@ const DPresMedecine = (props) => {
 
         {/* Decision Modal */}
         <Modal open={openDecisionModal} onClose={handleCloseDecisionModal}>
-          <Box className="bg-white p-4 shadow-md mx-auto mt-20 rounded-lg relative" style={{ width: '90%', height: '30%', overflow: 'auto' }}>
-            <button
-              className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-              onClick={handleCloseDecisionModal}
-            >
-              <IoClose size={30} />
-            </button>
-            <Typography variant="h6" className="font-bold">Choose Action</Typography>
-            <Button variant="contained" color="primary" onClick={handlePrescribeMedicine} className="mt-4">Prescribe Medicine</Button>
-            <Button variant="contained" color="secondary" onClick={handleRecommendTest} className="mt-2">Recommend Test</Button>
-          </Box>
-        </Modal>
+  <Box className="bg-white p-4 shadow-md mx-auto mt-20 rounded-lg relative" style={{ width: '90%', height: '90%', overflow: 'auto' }}>
+    <button
+      className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+      onClick={handleCloseDecisionModal}
+    >
+      <IoClose size={30} />
+    </button>
+    <Typography variant="h6" className="font-bold">Choose Action</Typography>
+    <Button variant="contained" color="primary" onClick={handlePrescribeMedicine} className="mt-4">Prescribe Medicine</Button>
+    <Button variant="contained" color="secondary" onClick={handleRecommendTest} className="mt-2">Recommend Test</Button>
+    <div>
+      <PatientComplaint patientId={props.patientId} bookingId={props.bookingId} />
+      <DoctorDiagnosis patientId={props.patientId} bookingId={props.bookingId} />
+    </div>
+  </Box>
+</Modal>
+
 
         {/* First Modal: Edit Prescription */}
         <Modal open={openPrescriptionModal} onClose={handleClose}>
