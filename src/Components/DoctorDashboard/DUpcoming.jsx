@@ -29,7 +29,7 @@ const DUpcoming = () => {
     if (loggedInUser.email) {
       const fetchAppointments = async () => {
         try {
-          const response = await axios.post(`${BaseUrl}/api/doctors/getAllBookings`, { email: loggedInUser.email });
+          const response = await axios.post(`${BaseUrl}/api/doctors/getAllBookings`);
           setAppointments(response.data);
         } catch (error) {
           console.error('Error fetching appointments:', error);
