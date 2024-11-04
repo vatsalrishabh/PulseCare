@@ -129,6 +129,25 @@ loadDoctorDetails();
             </>
           )} />
 
+
+
+<Route path="/allpatienthistory/:patientId" element={loggedInDoctor.isLoggedIn?
+          (<>
+          <DoctorNavbar/>
+          <DoctorDashboard /> 
+          <Footer/>
+          </>)
+           : (
+            <>
+              <Navbar />
+              <DoctorLogin />
+              <Footer />
+            </>
+          )} />
+
+
+
+
            <Route path="/allpatientprofile" element={loggedInDoctor.isLoggedIn ?
           <>
           <DoctorNavbar/>
@@ -269,6 +288,8 @@ loadDoctorDetails();
               <Footer />
             </>
           ) : <PatientNotLoggedIn />} />
+
+
 
            <Route path="/patientprofile" element={loggedInUser.isloggedIn ? (
             <>
