@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Typography, Card, CardContent } from '@mui/material';
 import { CheckCircle, Person, CalendarToday, AccessTime, MedicalServices, Receipt } from '@mui/icons-material';
 import pulsecarelogo from '../assets/Puslecarelogo/PulseCare.png'; // Ensure correct path for your logo
+import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 
 const PaymentSuccess = () => {
   const [patientDetails, setPatientDetails] = useState(null);
@@ -16,8 +17,12 @@ const PaymentSuccess = () => {
 
   const handlePrint = () => {
     window.print();
+    
+    setTimeout(()=>{
+      window.location.href = '/pdash';
+    },3000);
   };
-
+console.log(patientDetails);
   // Check if patientDetails is available
   if (!patientDetails) {
     return (
@@ -29,6 +34,7 @@ const PaymentSuccess = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-custom-graybg p-4">
+      
       <Card className="w-full max-w-lg shadow-lg border border-custom-maroon rounded-lg">
         <CardContent className="text-center">
           {/* Logo Section */}
