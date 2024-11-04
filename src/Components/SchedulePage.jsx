@@ -11,7 +11,7 @@ import Payment from './Payment';
 import Tooltip from '@mui/material/Tooltip';
 import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 
-const SchedulePage = ({ selectedDisease, selectedDoctor }) => {
+const  SchedulePage = ({ selectedDisease, selectedDoctor }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
   const [dates, setDates] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);

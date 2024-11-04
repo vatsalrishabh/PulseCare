@@ -10,13 +10,13 @@ import { BreadCrumb } from './DoctorDashboard/BreadCrumb';
 import { BaseUrl } from './BaseUrl'; // Import your BaseUrl
 
 const diseaseTypes = [
+  { label: 'General/Not Aware!' },
   { label: 'Diabetes' },
   { label: 'Hypertension' },
   { label: 'Asthma' },
   { label: 'Cancer' },
   { label: 'Heart Disease' },
   { label: 'COVID-19' },
-  { label: 'General/Not Aware!' },
 ];
 
 const SelectDiseaseType = () => {
