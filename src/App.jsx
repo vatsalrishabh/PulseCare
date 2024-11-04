@@ -115,12 +115,12 @@ loadDoctorDetails();
 
 
 {/* all the dcotors routes below */}
-          <Route path="/doctorlogin" element={loggedInDoctor.isLoggedIn ?
-          <>
+          <Route path="/doctorlogin" element={loggedInDoctor.isLoggedIn?
+          (<>
           <DoctorNavbar/>
           <DoctorDashboard /> 
           <Footer/>
-          </>
+          </>)
            : (
             <>
               <Navbar />

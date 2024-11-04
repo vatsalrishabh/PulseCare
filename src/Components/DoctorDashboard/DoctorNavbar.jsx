@@ -35,6 +35,8 @@ const DoctorNavbar = () => {
     // Remove user details from localStorage
     localStorage.removeItem('doctorDetails');
     // Optionally, redirect to the login page or perform other actions
+    window.location.reload();
+
     navigate('/home'); // Adjust the URL as needed
   };
 
