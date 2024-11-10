@@ -57,6 +57,7 @@ const Prescription = () => {
         setRecommendedTests(data.recommendedTests || []);
         setPatientComplaints(data.patientComplaints || []);
         setDoctorDiagnoses(data.doctorDiagnoses || []);
+        console.log(loggedInUser.email+bookingId)
       } catch (error) {
         console.error("Failed to fetch prescription details", error);
         setError("Failed to load prescription details. Please try again later.");
@@ -119,6 +120,7 @@ const Prescription = () => {
                 <Typography variant="body2"><strong>Weight:</strong> {patientDetails.weight}</Typography>
                 <Typography variant="body2"><strong>Blood Pressure:</strong> {patientDetails.bloodPressure}</Typography>
                 <Typography variant="body2"><strong>Height:</strong> {patientDetails.height}</Typography>
+                <Typography variant="body2"><strong>Date and Time:</strong> {patientDetails.height}</Typography>
               </Grid>
             </Grid>
           </Card>

@@ -34,6 +34,7 @@ const PatientLoginForm = () => {
 
   const [otp, setOtp] = useState("");
   const [alert, setAlert] = useState({ message: "", status: "99" }); //no alert or Snackbar when status is 99
+  const [showPassword , setShowPassword] = useState(false);
 
   // const { isloggedIn, loginUser, logoutUser, isAuthenticated } = useContext(LoginContext);
 
@@ -444,14 +445,39 @@ const PatientLoginForm = () => {
                 >
                   Your password
                 </label>
-                <input
+                {/* <input
                   value={patientLoginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
                   type="password"
                   id="password"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
-                />
+                /> */}
+            
+<div className="max-w-sm">
+  <label className="block text-sm mb-2 dark:text-white">Password</label>
+  <div className="relative">
+
+{/* hidden show password */}
+<div>
+    <input id="hs-toggle-password" type={showPassword?"text":"password"} className="py-3 ps-4 pe-10 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Enter password"  value={patientLoginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)} required/>
+    <button type="button" onClick={()=>showPassword?setShowPassword(false):setShowPassword(true)}  className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500">
+      <svg className="shrink-0 size-3.5" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path className="hs-password-active:hidden" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+        <path className="hs-password-active:hidden" d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+        <path className="hs-password-active:hidden" d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+        <line className="hs-password-active:hidden" x1="2" x2="22" y1="2" y2="22"></line>
+        <path className="hidden hs-password-active:block" d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+        <circle className="hidden hs-password-active:block" cx="12" cy="12" r="3"></circle>
+      </svg>
+    </button>
+    </div>
+{/* hidden show password */}
+
+  </div>
+</div>
+
                 {/* patient login ends */}
               </div>
               <div className="flex items-start mb-5">

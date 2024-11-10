@@ -47,12 +47,13 @@ const fetchBookings = async () => {
     });
     
     const today = new Date();
-    const todayStr = today.toLocaleDateString('en-GB').split('/').reverse().join('-'); // 'DD-MM-YYYY'
-
-    // Filter the response to only include dates >= today's date
+    today.setHours(0, 0, 0, 0);  // Set today's time to midnight
+    
     const filteredDates = response.data.filter(booking => {
       const [day, month, year] = booking.date.split('-');
       const bookingDate = new Date(`${year}-${month}-${day}`);
+      bookingDate.setHours(0, 0, 0, 0); // Set booking date to midnight
+    
       return bookingDate >= today;
     });
 

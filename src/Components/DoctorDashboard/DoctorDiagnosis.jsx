@@ -28,7 +28,7 @@ const DoctorDiagnosis = (props) => {
   };
 
   return (
-    <Box className="p-6 bg-white shadow-md rounded-md max-w-md mx-auto mt-8">
+    <Box className="p-6 bg-white shadow-md rounded-md max-w-2xl mx-auto mt-8">
       <Typography variant="h5" className="font-semibold text-gray-700 mb-4">
         Doctor's Diagnosis
       </Typography>

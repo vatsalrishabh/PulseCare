@@ -76,9 +76,9 @@ const TestsRecommended = ({ patientId, bookingId }) => {
               {testsByDate[date].map(test => (
                 <ListItem key={test._id} className="flex justify-between items-center">
                   <ListItemText primary={test.name} />
-                  <Button variant="outlined" color="primary">
+                  {/* <Button variant="outlined" color="primary">
                     Schedule Test
-                  </Button>
+                  </Button> */}
                 </ListItem>
               ))}
             </List>

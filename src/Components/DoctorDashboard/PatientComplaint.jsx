@@ -18,9 +18,9 @@ const PatientComplaint = (props) => {
           params: { patientId: props.patientId, bookingId: props.bookingId }
         });
         
-        if (response.data && response.data.complaint) {
-          setPreviousComplaint(response.data.complaint);
-          setComplaint(response.data.complaint);
+        if (response.data && response.data.Complaint) {
+          setPreviousComplaint(response.data.Complaint);
+          setComplaint(response.data.Complaint);
         }
       } catch (error) {
         console.error("Failed to fetch complaint:", error);
@@ -50,7 +50,7 @@ const PatientComplaint = (props) => {
   };
 
   return (
-    <Box className="p-6 bg-white shadow-md rounded-md max-w-md mx-auto mt-8">
+    <Box className="p-6 bg-white shadow-md rounded-md max-w-2xl mx-auto mt-8">
       <Typography variant="h5" className="font-semibold text-gray-700 mb-4">
         Patient Complaint
       </Typography>
