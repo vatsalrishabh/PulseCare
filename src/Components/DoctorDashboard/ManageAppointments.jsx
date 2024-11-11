@@ -8,6 +8,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { BaseUrl } from '../BaseUrl';
 import { ThreeDots } from 'react-loader-spinner';
 import { BreadCrumb } from './BreadCrumb';
+import { Schedule } from '@mui/icons-material';
 
 const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -266,5 +267,5 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
     </>
   );
 };
-this is schedule branch 
+this is Schedule branch 
 export default ManageAppointments;
