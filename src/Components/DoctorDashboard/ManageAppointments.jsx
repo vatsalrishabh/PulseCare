@@ -267,5 +267,5 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
     </>
   );
 };
-this is Schedule branch 
+
 export default ManageAppointments;

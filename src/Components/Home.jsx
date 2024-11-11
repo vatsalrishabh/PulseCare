@@ -39,7 +39,7 @@ const Home = () => {
 
           {/* Caraousal Ends */}
       <div className="w-full grid grid-cols-2">
-   put the above code here 
+
       </div>
 
           {/* Chatbot starts */}
