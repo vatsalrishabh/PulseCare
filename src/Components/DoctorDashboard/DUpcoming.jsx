@@ -96,13 +96,22 @@ const DUpcoming = () => {
 
   const handleSubmitLink = async () => {
     const bookingId = selectedAppointment?.bookingId;
-    if (currentLink && bookingId) {
+    const patientId = selectedAppointment?.patientId;
+    const patientDetails = selectedAppointment?.paymentInfo?.notes || {}; // Get the patient details from the selected appointment
+  
+    if (currentLink && bookingId && patientId) {
       try {
         const response = await axios.post(`${BaseUrl}/api/doctors/postGoogleMeet`, {
           bookingId,
           googlemeetlink: currentLink,
+          patientId,            // Include patientId in the request
+          patientName: patientDetails.name || "N/A",  // Include patient details
+          patientEmail: patientDetails.email || "N/A",
+          patientContact: patientDetails.contact || "N/A",
         });
+  
         if (response.status === 200) {
+          // Update the appointments with the Google Meet link
           const updatedAppointments = appointments.map((appointment) =>
             appointment.bookingId === bookingId ? { ...appointment, googleMeet: currentLink } : appointment
           );
@@ -118,6 +127,7 @@ const DUpcoming = () => {
       }
     }
   };
+  
 
   const handleSnackbarClose = () => setSnackbarOpen(false);
 
