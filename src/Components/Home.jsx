@@ -6,6 +6,7 @@ import image3 from '../assets/home/image3.jpg'
 import image4 from '../assets/home/image4.jpg'
 import image5 from '../assets/home/image5.jpg'
 import './Chatbot.css'
+import Animation from './HomePage/Animation';
 
 
 
@@ -24,7 +25,7 @@ const Home = () => {
 
 
   return (
-    <div className='Home h-screen bg-white'>
+    <div className='Home  bg-white'>
         {/* Caraousal Starts Caraousal Ends */}
         <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
       <Carousel>
@@ -38,7 +39,10 @@ const Home = () => {
 
 
           {/* Caraousal Ends */}
-      <div className="w-full grid grid-cols-2">
+      <div className="w-full">
+        <div className='pb-2 pt-1'>
+        <Animation />
+        </div>
 
       </div>
 

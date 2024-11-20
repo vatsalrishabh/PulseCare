@@ -1,20 +1,188 @@
 <!doctype html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="./src/assets/Pulsecarelogo/PulseCare.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PulseCare</title>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
-<!-- public/index.html -->
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <title>PulseCare - Online Doctor Consultation | Dr. Nishant, Founder and CEO, CMC Vellore</title>
+    <meta name="description" content="Consult with Dr. Nishant, the Founder and CEO of PulseCare, for online doctor consultations. Get personalized care, prescriptions, and health tracking across India and the USA. License: TNMC161353" />
+    
+    <!-- Open Graph Meta Tags for Social Media Optimization -->
+    <meta property="og:title" content="PulseCare - Online Doctor Consultation | Dr. Nishant, Founder and CEO, CMC Vellore" />
+    <meta property="og:description" content="PulseCare offers online doctor consultations with Dr. Nishant Kumar. Consult from anywhere in India or the USA and get expert health advice, prescriptions, and more." />
+    <meta property="og:image" content="https://via.placeholder.com/600x400?text=PulseCare+Consultation" />
+    <meta property="og:url" content="https://pulsecare.com" />
+    <meta property="og:type" content="website" />
 
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:title" content="PulseCare - Online Doctor Consultation | Dr. Nishant, Founder and CEO, CMC Vellore" />
+    <meta name="twitter:description" content="PulseCare offers online doctor consultations with Dr. Nishant Kumar. Consult from anywhere in India or the USA and get expert health advice, prescriptions, and more." />
+    <meta name="twitter:image" content="https://via.placeholder.com/600x400?text=PulseCare+Consultation" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Structured Data (JSON-LD) for SEO Enhancement -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "PulseCare",
+        "url": "https://pulsecare.com",
+        "logo": "https://via.placeholder.com/600x400?text=PulseCare+Consultation",
+        "sameAs": [
+          "https://facebook.com/pulsecare",
+          "https://twitter.com/pulsecare",
+          "https://linkedin.com/in/dr-nishant-kumar",
+          "https://instagram.com/pulsecare",
+          "https://youtube.com/channel/pulsecare"
+        ],
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "+91-8217691302",
+            "contactType": "Customer Service",
+            "areaServed": "IN",
+            "availableLanguage": "English"
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "+1-5073985808",
+            "contactType": "Customer Service",
+            "areaServed": "USA",
+            "availableLanguage": "English"
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "+91-8217691302",
+            "contactType": "Appointments",
+            "areaServed": "IN",
+            "availableLanguage": "English, Hindi"
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "+1-5073985808",
+            "contactType": "Appointments",
+            "areaServed": "USA",
+            "availableLanguage": "English"
+          }
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Rochester",
+          "addressRegion": "Minnesota",
+          "postalCode": "55902",
+          "addressCountry": "USA"
+        },
+        "founder": {
+          "@type": "Person",
+          "name": "Dr. Nishant Kumar",
+          "jobTitle": "Founder and CEO",
+          "alumniOf": "CMC Vellore",
+          "degree": "MBBS",
+          "license": "TNMC161353"
+        },
+        "department": {
+          "@type": "MedicalBusiness",
+          "name": "PulseCare Online Medical Consultation",
+          "serviceType": "Online Doctor Consultation",
+          "specialty": "General Medicine, Pediatrics, Dermatology, Neurology, Psychiatry, Cardiovascular, ENT, Women’s Health, and more",
+          "areaServed": "India, USA"
+        },
+        "services": [
+          {
+            "@type": "Service",
+            "name": "Online Consultation",
+            "serviceType": "General Medical Consultation",
+            "description": "Get professional advice and treatment recommendations from certified doctors through online consultations."
+          },
+          {
+            "@type": "Service",
+            "name": "Video Consultation",
+            "serviceType": "Telemedicine",
+            "description": "Real-time video consultations with doctors across various specialties, ensuring convenience and privacy."
+          },
+          {
+            "@type": "Service",
+            "name": "Prescription Services",
+            "serviceType": "Prescription Delivery",
+            "description": "Receive prescriptions online after consultations, with options to have medications delivered to your doorstep."
+          },
+          {
+            "@type": "Service",
+            "name": "Medical Reports",
+            "serviceType": "Medical Record Management",
+            "description": "Upload, manage, and download medical reports directly through the PulseCare platform."
+          },
+          {
+            "@type": "Service",
+            "name": "Health Tracking",
+            "serviceType": "Health Monitoring",
+            "description": "Track your health progress and receive updates on treatment outcomes with our advanced health tracking system."
+          }
+        ],
+        "review": {
+          "@type": "Review",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "4.8",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "author": {
+            "@type": "Person",
+            "name": "John Doe"
+          },
+          "reviewBody": "The online consultation with Dr. Nishant was great! The process was smooth, and I received my prescription on time."
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://pulsecare.com/book-consultation",
+          "priceCurrency": "INR",
+          "price": "500",
+          "eligibleRegion": "IN",
+          "validFrom": "2024-01-01T00:00:00Z",
+          "validThrough": "2024-12-31T23:59:59Z"
+        },
+        "operatingHours": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",
+          "opens": "08:00",
+          "closes": "22:00"
+        },
+        "sameAs": [
+          "https://facebook.com/pulsecare",
+          "https://twitter.com/pulsecare",
+          "https://linkedin.com/company/pulsecare",
+          "https://instagram.com/pulsecare",
+          "https://youtube.com/channel/pulsecare"
+        ],
+        "mainEntityOfPage": "https://pulsecare.com"
+      }
+      
+    </script>
+
+    <!-- Additional Meta Tags for SEO and Social Media -->
+    <meta name="keywords" content="Online Doctor Consultation, Doctor Nishant Kumar, PulseCare, Telemedicine, CMC Vellore, Health Services, USA Doctor, Indian Doctor, Health Consultation, Prescriptions, Health Tracking" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="PulseCare Team" />
+    <meta name="language" content="English" />
+
+    <!-- External Styles and Scripts -->
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="stylesheet" href="styles.css">
   </head>
+
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
 
-    <!-- <script src="../path/to/flowbite/dist/flowbite.min.js"></script> -->
+
+
+    <script type="module" src="/src/main.jsx"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
   </body>
 </html>
