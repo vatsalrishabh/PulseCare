@@ -22,7 +22,7 @@ const Payment = (props) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [loggedInUser, setLoggedInUser] = useState({});
-  const { bookingId, name, email, contact, disease, doctor, date, time } = props;
+  const { bookingId, name, email, contact, disease, doctor, date, time,patientId } = props;
 
   useEffect(() => {
     // Load user details from local storage immediately
@@ -98,7 +98,7 @@ const Payment = (props) => {
 
             if (verificationResponse.data.status === 'ok') {
               localStorage.setItem('paymentData', JSON.stringify({
-                patientId: loggedInUser.patientId,
+                patientId: patientId,
                 name: name,
                 appointmentDate: date,
                 appointmentTime: time,
@@ -106,6 +106,7 @@ const Payment = (props) => {
                 diseaseType: disease,
                 amount: (amount - discount),
                 bookingId: bookingId,
+                email:email,
               }));
               window.location.href = '/payment-success';
             } else {
@@ -164,7 +165,7 @@ const Payment = (props) => {
             p: 4,
             width: 400,
             margin: 'auto',
-            mt: '20%',
+            mt: '5%',
           }}
           role="dialog" // Accessibility improvement
         >
@@ -172,6 +173,7 @@ const Payment = (props) => {
             Checkout Details
           </Typography>
           <Typography variant="body1"><strong>BookingId:</strong> {bookingId}</Typography>
+          <Typography variant="body1"><strong>Patient ID:</strong> {patientId}</Typography>
           <Typography variant="body1"><strong>Name:</strong> {name}</Typography>
           <Typography variant="body1"><strong>Email:</strong> {email}</Typography>
           <Typography variant="body1"><strong>Contact:</strong> {contact}</Typography>

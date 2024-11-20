@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Button } from "@material-tailwind/react";
+import { useNavigate } from 'react-router-dom';
 import Modal from '@mui/material/Modal';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -8,8 +10,10 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { BaseUrl } from '../BaseUrl';
 import { ThreeDots } from 'react-loader-spinner';
 import { BreadCrumb } from './BreadCrumb';
+import { Schedule } from '@mui/icons-material';
 
 const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
+  const navigate = useNavigate();
   const [loggedInUser, setLoggedInUser] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -23,6 +27,10 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [displayedDates, setDisplayedDates] = useState([]);
   const [minnesotaDates, setMinnesotaDates]  = useState([]);
+
+
+const gotoMultipleSel= ()=>navigate("/manageMulAppoint");
+
 
   useEffect(() => {
     const storedUserDetails = localStorage.getItem('userDetails');
@@ -158,11 +166,17 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
         <BreadCrumb first="Doctor Dashboard" second="Manage Appointment" firstLink="/doctorlogin" secondLink="/manageAppoint" />
         Available Dates
         
-        <label class="inline-flex items-center cursor-pointer px-2">
+        <label className="inline-flex items-center cursor-pointer px-2">
   <input type="checkbox"   checked={hiddenUSA} onChange={() => setHiddenUSA(!hiddenUSA)} className="sr-only peer"/>
   <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
   <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{!hiddenUSA?<>Minnesota Slots</>:<>Indian Slots</>}</span>
 </label>
+      </h1>
+      <h1 className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 p-4 flex justify-end">
+    
+  {/* checkbox to change link */}
+  <Button onClick={gotoMultipleSel} color="blue">Multiple Select</Button>
+  {/* checkbox to change page  */}
       </h1>
      
 

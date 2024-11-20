@@ -69,13 +69,15 @@ const DTestRecom = (props) => {
   const handleDeleteTest = async (testId) => {
     try {
       await axios.delete(`${BaseUrl}/api/patients/deleteTest`, {
-        data: { bookingId, patientId, testId },
+        headers: { 'Content-Type': 'application/json' },
+        data: { bookingId, testId },
       });
       fetchRecommendedTests(); // Refresh recommended tests after deletion
     } catch (error) {
       console.error('Error deleting test:', error);
     }
   };
+  
 
   // Fetch tests on component mount
   useEffect(() => {

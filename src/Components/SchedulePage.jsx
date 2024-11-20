@@ -47,7 +47,7 @@ const fetchBookings = async () => {
     });
     
     const today = new Date();
-    today.setHours(0, 0, 0, 0);  // Set today's time to midnight
+    today.setHours(0, 0, 0, 0);  //Set today's time to midnight
     
     const filteredDates = response.data.filter(booking => {
       const [day, month, year] = booking.date.split('-');
@@ -57,9 +57,26 @@ const fetchBookings = async () => {
       return bookingDate >= today;
     });
 
+// past slots logic starts
+const currentDateTime = new Date();
+const filteredFutureSlots = filteredDates.map(entry => {
+  const entryDate = entry.date.split("-").reverse().join("-"); // Convert date to YYYY-MM-DD format
+  
+  const futureSlots = entry.slots.filter(slot => {
+    const slotDateTime = new Date(`${entryDate}T${slot.time}`);
+    return slotDateTime >= currentDateTime;
+  });
+
+  return {
+    ...entry,
+    slots: futureSlots
+  };
+}).filter(entry => entry.slots.length > 0); // Remove dates with no future slots
+
+
     // Set the filtered dates in the state
-    setDates(filteredDates);
-    setDisplayedDates(filteredDates.slice(offset, offset + getDatesToShow()));
+    setDates(filteredFutureSlots);
+    setDisplayedDates(filteredFutureSlots.slice(offset, offset + getDatesToShow()));
   } catch (error) {
     console.error('Error fetching bookings:', error);
   }
@@ -138,6 +155,7 @@ const fetchBookings = async () => {
         doctor={`${selectedDoctor.name} (${selectedDoctor.id})`} 
         date={selectedSlot.date} 
         time={selectedSlot.time} 
+        patientId={loggedInUser.patientId}
       />
     ) : (
       <>
