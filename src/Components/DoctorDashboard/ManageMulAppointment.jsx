@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from "@material-tailwind/react";
@@ -12,8 +13,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import { BreadCrumb } from './BreadCrumb';
 import { Schedule } from '@mui/icons-material';
 
-const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
-  const navigate = useNavigate();
+const ManageMulAppointment = ({ selectedDisease, selectedDoctor }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -29,8 +29,8 @@ const ManageAppointments = ({ selectedDisease, selectedDoctor }) => {
   const [minnesotaDates, setMinnesotaDates]  = useState([]);
 
 
-const gotoMultipleSel= ()=>navigate("/manageMulAppoint");
-
+  const navigate = useNavigate();
+  const gotoSelectApp= ()=>navigate("/manageAppoint");
 
   useEffect(() => {
     const storedUserDetails = localStorage.getItem('userDetails');
@@ -38,6 +38,18 @@ const gotoMultipleSel= ()=>navigate("/manageMulAppoint");
       setLoggedInUser(JSON.parse(storedUserDetails));
     }
   }, []);
+
+  function selectAllDates (){
+    let selectedSlotsToUpdate = [];
+    selectedSlotsToUpdate.push({
+      bookingId: selectedSlot.bookingId,
+        date: selectedSlot.date,
+        status: selectedStatus,
+        bookedBy: loggedInUser.email,
+        bookedOn: new Date().toLocaleDateString(),
+    });
+  }
+
 
   useEffect(() => {
     fetchBookings();
@@ -114,11 +126,7 @@ const gotoMultipleSel= ()=>navigate("/manageMulAppoint");
   const handleBookingConfirm = async () => {
     try {
       await axios.post(`${BaseUrl}/api/patients/postBookingsAdmin`, {
-        bookingId: selectedSlot.bookingId,
-        date: selectedSlot.date,
-        status: selectedStatus,
-        bookedBy: loggedInUser.email,
-        bookedOn: new Date().toLocaleDateString(),
+        selectedSlotsToUpdate
       });
 
       setDates(prevDates =>
@@ -166,16 +174,19 @@ const gotoMultipleSel= ()=>navigate("/manageMulAppoint");
         <BreadCrumb first="Doctor Dashboard" second="Manage Appointment" firstLink="/doctorlogin" secondLink="/manageAppoint" />
         Available Dates
         
-        <label className="inline-flex items-center cursor-pointer px-2">
+        <label class="inline-flex items-center cursor-pointer px-2">
   <input type="checkbox"   checked={hiddenUSA} onChange={() => setHiddenUSA(!hiddenUSA)} className="sr-only peer"/>
   <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
   <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{!hiddenUSA?<>Minnesota Slots</>:<>Indian Slots</>}</span>
 </label>
       </h1>
+
       <h1 className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 p-4 flex justify-end">
     
   {/* checkbox to change link */}
-  <Button onClick={gotoMultipleSel} color="blue">Multiple Select</Button>
+  <Button  color="success">Send Locked Slots</Button>
+  <Button onClick={gotoSelectApp} color="blue">Single Select</Button>
+  <Button onClick={selectAllDates} color="blue">Select All</Button>
   {/* checkbox to change page  */}
       </h1>
      
@@ -223,6 +234,7 @@ const gotoMultipleSel= ()=>navigate("/manageMulAppoint");
                       <span className={`${hiddenUSA?"hidden":""}`}>{slot.minnesotaTime}</span><br />
                       <span className={`${hiddenUSA?"hidden":""}`}>{slot.minnesotaDate}</span>
                         {/* when toggeled for Minnesota dates display onley these two */}
+                      <input type="checkbox" name="" id="" />
                       <span className={`block text-sm ${slot.status === 'requested' ? 'text-green-700' : ''}`}>{slot.status}</span>
                     </li>
                   ))}
@@ -267,6 +279,7 @@ const gotoMultipleSel= ()=>navigate("/manageMulAppoint");
             </select>
           </div>
           <div className="mt-4 flex justify-between">
+
             <button className="bg-gray-400 text-white px-4 py-2 rounded" onClick={() => setOpenModal(false)}>Cancel</button>
             <button className="bg-custom-maroon0 text-white px-4 py-2 rounded" onClick={handleBookingConfirm}>Confirm</button>
           </div>
@@ -281,4 +294,4 @@ const gotoMultipleSel= ()=>navigate("/manageMulAppoint");
   );
 };
 
-export default ManageAppointments;
+export default ManageMulAppointment;

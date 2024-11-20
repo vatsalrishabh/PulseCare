@@ -155,6 +155,7 @@ const filteredFutureSlots = filteredDates.map(entry => {
         doctor={`${selectedDoctor.name} (${selectedDoctor.id})`} 
         date={selectedSlot.date} 
         time={selectedSlot.time} 
+        patientId={loggedInUser.patientId}
       />
     ) : (
       <>

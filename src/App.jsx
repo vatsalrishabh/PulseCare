@@ -41,6 +41,7 @@ import DPProfile from "./Components/DoctorDashboard/DPProfile";
 import DUpcoming from "./Components/DoctorDashboard/DUpcoming";
 import PatientPrescription from "./Components/DoctorDashboard/PatientPrescription";
 import FinalReport from "./Components/DoctorDashboard/FinalReport";
+import ManageMulAppointment from "./Components/DoctorDashboard/ManageMulAppointment";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -218,6 +219,20 @@ loadDoctorDetails();
           <>
           <DoctorNavbar/>
           <ManageAppointments /> 
+          <Footer/>
+          </>
+           : (
+            <>
+              <Navbar />
+              <DoctorLogin />
+              <Footer />
+            </>
+          )} />
+
+<Route path="/manageMulAppoint" element={loggedInDoctor.isLoggedIn ?
+          <>
+          <DoctorNavbar/>
+          <ManageMulAppointment /> 
           <Footer/>
           </>
            : (

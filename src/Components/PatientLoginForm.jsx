@@ -78,14 +78,15 @@ const PatientLoginForm = () => {
           userId: "",
           email: loginResponse.data.email,
           patientId:loginResponse.data.patientId,
-        });
+        }
+      );
 
         localStorage.setItem(
           "userDetails",
           JSON.stringify({
             isloggedIn: true,
             jwt: loginResponse.data.patientDetails,
-            userId: "",
+            patientId: loginResponse.data.patientId,
             email: loginResponse.data.email,
             contact: loginResponse.data.contact,
             name: loginResponse.data.name,
