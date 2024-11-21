@@ -122,9 +122,9 @@ const Navbar = () => {
                   Book Appointment
                 </Link>
               </li>
-              <li className=" lg:py-2">
+              {/* <li className=" lg:py-2">
           <WalletIcon sx={{ color: "white", cursor: 'pointer' }} onClick={handleWalletClick} />
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
