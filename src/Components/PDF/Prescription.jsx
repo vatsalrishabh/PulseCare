@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import brandlogo from '../../assets/Puslecarelogo/PulseCare.png';
-import docsign from '../../assets/Puslecarelogo/signature.jpg';
+import docsign from '../../assets/signbhai.png';
 import {
   Card,
   Typography,
