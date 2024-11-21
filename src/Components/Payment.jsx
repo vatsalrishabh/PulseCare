@@ -73,7 +73,7 @@ const Payment = (props) => {
 
       const order = response.data;
       const options = {
-        key: 'rzp_test_l0gnUnaG8U4VmM',
+        key: 'rzp_live_1MxULmQnXguann',
         amount: (amount - discount) * 100,
         currency: order.currency,
         name: 'PulseCare',

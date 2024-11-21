@@ -1,13 +1,31 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import WalletIcon from '@mui/icons-material/Wallet';
 import PulseCare from '../assets/Puslecarelogo/PulseCare.png';
+import WalletModal from './WalletModal'; 
 
 const Navbar = () => {
   const [displayDropdown, setDropdown] = useState(false); // Using boolean for dropdown state
+  const [openModal, setOpenModal] = useState(false);
 
   const handleDropDown = () => {
     setDropdown(!displayDropdown); // Toggle dropdown state
   };
+
+  const handleWalletClick = () => {
+    setOpenModal(true); // Open the modal when Wallet icon is clicked
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false); // Close the modal
+  };
+
+  const walletData = {
+    balance: 250.00,
+    lastTransaction: 50.00,
+    totalSpent: 100.00,
+  };
+
 
   return (
     <div className='Navbar'>
@@ -101,13 +119,19 @@ const Navbar = () => {
                   className="block py-2 px-3 font-bold text-white rounded hover:bg-red-500 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   onClick={handleDropDown}
                 >
-                  Book an Appointment
+                  Book Appointment
                 </Link>
+              </li>
+              <li className=" lg:py-2">
+          <WalletIcon sx={{ color: "white", cursor: 'pointer' }} onClick={handleWalletClick} />
               </li>
             </ul>
           </div>
         </div>
       </nav>
+{/* The wallet component  starts*/}
+<WalletModal open={openModal} onClose={handleCloseModal} walletData={walletData} />
+{/* the wallet component ends */}
     </div>
   );
 };

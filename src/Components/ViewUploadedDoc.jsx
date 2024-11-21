@@ -59,9 +59,14 @@ const ViewUploadedDoc = () => {
                       <TableCell>{doc.documentType}</TableCell>
                       <TableCell>{doc.patientId}</TableCell>
                       <TableCell>
-                        <a href={doc.fileLink} target="_blank" rel="noopener noreferrer">
-                          <FaFileDownload className="mr-2" /> View File
-                        </a>
+                      <a 
+  href={`${doc.fileLink}`} 
+  target="_blank" 
+  rel="noopener noreferrer"
+>
+  <FaFileDownload className="mr-2" /> View File
+</a>
+
                       </TableCell>
                       <TableCell>{new Date(doc.uploadDate).toLocaleString()}</TableCell>
                     </TableRow>
